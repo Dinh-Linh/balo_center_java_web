@@ -1,4 +1,4 @@
-package com.example.balo_center.utils;
+package com.example.balo_center.component;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.context.ApplicationContext;
