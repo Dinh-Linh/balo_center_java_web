@@ -12,10 +12,14 @@ import java.io.IOException;
 import java.util.Map;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class UploadFileUtils {
+
     private final Cloudinary cloudinary;
+
+    public UploadFileUtils(Cloudinary cloudinary) {
+        this.cloudinary = cloudinary;
+    }
 
     public String upLoadFile(MultipartFile file) {
         try {

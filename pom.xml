@@ -57,11 +57,14 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>1.18.22</version>
 			<optional>true</optional>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -80,12 +83,13 @@
 			<version>8.3.0</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary-core -->
+		<!--   Cloudinary   -->
 		<dependency>
 			<groupId>com.cloudinary</groupId>
-			<artifactId>cloudinary-core</artifactId>
-			<version>1.38.0</version>
+			<artifactId>cloudinary-http44</artifactId>
+			<version>1.29.0</version>
 		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
 		<dependency>
@@ -112,6 +116,7 @@
 						<path>
 							<groupId>org.project-lombok</groupId>
 							<artifactId>lombok</artifactId>
+							<version>1.18.22</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
@@ -124,6 +129,7 @@
 						<exclude>
 							<groupId>org.project-lombok</groupId>
 							<artifactId>lombok</artifactId>
+							<version>1.18.22</version>
 						</exclude>
 					</excludes>
 				</configuration>
