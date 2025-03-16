@@ -12,7 +12,7 @@ public class AuthController {
         return "auth/login";
     }
 
-    @GetMapping
+    @GetMapping(value = "auth/register")
     public String viewRegister(){
         return "auth/register";
     }
