@@ -20,7 +20,7 @@
         <div class="d-flex align-items-center justify-content-between">
             <!-- Logo -->
             <a href="#" class="navbar-brand">
-                <img src="logo.png" alt="Logo" style="height: 50px;">
+                <img src="${pageContext.request.contextPath}/resources/image/logo.png" alt="Logo" style="height: 50px;">
             </a>
 
             <!-- Search Bar -->
