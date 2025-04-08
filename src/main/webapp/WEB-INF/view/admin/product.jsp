@@ -1,4 +1,3 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -22,27 +21,27 @@
 
         <!-- Vendor CSS Files -->
         <link
-            href="${pageContext.request.contextPath}/resources/assets/vendor/css/bootstrap.min.css"
+            href="assets/vendor/bootstrap/css/bootstrap.min.css"
             rel="stylesheet"
         />
         <link
-            href="${pageContext.request.contextPath}/resources/assets/vendor/css/bootstrap-icons.css"
+            href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
             rel="stylesheet"
         />
         <link
-            href="${pageContext.request.contextPath}/resources/assets/vendor/css/boxicons.min.css"
+            href="assets/vendor/boxicons/css/boxicons.min.css"
             rel="stylesheet"
         />
-        <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.snow.css" rel="stylesheet" />
-        <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
-        <link href="${pageContext.request.contextPath}/resources/assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+        <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet" />
+        <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
+        <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
         <link
-            href="${pageContext.request.contextPath}/resources/assets/vendor/simple-datatables/style.css"
+            href="assets/vendor/simple-datatables/style.css"
             rel="stylesheet"
         />
 
         <!-- Template Main CSS File -->
-        <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet" />
+        <link href="assets/css/style.css" rel="stylesheet" />
 
         <!-- =======================================================
   * Template Name: NiceAdmin
@@ -370,7 +369,7 @@
         <aside id="sidebar" class="sidebar">
             <ul class="sidebar-nav" id="sidebar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link collapsed" href="index.html">
                         <i class="bi bi-grid"></i>
                         <span>Dashboard</span>
                     </a>
@@ -393,25 +392,25 @@
                         data-bs-parent="#sidebar-nav"
                     >
                         <li>
-                            <a href="list_user.jsp">
+                            <a href="components-alerts.html">
                                 <i class="bi bi-list-task"></i
                                 ><span>Danh sách</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="components-accordion.html">
                                 <i class="bi bi-plus-lg"></i
                                 ><span>Thêm mới</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="components-badges.html">
                                 <i class="bi bi-circle"></i
                                 ><span>Cấp quyền</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="components-breadcrumbs.html">
                                 <i class="bi bi-archive"></i
                                 ><span>Thùng rác</span>
                             </a>
@@ -422,9 +421,9 @@
 
                 <li class="nav-item">
                     <a
-                        class="nav-link collapsed"
+                        class="nav-link active"
                         data-bs-target="#product-nav"
-                        href="product.jsp"
+                        href="#"
                     >
                         <i class="bi bi-journal-text"></i><span>Sản phẩm</span
                         ><i class="bi bi-chevron-down ms-auto"></i>

@@ -1,4 +1,3 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -22,27 +21,27 @@
 
         <!-- Vendor CSS Files -->
         <link
-            href="${pageContext.request.contextPath}/resources/assets/vendor/css/bootstrap.min.css"
+            href="assets/vendor/bootstrap/css/bootstrap.min.css"
             rel="stylesheet"
         />
         <link
-            href="${pageContext.request.contextPath}/resources/assets/vendor/css/bootstrap-icons.css"
+            href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
             rel="stylesheet"
         />
         <link
-            href="${pageContext.request.contextPath}/resources/assets/vendor/css/boxicons.min.css"
+            href="assets/vendor/boxicons/css/boxicons.min.css"
             rel="stylesheet"
         />
-        <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.snow.css" rel="stylesheet" />
-        <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
-        <link href="${pageContext.request.contextPath}/resources/assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+        <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet" />
+        <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
+        <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
         <link
-            href="${pageContext.request.contextPath}/resources/assets/vendor/simple-datatables/style.css"
+            href="assets/vendor/simple-datatables/style.css"
             rel="stylesheet"
         />
 
         <!-- Template Main CSS File -->
-        <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet" />
+        <link href="assets/css/style.css" rel="stylesheet" />
 
         <!-- =======================================================
   * Template Name: NiceAdmin
@@ -369,7 +368,7 @@
         <!-- ======= Sidebar ======= -->
         <aside id="sidebar" class="sidebar">
             <ul class="sidebar-nav" id="sidebar-nav">
-                <li class="nav-item">
+                <li class="nav-item collapse">
                     <a class="nav-link" href="index.html">
                         <i class="bi bi-grid"></i>
                         <span>Dashboard</span>
@@ -379,7 +378,7 @@
 
                 <li class="nav-item">
                     <a
-                        class="nav-link collapsed"
+                        class="nav-link"
                         data-bs-target="#user-nav"
                         data-bs-toggle="collapse"
                         href="#"
@@ -393,29 +392,79 @@
                         data-bs-parent="#sidebar-nav"
                     >
                         <li>
-                            <a href="list_user.jsp">
+                            <a href="components-alerts.html">
                                 <i class="bi bi-list-task"></i
                                 ><span>Danh sách</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="components-accordion.html">
                                 <i class="bi bi-plus-lg"></i
                                 ><span>Thêm mới</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="components-badges.html">
                                 <i class="bi bi-circle"></i
                                 ><span>Cấp quyền</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="components-breadcrumbs.html">
                                 <i class="bi bi-archive"></i
                                 ><span>Thùng rác</span>
                             </a>
                         </li>
+                        <!-- <li>
+            <a href="components-buttons.html">
+              <i class="bi bi-circle"></i><span>Buttons</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-cards.html">
+              <i class="bi bi-circle"></i><span>Cards</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-carousel.html">
+              <i class="bi bi-circle"></i><span>Carousel</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-list-group.html">
+              <i class="bi bi-circle"></i><span>List group</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-modal.html">
+              <i class="bi bi-circle"></i><span>Modal</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-tabs.html">
+              <i class="bi bi-circle"></i><span>Tabs</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-pagination.html">
+              <i class="bi bi-circle"></i><span>Pagination</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-progress.html">
+              <i class="bi bi-circle"></i><span>Progress</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-spinners.html">
+              <i class="bi bi-circle"></i><span>Spinners</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-tooltips.html">
+              <i class="bi bi-circle"></i><span>Tooltips</span>
+            </a>
+          </li> -->
                     </ul>
                 </li>
                 <!-- End Components Nav -->
@@ -424,11 +473,36 @@
                     <a
                         class="nav-link collapsed"
                         data-bs-target="#product-nav"
-                        href="product.jsp"
+                        data-bs-toggle="collapse"
+                        href="#"
                     >
                         <i class="bi bi-journal-text"></i><span>Sản phẩm</span
                         ><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
+                    <ul
+                        id="product-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#sidebar-nav"
+                    >
+                        <li>
+                            <a href="forms-elements.html">
+                                <i class="bi bi-list-task"></i
+                                ><span>Danh sách</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="forms-layouts.html">
+                                <i class="bi bi-plus-lg"></i
+                                ><span>Thêm mới</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="forms-editors.html">
+                                <i class="bi bi-circle"></i
+                                ><span>Form Editors</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <!-- End Forms Nav -->
 
@@ -436,12 +510,31 @@
                     <a
                         class="nav-link collapsed"
                         data-bs-target="#orders-nav"
-                        href="order.jsp"
+                        data-bs-toggle="collapse"
+                        href="#"
                     >
                         <i class="bi bi-layout-text-window-reverse"></i
                         ><span>Đơn hàng</span
                         ><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
+                    <!-- <ul
+                        id="orders-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#sidebar-nav"
+                    >
+                        <li>
+                            <a href="tables-general.html">
+                                <i class="bi bi-circle"></i
+                                ><span>Danh sách đơn hàng</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tables-data.html">
+                                <i class="bi bi-circle"></i
+                                ><span>Data Tables</span>
+                            </a>
+                        </li>
+                    </ul> -->
                 </li>
                 <!-- End Tables Nav -->
 
