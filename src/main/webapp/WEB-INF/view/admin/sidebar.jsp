@@ -56,7 +56,7 @@
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item ${pageContext.request.requestURI.endsWith('/dashboard') ? 'active' : ''}">
+        <li class="nav-item ${pageContext.request.requestURI.endsWith('view/admin/dashboard') ? 'active' : ''}">
             <a class="nav-link" href="dashboard">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
@@ -79,7 +79,7 @@
                     class="nav-content collapse"
                     data-bs-parent="#sidebar-nav"
             >
-                <li class="${pageContext.request.requestURI.endsWith('/user/list') ? 'active' : ''}">
+                <li class="${pageContext.request.requestURI.endsWith('view/admin/user/list') ? 'active' : ''}">
                     <a href="user/list">
                         <i class="bi bi-list-task"></i
                         ><span>Danh sách</span>
@@ -107,7 +107,7 @@
         </li>
         <!-- End Components Nav -->
 
-        <li class="nav-item ${pageContext.request.requestURI.endsWith('/product/list') ? 'active' : ''}">
+        <li class="nav-item ${pageContext.request.requestURI.endsWith('view/admin/product/list') ? 'active' : ''}">
             <a
                     class="nav-link collapsed"
                     data-bs-target="#product-nav"
@@ -119,7 +119,7 @@
         </li>
         <!-- End Forms Nav -->
 
-        <li class="nav-item ${pageContext.request.requestURI.endsWith('/order/list') ? 'active' : ''}">
+        <li class="nav-item ${pageContext.request.requestURI.endsWith('view/admin/order/list') ? 'active' : ''}">
             <a
                     class="nav-link collapsed"
                     data-bs-target="#orders-nav"
@@ -266,4 +266,12 @@
 </aside>
 <!-- End Sidebar-->
 </body>
+
+<style>
+    .active {
+        background-color: #fff;
+        color: #4154f1;
+        border-bottom: 2px solid #4154f1;
+    }
+</style>
 </html>
