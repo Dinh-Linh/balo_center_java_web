@@ -63,7 +63,7 @@
 <!-- End Sidebar-->
 
 <!-- Main hearing -->
-<main>
+<main id="main" class="main">
     <div class="pagetitle d-flex justify-content-between">
         <h1>User</h1>
         <nav>
@@ -76,7 +76,9 @@
         </nav>
     </div>
     <!-- End Page Title -->
+
 </main>
+<!-- End #main -->
 
 
 <!-- ======= Footer ======= -->

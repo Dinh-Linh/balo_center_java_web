@@ -64,13 +64,13 @@
 
 <main id="main" class="main">
     <div class="pagetitle d-flex justify-content-between">
-        <h1>Dashboard</h1>
+        <h1>Order</h1>
         <nav>
             <ol class="breadcrumb d-flex">
                 <li class="breadcrumb-item ms-auto">
                     <a href="index.html"><i class="bi bi-house"></i></a>
                 </li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">Order</li>
             </ol>
         </nav>
     </div>

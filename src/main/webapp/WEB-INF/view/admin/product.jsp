@@ -70,7 +70,7 @@
                 <li class="breadcrumb-item ms-auto">
                     <a href="index.html"><i class="bi bi-house"></i></a>
                 </li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">Product</li>
             </ol>
         </nav>
     </div>

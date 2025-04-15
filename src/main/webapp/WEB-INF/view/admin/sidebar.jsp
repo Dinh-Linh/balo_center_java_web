@@ -1,63 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
-    <title>Dashboard - NiceAdmin Bootstrap Template</title>
-    <meta content="" name="description"/>
-    <meta content="" name="keywords"/>
-
-    <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon"/>
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"/>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link
-            href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-            rel="stylesheet"
-    />
-
-    <!-- Vendor CSS Files -->
-    <link
-            href="${pageContext.request.contextPath}/resources/assets/vendor/css/bootstrap.min.css"
-            rel="stylesheet"
-    />
-    <link
-            href="${pageContext.request.contextPath}/resources/assets/vendor/css/bootstrap-icons.css"
-            rel="stylesheet"
-    />
-    <link
-            href="${pageContext.request.contextPath}/resources/assets/vendor/css/boxicons.min.css"
-            rel="stylesheet"
-    />
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.snow.css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.bubble.css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/remixicon/remixicon.css" rel="stylesheet"/>
-    <link
-            href="${pageContext.request.contextPath}/resources/assets/vendor/simple-datatables/style.css"
-            rel="stylesheet"
-    />
-
-    <!-- Template Main CSS File -->
-    <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet"/>
-
-    <!-- =======================================================
-* Template Name: NiceAdmin
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Updated: Apr 20 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-======================================================== -->
-</head>
-<body>
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item ${pageContext.request.requestURI.endsWith('view/admin/dashboard') ? 'active' : ''}">
-            <a class="nav-link" href="dashboard">
+            <a class="nav-link" href="/view/admin/dashboard">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -69,10 +16,10 @@
                     class="nav-link collapsed"
                     data-bs-target="#user-nav"
                     data-bs-toggle="collapse"
-                    href="#"
+                    href="/view/admin/user/list"
             >
                 <i class="bi bi-people"></i><span>Người sử dụng</span
-            ><i class="bi bi-chevron-down ms-auto"></i>
+            ><i class="bi bi-chevron-right ms-auto"></i>
             </a>
             <ul
                     id="user-nav"
@@ -80,7 +27,7 @@
                     data-bs-parent="#sidebar-nav"
             >
                 <li class="${pageContext.request.requestURI.endsWith('view/admin/user/list') ? 'active' : ''}">
-                    <a href="user/list">
+                    <a href="/view/admin/user/list">
                         <i class="bi bi-list-task"></i
                         ><span>Danh sách</span>
                     </a>
@@ -105,16 +52,24 @@
                 </li>
             </ul>
         </li>
+        <%--        <li class="nav-item">--%>
+        <%--            <a class="nav-link collapsed"--%>
+        <%--            data-bs-target="#user-nav"--%>
+        <%--            href="/view/admin/user/list">--%>
+        <%--                <i class="bi bi-people"></i><span>Người sử dụng</span--%>
+        <%--            ><i class="bi bi-arrow-right"/>--%>
+        <%--            </a>--%>
+        <%--        </li>--%>
         <!-- End Components Nav -->
 
         <li class="nav-item ${pageContext.request.requestURI.endsWith('view/admin/product/list') ? 'active' : ''}">
             <a
                     class="nav-link collapsed"
                     data-bs-target="#product-nav"
-                    href="product/list"
+                    href="/view/admin/product/list"
             >
                 <i class="bi bi-journal-text"></i><span>Sản phẩm</span
-            ><i class="bi bi-chevron-down ms-auto"></i>
+            ><i class="bi bi-chevron-right ms-auto"></i>
             </a>
         </li>
         <!-- End Forms Nav -->
@@ -123,11 +78,11 @@
             <a
                     class="nav-link collapsed"
                     data-bs-target="#orders-nav"
-                    href="order/list"
+                    href="/view/admin/order/list"
             >
                 <i class="bi bi-layout-text-window-reverse"></i
                 ><span>Đơn hàng</span
-            ><i class="bi bi-chevron-down ms-auto"></i>
+            ><i class="bi bi-chevron-right ms-auto"></i>
             </a>
         </li>
         <!-- End Tables Nav -->
@@ -140,7 +95,7 @@
                     href="#"
             >
                 <i class="bi bi-bar-chart"></i><span>Charts</span
-            ><i class="bi bi-chevron-down ms-auto"></i>
+            ><i class="bi bi-chevron-right ms-auto"></i>
             </a>
             <ul
                     id="charts-nav"
@@ -273,5 +228,11 @@
         color: #4154f1;
         border-bottom: 2px solid #4154f1;
     }
+
+    .nav-link i.bi-chevron-right,
+    .nav-link i.bi-chevron-down {
+        padding-right: 0 !important;
+        margin-right: 0 !important;
+    }
+
 </style>
-</html>
