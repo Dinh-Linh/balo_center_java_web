@@ -33,6 +33,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/font/**").addResourceLocations("/resources/font/");
         registry.addResourceHandler("/image/**").addResourceLocations("/resources/image/");
         registry.addResourceHandler("/template/**").addResourceLocations("/resources/template/");
+        registry
+                .addResourceHandler("/resources/**")
+                .addResourceLocations("classpath:/static/resources/", "/resources/", "/WEB-INF/resources/");
     }
 
     @Bean

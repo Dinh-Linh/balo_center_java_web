@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,8 +10,15 @@
     <title>Login</title>
     <style>
         .bg-login-image {
-            background: url('/path/to/image.jpg') center center;
-            background-size: cover;
+            background: url('https://static-00.iconduck.com/assets.00/login-icon-2048x2048-cafqaoiq.png') center center;
+            background-size: 50% 50%;
+            background-repeat: no-repeat;
+        }
+
+        form.user * {
+            margin: 3px;
+            padding: 3px;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -45,7 +53,7 @@
                                             <label class="custom-control-label ml-2" for="customCheckBox">Remember me</label>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block mx-auto d-block">Login</button>
                                 </form>
                                 <hr>
                                 <div class="text-center">
