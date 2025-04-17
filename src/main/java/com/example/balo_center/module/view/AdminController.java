@@ -14,7 +14,7 @@ public class AdminController {
         return "admin/index";
     }
 
-    @GetMapping(value = "admin/user/list")
+    @GetMapping(value = "admin/user")
     public String user(){return "admin/list_user";}
 
     //View product

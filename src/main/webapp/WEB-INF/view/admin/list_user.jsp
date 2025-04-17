@@ -40,6 +40,7 @@
             href="${pageContext.request.contextPath}/resources/assets/vendor/simple-datatables/style.css"
             rel="stylesheet"
     />
+    <script src="${pageContext.request.contextPath}/resources/template/bootstrap/js/bootstrap.min.js"/>
 
     <!-- Template Main CSS File -->
     <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet"/>
@@ -76,6 +77,85 @@
         </nav>
     </div>
     <!-- End Page Title -->
+    <div class="container-fluid mt-4">
+        <!-- Header: Tiêu đề + Thêm mới -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0">Danh sách người dùng</h4>
+            <a href="/view/admin/user/add" class="btn btn-success">+ Thêm mới</a>
+        </div>
+
+        <!-- Search & Filter -->
+        <form class="row g-3 mb-4">
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Tìm theo tên..." name="searchName">
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="role">
+                    <option value="">-- Vai trò --</option>
+                    <option value="admin">Admin</option>
+                    <option value="editor">Editor</option>
+                    <option value="user">User</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="status">
+                    <option value="">-- Trạng thái --</option>
+                    <option value="active">Hoạt động</option>
+                    <option value="inactive">Bị khóa</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100">Lọc</button>
+            </div>
+        </form>
+
+        <!-- Table -->
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Tên</th>
+                <th>Email</th>
+                <th>Vai trò</th>
+                <th>Ngày tạo</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>Nguyễn Văn A</td>
+                <td>a@gmail.com</td>
+                <td>Admin</td>
+                <td>01/04/2024</td>
+                <td><span class="badge bg-success">Hoạt động</span></td>
+                <td>
+                    <button class="btn btn-sm btn-primary me-1">Xem</button>
+                    <button class="btn btn-sm btn-warning me-1">Sửa</button>
+                    <button class="btn btn-sm btn-danger">Xóa</button>
+                </td>
+            </tr>
+            <!-- More rows -->
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+                    <a class="page-link">Trước</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Sau</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
 
 </main>
 <!-- End #main -->

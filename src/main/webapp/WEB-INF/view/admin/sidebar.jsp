@@ -16,7 +16,7 @@
                     class="nav-link collapsed"
                     data-bs-target="#user-nav"
                     data-bs-toggle="collapse"
-                    href="/view/admin/user/list"
+                    href="/view/admin/user"
             >
                 <i class="bi bi-people"></i><span>Người sử dụng</span
             ><i class="bi bi-chevron-right ms-auto"></i>
