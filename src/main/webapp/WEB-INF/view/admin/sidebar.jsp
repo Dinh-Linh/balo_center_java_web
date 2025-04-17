@@ -26,8 +26,8 @@
                     class="nav-content collapse"
                     data-bs-parent="#sidebar-nav"
             >
-                <li class="${pageContext.request.requestURI.endsWith('view/admin/user/list') ? 'active' : ''}">
-                    <a href="/view/admin/user/list">
+                <li class="${pageContext.request.requestURI.endsWith('view/admin/user') ? 'active' : ''}">
+                    <a href="/view/admin/user">
                         <i class="bi bi-list-task"></i
                         ><span>Danh sách</span>
                     </a>
@@ -52,15 +52,6 @@
                 </li>
             </ul>
         </li>
-        <%--        <li class="nav-item">--%>
-        <%--            <a class="nav-link collapsed"--%>
-        <%--            data-bs-target="#user-nav"--%>
-        <%--            href="/view/admin/user/list">--%>
-        <%--                <i class="bi bi-people"></i><span>Người sử dụng</span--%>
-        <%--            ><i class="bi bi-arrow-right"/>--%>
-        <%--            </a>--%>
-        <%--        </li>--%>
-        <!-- End Components Nav -->
 
         <li class="nav-item ${pageContext.request.requestURI.endsWith('view/admin/product/list') ? 'active' : ''}">
             <a
