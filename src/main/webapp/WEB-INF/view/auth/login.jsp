@@ -20,9 +20,21 @@
             padding: 3px;
             box-sizing: border-box;
         }
+
+        .p-custom{
+            padding: 12px 24px !important;
+
+        }
+
+        .bg-gradient-custom{
+            background: linear-gradient(135deg, #b4e8de, #8a64eb);
+            min-height: 100vh;
+            width: 100%;
+            color: white;
+        }
     </style>
 </head>
-<body class="bg-gradient-primary">
+<body class="bg-gradient-custom">
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-12 col-md-9">
@@ -33,34 +45,34 @@
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-800 mb-4">Welcome back</h1>
+                                    <h1 class="h4 text-gray-800 mb-4">Chào mừng trở lại!</h1>
                                 </div>
                                 <form class="user">
                                     <div class="form-group">
                                         <label for="inputEmail">Email</label>
-                                        <input type="email" class="form-control form-control-user"
+                                        <input type="email" class="form-control form-control-user p-1"
                                                id="inputEmail" aria-describedby="emailHelp"
                                                placeholder="Enter your email...">
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputPassword">Password</label>
-                                        <input type="password" class="form-control form-control-user"
+                                        <label for="inputPassword">Mật khẩu</label>
+                                        <input type="password" class="form-control form-control-user p-1"
                                                id="inputPassword" placeholder="Enter your password...">
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
                                             <input type="checkbox" class="custom-control-input" id="customCheckBox">
-                                            <label class="custom-control-label ml-2" for="customCheckBox">Remember me</label>
+                                            <label class="custom-control-label ml-2" for="customCheckBox">Nhớ mật khẩu</label>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary btn-user btn-block mx-auto d-block">Login</button>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block mx-auto d-block p-custom ">Đăng nhập</button>
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" href="#">Forgot Password?</a>
+                                    <a class="small" href="#">Quên mật khẩu?</a>
                                 </div>
                                 <div class="text-center">
-                                    <a class="small" href="register.jsp">Create an Account!</a>
+                                    <span>Bạn chưa có tài khoản? </span><a class="small" href="register">Đăng ký</a>
                                 </div>
                             </div>
                         </div>

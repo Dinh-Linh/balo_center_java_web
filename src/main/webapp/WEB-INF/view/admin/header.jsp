@@ -2,9 +2,9 @@
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
-        <a href="/view/admin/dashboard" class="logo d-flex align-items-center">
-            <img src="assets/img/logo.png" alt=""/>
-            <span class="d-none d-lg-block">Admin Balo Center</span>
+        <a href="/view/admin/dashboard" class="logo d-flex align-items-center justify-content-center">
+            <img src="/image/logo.png" alt="" class="bg-success"/>
+            <span class="d-none d-lg-block">Admin Page</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
