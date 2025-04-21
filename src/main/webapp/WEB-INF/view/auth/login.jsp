@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="en">
@@ -21,12 +22,12 @@
             box-sizing: border-box;
         }
 
-        .p-custom{
+        .p-custom {
             padding: 12px 24px !important;
 
         }
 
-        .bg-gradient-custom{
+        .bg-gradient-custom {
             background: linear-gradient(135deg, #b4e8de, #8a64eb);
             min-height: 100vh;
             width: 100%;
@@ -47,7 +48,7 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-800 mb-4">Chào mừng trở lại!</h1>
                                 </div>
-                                <form class="user">
+                                <form class="user" method="post" action="${pageContext.request.contextPath}/auth/login">
                                     <div class="form-group">
                                         <label for="inputEmail">Email</label>
                                         <input type="email" class="form-control form-control-user p-1"
@@ -62,11 +63,18 @@
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
                                             <input type="checkbox" class="custom-control-input" id="customCheckBox">
-                                            <label class="custom-control-label ml-2" for="customCheckBox">Nhớ mật khẩu</label>
+                                            <label class="custom-control-label ml-2" for="customCheckBox">Nhớ mật
+                                                khẩu</label>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary btn-user btn-block mx-auto d-block p-custom ">Đăng nhập</button>
+                                    <button type="submit"
+                                            class="btn btn-primary btn-user btn-block mx-auto d-block p-custom ">Đăng
+                                        nhập
+                                    </button>
                                 </form>
+                                <c:if test="${not empty error}">
+                                    <div class="alert alert-danger mt-3 text-center">${error}</div>
+                                </c:if>
                                 <hr>
                                 <div class="text-center">
                                     <a class="small" href="#">Quên mật khẩu?</a>

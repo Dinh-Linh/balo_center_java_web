@@ -17,8 +17,8 @@ public class UserDataGenerator {
                     "Username" + i,
                     "password" + i,
                     "098235127" + i,
-                    i % 2 == 0 ? "ADMIN" : "USER",
-                    i % 3 == 0 ? "ACTIVE" : "INACTIVE",
+                    i % 2 == 0 ? "Admin" : "User",
+                    i % 3 == 0 ? "Hoạt động" : "Khoá",
                     null,
                     new Timestamp(System.currentTimeMillis() - (i*8640000L)));
             users.add(user);

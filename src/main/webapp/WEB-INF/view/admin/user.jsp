@@ -144,11 +144,23 @@
                     <td>${user.email}</td>
                     <td>${user.role}</td>
                     <td>${user.createdDate}</td>
-                    <td><span class="badge bg-success">${user.status}</span></td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${user.status == 'Hoạt động'}">
+                                <span class="badge bg-success">${user.status}</span>
+                            </c:when>
+                            <c:when test="${user.status == 'Bị khoá'}">
+                                <span class="badge bg-danger">${user.status}</span>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="badge bg-secondary">${user.status}</span>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                     <td>
                         <button class="btn btn-sm btn-primary me-1">Xem</button>
                         <button class="btn btn-sm btn-warning me-1">Sửa</button>
-                        <button class="btn btn-sm btn-danger">Xóa</button>
+                        <button class="btn btn-sm btn-danger btn-delete-user" data-id="${user.id}">Xóa</button>
                     </td>
                 </tr>
             </c:forEach>
@@ -203,14 +215,36 @@
     </div>
 </div>
 
+<%--Modal delete người dùng--%>
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">Xác nhận xoá</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xoá?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Xoá</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Template Main JS File -->
 <script src="/js/bootstrap.min.js"></script>
 <script>
-    document.getElementById("#openModalBtn").addEventListener("click", function (){
+    document.getElementById("#openModalBtn").addEventListener("click", function () {
         var myModal = new bootstrap.Modal(document.getElementById("addUserModal"));
         myModal.show();
-    })
+    });
+    document.getElementsByClassName("btn-delete-user").addEventListener("click", function (){
+       const  confirmDelModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
+       confirmDelModal.show();
+    });
 </script>
 </body>
 </html>
