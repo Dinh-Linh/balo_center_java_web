@@ -20,7 +20,7 @@ public class UserDataGenerator {
                     i % 2 == 0 ? "Admin" : "User",
                     i % 3 == 0 ? "Hoạt động" : "Khoá",
                     null,
-                    new Timestamp(System.currentTimeMillis() - (i*8640000L)));
+                    new Timestamp(System.currentTimeMillis() - (i*8640000L)), null, null);
             users.add(user);
         }
         return users;
