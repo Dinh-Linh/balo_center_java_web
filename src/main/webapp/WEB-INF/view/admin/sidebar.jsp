@@ -111,7 +111,7 @@
             <a
                     class="nav-link collapsed"
                     data-bs-target="#product-nav"
-                    href="product/list"
+                    href="view/admin/product/list"
             >
                 <i class="bi bi-journal-text"></i><span>Sản phẩm</span
             ><i class="bi bi-chevron-down ms-auto"></i>
@@ -119,11 +119,11 @@
         </li>
         <!-- End Forms Nav -->
 
-        <li class="nav-item ${pageContext.request.requestURI.endsWith('view/admin/order/list') ? 'active' : ''}">
+        <li class="nav-item ${pageContext.request.requestURI.endsWith('/view/admin/order/list') ? 'active' : ''}">
             <a
                     class="nav-link collapsed"
                     data-bs-target="#orders-nav"
-                    href="order/list"
+                    href="${pageContext.request.contextPath}/view/admin/order/list"
             >
                 <i class="bi bi-layout-text-window-reverse"></i
                 ><span>Đơn hàng</span
