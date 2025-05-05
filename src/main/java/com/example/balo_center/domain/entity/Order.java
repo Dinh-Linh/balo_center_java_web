@@ -1,4 +1,4 @@
-package com.example.balo_center.module.entity;
+package com.example.balo_center.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

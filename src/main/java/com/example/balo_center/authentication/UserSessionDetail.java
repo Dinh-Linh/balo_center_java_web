@@ -1,10 +1,9 @@
 package com.example.balo_center.authentication;
 
-import com.example.balo_center.module.entity.User;
-import com.example.balo_center.module.entity.repo.UserRepo;
+import com.example.balo_center.domain.entity.User;
+import com.example.balo_center.domain.entity.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;

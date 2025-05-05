@@ -1,7 +1,6 @@
 package com.example.balo_center.authentication;
 
 import com.example.balo_center.component.JwtUtils;
-import com.example.balo_center.module.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;

@@ -23,6 +23,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Vô hiệu hóa CSRF
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/view/auth/login", "/view/auth/register", "/css/**", "/login").permitAll()
+                        .requestMatchers("/view/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

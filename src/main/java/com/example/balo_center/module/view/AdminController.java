@@ -1,6 +1,6 @@
 package com.example.balo_center.module.view;
 
-import com.example.balo_center.module.entity.User;
+import com.example.balo_center.domain.entity.User;
 import com.example.balo_center.share.UserDataGenerator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

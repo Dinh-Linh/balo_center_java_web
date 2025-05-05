@@ -1,6 +1,6 @@
 package com.example.balo_center.share;
 
-import com.example.balo_center.module.entity.User;
+import com.example.balo_center.domain.entity.User;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

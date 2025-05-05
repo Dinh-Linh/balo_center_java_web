@@ -1,33 +1,24 @@
-package com.example.balo_center.module.entity;
+package com.example.balo_center.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "delivery_addresses")
+@Table(name = "categories")
 @Entity
-public class DeliveryAddress {
-    @Column(name = "id")
+public class Category {
     @Id
+    @Column(name = "id")
     private String id;
-    @Column(name = "delivery_name")
-    private String deliveryName;
-    @Column(name = "delivery_address")
-    private String deliveryAddress;
-    @Column(name = "delivery_phone")
-    private String deliveryPhone;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "category_name")
+    private String categoryName;
 
     @PrePersist
     public void prePersist() {

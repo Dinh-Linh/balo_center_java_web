@@ -1,10 +1,11 @@
-package com.example.balo_center.module.entity.repo;
+package com.example.balo_center.domain.entity.repo;
 
-import com.example.balo_center.module.entity.User;
+import com.example.balo_center.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
 public interface UserRepo extends JpaRepository<User, Long> {
     Optional<User> findUsersByEmail(String email);
+    boolean existsByEmail(String email);
 }

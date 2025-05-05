@@ -1,4 +1,4 @@
-package com.example.balo_center.module.entity;
+package com.example.balo_center.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,14 +12,22 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "branches")
+@Table(name = "delivery_addresses")
 @Entity
-public class Branch {
-    @Id
+public class DeliveryAddress {
     @Column(name = "id")
+    @Id
     private String id;
-    @Column(name = "branch_name")
-    private String branchName;
+    @Column(name = "delivery_name")
+    private String deliveryName;
+    @Column(name = "delivery_address")
+    private String deliveryAddress;
+    @Column(name = "delivery_phone")
+    private String deliveryPhone;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @PrePersist
     public void prePersist() {
