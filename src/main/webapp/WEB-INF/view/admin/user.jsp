@@ -205,15 +205,7 @@
 </button>
 
 <!-- Modal thêm người dùng -->
-<div class="modal fade" id="adUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <form:form action="/admin/user/add" method="post">
-
-            </form:form>
-        </div>
-    </div>
-</div>
+<jsp:include page="crud_user/add_user.jsp"/>
 
 <%--Modal delete người dùng--%>
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">

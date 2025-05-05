@@ -79,14 +79,11 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="mb-0">Danh sách sản phẩm</h4>
             <div class="dropdown">
-                <button class="btn btn-success dropdown-toggle" type="button" id="addNewDropdown"
+                <button class="btn btn-success" type="button" id="#openModalBtn"
                         data-bs-toggle="dropdown" aria-expanded="false">
                     + Thêm mới
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="addNewDropdown">
-                    <li><a class="dropdown-item" href="/view/admin/product/add">Nhập tay</a></li>
-                    <li><a class="dropdown-item" href="/view/admin/product/import">Import file</a></li>
-                </ul>
+
             </div>
         </div>
 
@@ -120,22 +117,28 @@
             <thead class="table-light">
             <tr>
                 <th>#</th>
-                <th>Tên</th>
-                <th>Email</th>
-                <th>Vai trò</th>
-                <th>Ngày tạo</th>
-                <th>Trạng thái</th>
+                <th>Tên sản phẩm</th>
+                <th>Danh mục</th>
+                <th>Thương hiệu</th>
+                <th>Số lượng</th>
+                <th>Đã bán</th>
+                <th>Giá</th>
+                <th>Mô tả</th>
+                <th>Chi tiết</th>
                 <th>Thao tác</th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <td>1</td>
-                <td>Nguyễn Văn A</td>
-                <td>a@gmail.com</td>
-                <td>Admin</td>
-                <td>01/04/2024</td>
-                <td><span class="badge bg-success">Hoạt động</span></td>
+                <td>Balo du lịch</td>
+                <td>Balo</td>
+                <td>Nike</td>
+                <td>320</td>
+                <td>100</td>
+                <td>175k VND</td>
+                <td>Balo giành cho du lịch</td>
+                <td><span class="badge bg-primary">Xem</span></td>
                 <td>
                     <button class="btn btn-sm btn-primary me-1">Xem</button>
                     <button class="btn btn-sm btn-warning me-1">Sửa</button>
@@ -174,8 +177,22 @@
 ><i class="bi bi-arrow-up-short"></i
 ></a>
 
+<!-- Nút mở Modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+    Thêm sản phẩm mới
+</button>
+
+<jsp:include page="crud_product/create_product.jsp"/>
+
+<!-- Modal thêm người dùng -->
+<jsp:include page="crud_user/add_user.jsp"/>
 <!-- Template Main JS File -->
 <script src="/js/bootstrap.min.js"></script>
-
+<script>
+    document.getElementById("#openModalBtn").addEventListener("click", function () {
+        var myModal = new bootstrap.Modal(document.getElementById("addProductModal"));
+        myModal.show();
+    });
+</script>
 </body>
 </html>
