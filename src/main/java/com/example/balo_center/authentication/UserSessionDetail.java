@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class UserSessionDetail {
     private final UserRepo userRepo;
