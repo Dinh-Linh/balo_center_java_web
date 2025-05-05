@@ -1,5 +1,6 @@
 package com.example.balo_center.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,6 +42,7 @@ public class User {
     private List<DeliveryAddress> deliveryAddressList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Order> orderList;
 
     @PrePersist
