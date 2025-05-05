@@ -1,4 +1,4 @@
-package com.example.balo_center.module.component;
+package com.example.balo_center.component;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
