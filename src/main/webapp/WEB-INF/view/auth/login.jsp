@@ -48,16 +48,16 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-800 mb-4">Chào mừng trở lại!</h1>
                                 </div>
-                                <form class="user" method="post" action="${pageContext.request.contextPath}/auth/login">
+                                <form class="user" method="post" action="${pageContext.request.contextPath}/login">
                                     <div class="form-group">
                                         <label for="inputEmail">Email</label>
                                         <input type="email" class="form-control form-control-user p-1"
-                                               id="inputEmail" aria-describedby="emailHelp"
+                                               id="inputEmail" aria-describedby="emailHelp" name="username"
                                                placeholder="Enter your email...">
                                     </div>
                                     <div class="form-group">
                                         <label for="inputPassword">Mật khẩu</label>
-                                        <input type="password" class="form-control form-control-user p-1"
+                                        <input type="password" class="form-control form-control-user p-1" name="password"
                                                id="inputPassword" placeholder="Enter your password...">
                                     </div>
                                     <div class="form-group">
