@@ -52,7 +52,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail">Email</label>
                                         <input type="email" class="form-control form-control-user p-1"
-                                               id="inputEmail" aria-describedby="emailHelp" name="username"
+                                               id="inputEmail" aria-describedby="emailHelp" name="email"
                                                placeholder="Enter your email...">
                                     </div>
                                     <div class="form-group">
