@@ -20,9 +20,19 @@
             padding: 3px;
             box-sizing: border-box;
         }
+
+        .bg-gradient-custom {
+            background: linear-gradient(135deg, #b4e8de, #8a64eb);
+            min-height: 100vh;
+            width: 100%;
+            color: white;
+        }
+        input, button{
+            padding: 8px 24px !important;
+        }
     </style>
 </head>
-<body class="bg-gradient-primary">
+<body class="bg-gradient-custom">
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-12 col-md-9">
@@ -60,7 +70,7 @@
                                     <a class="small" href="#">Forgot Password?</a>
                                 </div>
                                 <div class="text-center">
-                                    <a class="small" href="register.jsp">Create an Account!</a>
+                                    <a class="small" href="register">Create an Account!</a>
                                 </div>
                             </div>
                         </div>
