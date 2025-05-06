@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="en">
@@ -20,21 +19,9 @@
             padding: 3px;
             box-sizing: border-box;
         }
-
-        .p-custom {
-            padding: 12px 24px !important;
-
-        }
-
-        .bg-gradient-custom {
-            background: linear-gradient(135deg, #b4e8de, #8a64eb);
-            min-height: 100vh;
-            width: 100%;
-            color: white;
-        }
     </style>
 </head>
-<body class="bg-gradient-custom">
+<body class="bg-gradient-primary">
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-12 col-md-9">
@@ -45,41 +32,34 @@
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-800 mb-4">Chào mừng trở lại!</h1>
+                                    <h1 class="h4 text-gray-800 mb-4">Chào mừng trở lại</h1>
                                 </div>
-                                <form class="user" method="post" action="${pageContext.request.contextPath}/login">
+                                <form class="user" action="/login" method="post">
                                     <div class="form-group">
                                         <label for="inputEmail">Email</label>
-                                        <input type="email" class="form-control form-control-user p-1"
-                                               id="inputEmail" aria-describedby="emailHelp" name="email"
-                                               placeholder="Enter your email...">
+                                        <input type="email" class="form-control form-control-user"
+                                               name="email" id="inputEmail" aria-describedby="emailHelp"
+                                               placeholder="Nhập email của bạn...">
                                     </div>
                                     <div class="form-group">
                                         <label for="inputPassword">Mật khẩu</label>
-                                        <input type="password" class="form-control form-control-user p-1" name="password"
-                                               id="inputPassword" placeholder="Enter your password...">
+                                        <input type="password" class="form-control form-control-user"
+                                               name="password" id="inputPassword" placeholder="Nhập mật khẩu của bạn...">
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
                                             <input type="checkbox" class="custom-control-input" id="customCheckBox">
-                                            <label class="custom-control-label ml-2" for="customCheckBox">Nhớ mật
-                                                khẩu</label>
+                                            <label class="custom-control-label ml-2" for="customCheckBox">Nhớ mật khẩu</label>
                                         </div>
                                     </div>
-                                    <button type="submit"
-                                            class="btn btn-primary btn-user btn-block mx-auto d-block p-custom ">Đăng
-                                        nhập
-                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block mx-auto d-block">Login</button>
                                 </form>
-                                <c:if test="${not empty error}">
-                                    <div class="alert alert-danger mt-3 text-center">${error}</div>
-                                </c:if>
                                 <hr>
                                 <div class="text-center">
                                     <a class="small" href="#">Quên mật khẩu?</a>
                                 </div>
                                 <div class="text-center">
-                                    <span>Bạn chưa có tài khoản? </span><a class="small" href="register">Đăng ký</a>
+                                    <a class="small" href="register.jsp">Tạo tài khoản mới!</a>
                                 </div>
                             </div>
                         </div>
