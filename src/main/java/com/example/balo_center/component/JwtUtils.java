@@ -11,7 +11,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
 
-//@Component
+@Component
 public class JwtUtils {
     public String generateToken(UserDetails userDetails){
         return Jwts.builder()

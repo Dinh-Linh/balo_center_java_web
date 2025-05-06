@@ -4,15 +4,17 @@ import com.example.balo_center.domain.entity.User;
 import com.example.balo_center.domain.entity.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
-//@Component
+@Component
 @RequiredArgsConstructor
-public class UserSessionDetail {
+public class UserSessionDetail{
     private final UserRepo userRepo;
     public UserDetailsService get(){
        return username -> {
@@ -25,4 +27,5 @@ public class UserSessionDetail {
            );
        };
     }
+
 }
