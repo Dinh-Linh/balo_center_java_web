@@ -10,8 +10,9 @@
     <title>Login</title>
     <style>
         .bg-login-image {
+            background: url('https://static-00.iconduck.com/assets.00/login-icon-2048x2048-cafqaoiq.png') center center;
             background-size: 50% 50%;
-            background: url('https://static-00.iconduck.com/assets.00/login-icon-2048x2048-cafqaoiq.png') no-repeat center center;
+            background-repeat: no-repeat;
         }
 
         form.user * {
