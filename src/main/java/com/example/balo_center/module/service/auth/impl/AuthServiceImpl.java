@@ -25,7 +25,6 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFullname(request.getFullName());
         user.setRole("ROLE_USER"); // mặc định đăng ký là USER
-
         return userRepo.save(user);
     }
 

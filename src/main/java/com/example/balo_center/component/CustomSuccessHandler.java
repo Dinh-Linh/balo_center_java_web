@@ -18,12 +18,12 @@ public class CustomSuccessHandler  implements AuthenticationSuccessHandler {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         String redirectURL = request.getContextPath();
         for(GrantedAuthority authority: authorities){
-            if(authority.getAuthority().equals("ADMIN")){
+            if(authority.getAuthority().equals("ROLE_ADMIN")){
                 redirectURL += "/view/admin/dashboard";
                 break;
             }
-            else if (authority.getAuthority().equals("USER")){
-                redirectURL += "/view/homePage";
+            else if (authority.getAuthority().equals("ROLE_USER")){
+                redirectURL += "/homepage";
                 break;
             }
         }
