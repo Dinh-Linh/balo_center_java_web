@@ -28,20 +28,20 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/view/auth/**", "/login", "/register",
-                            "/assets/**", "/css/**", "/js/**", "/images/**", "/fonts/**",
-                            "/template/**", "/vendor/**", "/resources/**", "/static/**", "/webjars/**").permitAll()
+                                "/assets/**", "/css/**", "/js/**", "/images/**", "/fonts/**",
+                                "/template/**", "/vendor/**", "/resources/**", "/static/**", "/webjars/**").permitAll()
                         .requestMatchers("/view/admin/**").hasRole("ADMIN")
                         .requestMatchers("/view/end_user/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
-                        .loginPage("/view/auth/login")
-                        .loginProcessingUrl("/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .successHandler(customSuccessHandler)
-                        .failureUrl("/view/auth/login?error=true")
-                        .permitAll()
+                                .loginPage("/view/auth/login")
+                                .loginProcessingUrl("/login")
+//                        .usernameParameter("username")
+//                        .passwordParameter("password")
+                                .successHandler(customSuccessHandler)
+                                .failureUrl("/view/auth/login?error=true")
+                                .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -55,6 +55,7 @@ public class SecurityConfig {
                         .maximumSessions(1)
                         .expiredUrl("/view/auth/login?expired=true")
                 );
+        httpSecurity.authenticationProvider(authenticationProvider());
 
         return httpSecurity.build();
     }
