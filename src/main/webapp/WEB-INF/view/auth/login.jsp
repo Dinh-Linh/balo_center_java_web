@@ -43,34 +43,34 @@
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-800 mb-4">Welcome back</h1>
+                                    <h1 class="h4 text-gray-800 mb-4">Chào mừng trở lại</h1>
                                 </div>
                                 <form class="user" action="/login" method="post">
                                     <div class="form-group">
                                         <label for="inputEmail">Email</label>
                                         <input type="email" class="form-control form-control-user"
                                                name="email" id="inputEmail" aria-describedby="emailHelp"
-                                               placeholder="Enter your email...">
+                                               placeholder="Nhập email của bạn...">
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputPassword">Password</label>
+                                        <label for="inputPassword">Mật khẩu</label>
                                         <input type="password" class="form-control form-control-user"
-                                               name="password" id="inputPassword" placeholder="Enter your password...">
+                                               name="password" id="inputPassword" placeholder="Nhập mật khẩu của bạn...">
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
                                             <input type="checkbox" class="custom-control-input" id="customCheckBox">
-                                            <label class="custom-control-label ml-2" for="customCheckBox">Remember me</label>
+                                            <label class="custom-control-label ml-2" for="customCheckBox">Nhớ mật khẩu</label>
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-user btn-block mx-auto d-block">Login</button>
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" href="#">Forgot Password?</a>
+                                    <a class="small" href="#">Quên mật khẩu?</a>
                                 </div>
                                 <div class="text-center">
-                                    <a class="small" href="register">Create an Account!</a>
+                                    <a class="small" href="register.jsp">Tạo tài khoản mới!</a>
                                 </div>
                             </div>
                         </div>
