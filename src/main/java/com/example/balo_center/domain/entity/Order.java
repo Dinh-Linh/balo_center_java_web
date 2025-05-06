@@ -32,7 +32,7 @@ public class Order {
     @Column(name = "total_price")
     private Double total_price;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;

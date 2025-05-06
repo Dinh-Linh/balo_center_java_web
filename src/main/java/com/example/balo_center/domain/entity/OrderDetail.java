@@ -30,7 +30,7 @@ public class OrderDetail {
     @Column(name = "total")
     private Double total;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
 
