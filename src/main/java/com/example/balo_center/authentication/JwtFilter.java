@@ -35,7 +35,7 @@ public class JwtFilter extends OncePerRequestFilter {
         userEmail = jwtService.extractUsername(jwt);
         //Chỉ xác thực nếu chưa có thông tin trong SecurityContext
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userSessionDetail.get().loadUserByUsername(userEmail);
+            UserDetails userDetails = userSessionDetail.loadUserByUsername(userEmail);
 
             //Kiểm tra tính hợp lệ của jwt
             if (jwtService.isTokenValid(jwt, userDetails)) {

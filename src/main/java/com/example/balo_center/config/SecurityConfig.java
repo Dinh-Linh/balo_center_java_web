@@ -1,11 +1,12 @@
 package com.example.balo_center.config;
 
+import com.example.balo_center.authentication.UserSessionDetail;
 import com.example.balo_center.component.CustomSuccessHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final CustomSuccessHandler customSuccessHandler;
+    private final UserSessionDetail userSessionDetail;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -26,18 +28,20 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/view/auth/**", "/login", "/register",
-                            "/assets/**", "/css/**", "/js/**", "/images/**", "/fonts/**",
-                            "/vendor/**", "/resources/**", "/static/**", "/webjars/**").permitAll()
+                                "/assets/**", "/css/**", "/js/**", "/images/**", "/fonts/**",
+                                "/template/**", "/vendor/**", "/resources/**", "/static/**", "/webjars/**").permitAll()
                         .requestMatchers("/view/admin/**").hasRole("ADMIN")
                         .requestMatchers("/view/end_user/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
-                        .loginPage("/view/auth/login")
-                        .loginProcessingUrl("/login")
-                        .successHandler(customSuccessHandler)
-                        .failureUrl("/view/auth/login?error=true")
-                        .permitAll()
+                                .loginPage("/view/auth/login")
+                                .loginProcessingUrl("/login")
+//                        .usernameParameter("username")
+//                        .passwordParameter("password")
+                                .successHandler(customSuccessHandler)
+                                .failureUrl("/view/auth/login?error=true")
+                                .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -51,6 +55,7 @@ public class SecurityConfig {
                         .maximumSessions(1)
                         .expiredUrl("/view/auth/login?expired=true")
                 );
+        httpSecurity.authenticationProvider(authenticationProvider());
 
         return httpSecurity.build();
     }
@@ -58,6 +63,14 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userSessionDetail);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
     }
 
     @Bean
