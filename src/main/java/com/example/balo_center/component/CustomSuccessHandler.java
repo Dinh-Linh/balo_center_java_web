@@ -16,19 +16,25 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         String redirectURL = request.getContextPath();
+        boolean isAdmin = false;
+        boolean isUser = false;
         
         for (GrantedAuthority authority : authorities) {
             if (authority.getAuthority().equals("ROLE_ADMIN")) {
-                redirectURL = "/view/admin/dashboard";
+                isAdmin = true;
                 break;
             } else if (authority.getAuthority().equals("ROLE_USER")) {
-                redirectURL = "/homepage";
-                break;
+                isUser = true;
             }
         }
         
-        if (redirectURL.equals(request.getContextPath())) {
+        if (isAdmin) {
+            redirectURL = "/view/admin/dashboard";
+        } else if (isUser) {
             redirectURL = "/homepage";
+        } else {
+            // Default fallback if no recognized role is found
+            redirectURL = "/";
         }
         
         response.sendRedirect(redirectURL);
