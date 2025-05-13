@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -129,24 +130,35 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>Balo du lịch</td>
-                <td>Balo</td>
-                <td>Nike</td>
-                <td>320</td>
-                <td>100</td>
-                <td>175k VND</td>
-                <td>Balo giành cho du lịch</td>
-                <td><span class="badge bg-primary">Xem</span></td>
-                <td>
-                    <button class="btn btn-sm btn-primary me-1">Xem</button>
-                    <button class="btn btn-sm btn-warning me-1">Sửa</button>
-                    <button class="btn btn-sm btn-danger">Xóa</button>
-                </td>
-            </tr>
-            <!-- More rows -->
+            <c:choose>
+                <c:when test="${not empty products}">
+                    <c:forEach var="product" items="${products}" varStatus="status">
+                        <tr>
+                            <td>${status.index + 1}</td>
+                            <td>${product.productName}</td>
+                            <td>${product.categoryName}</td>
+                            <td>${product.branchName}</td>
+                            <td>${product.quantity}</td>
+                            <td>${product.sold}</td>
+                            <td>${product.price} VND</td>
+                            <td>${product.shortDesc}</td>
+                            <td><span class="badge bg-primary">Xem</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-primary me-1">Xem</button>
+                                <button class="btn btn-sm btn-warning me-1">Sửa</button>
+                                <button class="btn btn-sm btn-danger">Xóa</button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <tr>
+                        <td colspan="10" class="text-center text-danger fw-bold">Không có sản phẩm</td>
+                    </tr>
+                </c:otherwise>
+            </c:choose>
             </tbody>
+
         </table>
 
         <!-- Pagination -->
@@ -184,8 +196,6 @@
 
 <jsp:include page="crud_product/create_product.jsp"/>
 
-<!-- Modal thêm người dùng -->
-<jsp:include page="crud_user/add_user.jsp"/>
 <!-- Template Main JS File -->
 <script src="/js/bootstrap.min.js"></script>
 <script>

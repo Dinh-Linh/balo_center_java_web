@@ -226,6 +226,8 @@
     </div>
 </div>
 
+<!-- Modal thêm người dùng -->
+<jsp:include page="crud_user/add_user.jsp"/>
 <!-- Template Main JS File -->
 <script src="/js/bootstrap.min.js"></script>
 <script>

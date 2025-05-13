@@ -1,7 +1,14 @@
 package com.example.balo_center.module.view;
 
+import com.example.balo_center.domain.dto.ProductDTO;
 import com.example.balo_center.domain.entity.User;
+import com.example.balo_center.domain.entity.repo.UserRepo;
+import com.example.balo_center.module.service.admin.ProductService;
 import com.example.balo_center.share.UserDataGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,35 +20,51 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "view/")
 public class AdminController {
+    @Autowired
+    private ProductService productService;
+
     //View user
     @GetMapping(value = "admin/dashboard")
-    public String dashboard(){
+    public String dashboard() {
         return "admin/index";
     }
 
     @GetMapping(value = "admin/user")
-    public String user(Model model){
+    public String user(Model model) {
         List<User> users = UserDataGenerator.generateMockUsers();
         model.addAttribute("users", users);
-        return "admin/user";}
+        return "admin/user";
+    }
 
     //View product
     @GetMapping(value = "admin/product")
-    public String product(){return "admin/product";}
+    public String product(Model model) {
+        List<ProductDTO> products = productService.getAllProduct();
+        model.addAttribute("products", products);
+        return "admin/product";
+    }
 
     //View order
     @GetMapping(value = "admin/order")
-    public String order(){return "admin/order";}
+    public String order() {
+        return "admin/order";
+    }
 
     //View sidebar
     @GetMapping(value = "admin/sidebar")
-    public String sidebar(){return "admin/sidebar";}
+    public String sidebar() {
+        return "admin/sidebar";
+    }
 
     //View header
     @GetMapping(value = "admin/header")
-    public String header(){return "admin/header";}
+    public String header() {
+        return "admin/header";
+    }
 
     //View footer
     @GetMapping(value = "admin/footer")
-    public String footer(){return "admin/footer";}
+    public String footer() {
+        return "admin/footer";
+    }
 }

@@ -37,15 +37,13 @@ public class SecurityConfig {
                 .formLogin(form -> form
                                 .loginPage("/view/auth/login")
                                 .loginProcessingUrl("/login")
-//                        .usernameParameter("username")
-//                        .passwordParameter("password")
                                 .successHandler(customSuccessHandler)
                                 .failureUrl("/view/auth/login?error=true")
                                 .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/view/auth/login")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .permitAll()
