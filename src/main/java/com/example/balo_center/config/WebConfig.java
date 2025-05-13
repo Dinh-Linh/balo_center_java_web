@@ -1,5 +1,6 @@
 package com.example.balo_center.config;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -40,11 +41,5 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/resources/", "/resources/", "/WEB-INF/resources/");
     }
 
-    @Bean
-    public CharacterEncodingFilter characterEncodingFilter(){
-        CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-        encodingFilter.setEncoding("UTF-8");
-        encodingFilter.setForceEncoding(false);
-        return encodingFilter;
-    }
+
 }

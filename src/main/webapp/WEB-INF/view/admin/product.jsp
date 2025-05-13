@@ -144,11 +144,12 @@
                             <td>${product.shortDesc}</td>
                             <td><span class="badge bg-primary">Xem</span></td>
                             <td>
-                                <button class="btn btn-sm btn-primary me-1">Xem</button>
+                                <button class="btn btn-sm btn-primary me-1 " data-bs-toggle="modal" data-bs-target="#viewProductModal_${product.id}">Xem</button>
                                 <button class="btn btn-sm btn-warning me-1">Sửa</button>
                                 <button class="btn btn-sm btn-danger">Xóa</button>
                             </td>
                         </tr>
+
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
@@ -160,6 +161,11 @@
             </tbody>
 
         </table>
+        <c:if test="${not empty products}">
+            <c:forEach var="product" items="${products}">
+                <%@ include file="crud_product/view_product.jsp"%>
+            </c:forEach>
+        </c:if>
 
         <!-- Pagination -->
         <nav aria-label="Page navigation">
