@@ -1,7 +1,10 @@
 package com.example.balo_center.module.view;
 
+import com.example.balo_center.domain.dto.UserDTO;
 import com.example.balo_center.domain.entity.User;
+import com.example.balo_center.module.service.auth.UserService;
 import com.example.balo_center.share.UserDataGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +16,9 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "view/")
 public class AdminController {
+    @Autowired
+    private UserService userService;
+
     //View user
     @GetMapping(value = "admin/dashboard")
     public String dashboard(){
@@ -23,11 +29,11 @@ public class AdminController {
 
     @GetMapping(value = "admin/user")
     public String user(Model model){
-        List<User> users = UserDataGenerator.generateMockUsers();
+        //List<User> users = UserDataGenerator.generateMockUsers();
+        List<UserDTO> users = userService.getAllUser();
 
         model.addAttribute("users", users);
         return "admin/user";}
-
 
 
 
