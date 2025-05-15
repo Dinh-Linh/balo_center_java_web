@@ -19,11 +19,17 @@ public class AdminController {
         return "admin/index";
     }
 
+
+
     @GetMapping(value = "admin/user")
     public String user(Model model){
         List<User> users = UserDataGenerator.generateMockUsers();
+
         model.addAttribute("users", users);
         return "admin/user";}
+
+
+
 
     //View product
     @GetMapping(value = "admin/product")
