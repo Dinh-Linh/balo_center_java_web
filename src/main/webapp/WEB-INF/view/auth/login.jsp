@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,9 +21,25 @@
             padding: 3px;
             box-sizing: border-box;
         }
+
+        .bg-gradient-custom {
+            background: linear-gradient(135deg, #b4e8de, #8a64eb);
+            min-height: 100vh;
+            width: 100%;
+            color: white;
+        }
+        input, button{
+            padding: 8px 24px !important;
+        }
+        .error-message {
+            color: #e74a3b;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
-<body class="bg-gradient-primary">
+<body class="bg-gradient-custom">
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-12 col-md-9">
@@ -33,34 +50,47 @@
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-800 mb-4">Welcome back</h1>
+                                    <h1 class="h4 text-gray-800 mb-4">Chào mừng trở lại</h1>
                                 </div>
-                                <form class="user">
+                                
+                                <!-- Error message display -->
+                                <c:if test="${param.error != null}">
+                                    <div class="error-message">
+                                        Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại.
+                                    </div>
+                                </c:if>
+                                <c:if test="${param.expired != null}">
+                                    <div class="error-message">
+                                        Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.
+                                    </div>
+                                </c:if>
+                                
+                                <form class="user" action="/login" method="post">
                                     <div class="form-group">
                                         <label for="inputEmail">Email</label>
                                         <input type="email" class="form-control form-control-user"
-                                               id="inputEmail" aria-describedby="emailHelp"
-                                               placeholder="Enter your email...">
+                                               name="username" id="inputEmail" aria-describedby="emailHelp"
+                                               placeholder="Nhập email của bạn...">
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputPassword">Password</label>
+                                        <label for="inputPassword">Mật khẩu</label>
                                         <input type="password" class="form-control form-control-user"
-                                               id="inputPassword" placeholder="Enter your password...">
+                                               name="password" id="inputPassword" placeholder="Nhập mật khẩu của bạn...">
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
-                                            <input type="checkbox" class="custom-control-input" id="customCheckBox">
-                                            <label class="custom-control-label ml-2" for="customCheckBox">Remember me</label>
+                                            <input type="checkbox" class="custom-control-input" id="customCheckBox" name="remember-me">
+                                            <label class="custom-control-label ml-2" for="customCheckBox">Nhớ mật khẩu</label>
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-user btn-block mx-auto d-block">Login</button>
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" href="#">Forgot Password?</a>
+                                    <a class="small" href="/view/auth/forgot-password">Quên mật khẩu?</a>
                                 </div>
                                 <div class="text-center">
-                                    <a class="small" href="register.jsp">Create an Account!</a>
+                                    <a class="small" href="/view/auth/register">Tạo tài khoản mới!</a>
                                 </div>
                             </div>
                         </div>

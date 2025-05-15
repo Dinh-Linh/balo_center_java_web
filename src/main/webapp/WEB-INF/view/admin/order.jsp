@@ -64,13 +64,13 @@
 
 <main id="main" class="main">
     <div class="pagetitle d-flex justify-content-between">
-        <h1>Dashboard</h1>
+        <h1>Order</h1>
         <nav>
             <ol class="breadcrumb d-flex">
                 <li class="breadcrumb-item ms-auto">
                     <a href="index.html"><i class="bi bi-house"></i></a>
                 </li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">Order</li>
             </ol>
         </nav>
     </div>
@@ -89,17 +89,7 @@
 ><i class="bi bi-arrow-up-short"></i
 ></a>
 
-<!-- Vendor JS Files -->
-<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/chart.js/chart.umd.js"></script>
-<script src="assets/vendor/echarts/echarts.min.js"></script>
-<script src="assets/vendor/quill/quill.js"></script>
-<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
-
 <!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
