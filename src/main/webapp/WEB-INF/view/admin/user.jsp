@@ -56,6 +56,21 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 ======================================================== -->
+
+    <style>
+        .user-details p {
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        .user-details p:last-child {
+            border-bottom: none;
+        }
+        .user-details strong {
+            display: inline-block;
+            width: 120px;
+        }
+    </style>
 </head>
 
 <body>
@@ -85,7 +100,7 @@
         <!-- Header: Tiêu đề + Thêm mới -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="mb-0">Danh sách người dùng</h4>
-            <a href="#" class="btn btn-success" id="#openModalBtn">+ Thêm mới</a>
+            <a href="#" class="btn btn-success" id="openModalBtn">+ Thêm mới</a>
         </div>
 
         <!-- Search & Filter -->
@@ -114,6 +129,21 @@
         </form>
 
         <!-- Table -->
+        <!-- Debug information -->
+        <div style="display: none">
+            <c:forEach var="user" items="${users}">
+                <p>
+                    Debug User Info:<br>
+                    ID: ${user.id}<br>
+                    Name: ${user.fullname}<br>
+                    Email: ${user.email}<br>
+                    Phone: ${user.userPhone}<br>
+                    Role: ${user.role}<br>
+                    Status: ${user.status}<br>
+                    Created: ${user.createdDate}
+                </p>
+            </c:forEach>
+        </div>
         <table class="table table-hover table-bordered align-middle">
             <thead class="table-light">
             <tr>
@@ -127,20 +157,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>Nguyễn Văn A</td>
-                <td>a@gmail.com</td>
-                <td>Admin</td>
-                <td>01/04/2024</td>
-                <td><span class="badge bg-success">ACTIVE</span></td>
-                <td>
-                    <button class="btn btn-sm btn-primary me-1">Xem</button>
-                    <button class="btn btn-sm btn-warning me-1">Sửa</button>
-                    <button class="btn btn-sm btn-danger">Xóa</button>
-                </td>
-            </tr>
             <c:forEach var="user" items="${users}" varStatus="itemStart">
+                <!-- Debug information -->
+                <c:out value="Debug: ${user}" />
                 <tr>
                     <td>${itemStart.index+1}</td>
                     <td>${user.fullname}</td>
@@ -166,7 +185,15 @@
                     </td>
                     <td>
 <%--                        <button class="btn btn-sm btn-primary me-1" onclick="detailsUser(${user.id})">Xem</button>--%>
-                        <button class="btn btn-sm btn-primary me-1" onclick="detailsUser(${user.id}, '${user.fullname}', '${user.email}', '${user.userPhone}', '${user.role}', '${user.status}', '${user.createdDate}')">Xem</button>
+                        <button class="btn btn-sm btn-primary me-1" onclick="detailsUser(
+                            '${user.id}',
+                            '${user.fullname}',
+                            '${user.email}',
+                            '${user.userPhone}',
+                            '${user.role}',
+                            '${user.status}',
+                            '${user.createdDate}'
+                        )">Xem</button>
                         <button class="btn btn-sm btn-warning me-1">Sửa</button>
                         <button class="btn btn-sm btn-danger btn-delete-user" data-id="${user.id}">Xóa</button>
                     </td>
@@ -244,7 +271,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <pre id="userDetails"></pre>
+                <div class="user-details">
+                    <p><strong>ID:</strong> <span id="userId"></span></p>
+                    <p><strong>Tên đầy đủ:</strong> <span id="userFullname"></span></p>
+                    <p><strong>Email:</strong> <span id="userEmail"></span></p>
+                    <p><strong>Số điện thoại:</strong> <span id="userPhone"></span></p>
+                    <p><strong>Vai trò:</strong> <span id="userRole"></span></p>
+                    <p><strong>Trạng thái:</strong> <span id="userStatus"></span></p>
+                    <p><strong>Ngày tạo:</strong> <span id="userCreatedDate"></span></p>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -255,31 +290,44 @@
 
 
 <!-- Template Main JS File -->
-<script src="/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/js/bootstrap.bundle.min.js"></script>
 <script>
-    document.getElementById("#openModalBtn").addEventListener("click", function () {
+    document.getElementById("openModalBtn").addEventListener("click", function () {
         var myModal = new bootstrap.Modal(document.getElementById("addUserModal"));
         myModal.show();
     });
-    document.getElementsByClassName("btn-delete-user").addEventListener("click", function (){
-       const  confirmDelModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
-       confirmDelModal.show();
+
+    // Fix delete user modal
+    document.querySelectorAll(".btn-delete-user").forEach(button => {
+        button.addEventListener("click", function (){
+            const confirmDelModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
+            confirmDelModal.show();
+        });
     });
 
+    // Fix details user modal
     function detailsUser(id, fullname, email, userPhone, role, status, createdDate) {
-        const formattedDate = new Date(createdDate).toLocaleDateString('vi-VN');
-        document.getElementById('userDetails').innerText = `
-        ID: ${id}
-        Tên đầy đủ: ${fullname}
-        Email: ${email}
-        Số điện thoại: ${userPhone}
-        Vai trò: ${role}
-        Trạng thái: ${status}
-        Ngày tạo: ${formattedDate}
-    `;
-        $('#userDetailsModal').modal();
-    }
+        try {
+            // Format date
+            const formattedDate = createdDate ? new Date(createdDate).toLocaleDateString('vi-VN') : 'Không có';
+            
+            // Update modal content
+            document.getElementById('userId').textContent = id || 'Không có';
+            document.getElementById('userFullname').textContent = fullname || 'Không có';
+            document.getElementById('userEmail').textContent = email || 'Không có';
+            document.getElementById('userPhone').textContent = userPhone || 'Không có';
+            document.getElementById('userRole').textContent = role || 'Không có';
+            document.getElementById('userStatus').textContent = status || 'Không có';
+            document.getElementById('userCreatedDate').textContent = formattedDate;
 
+            // Show modal
+            const userDetailsModal = new bootstrap.Modal(document.getElementById('userDetailsModal'));
+            userDetailsModal.show();
+        } catch (error) {
+            console.error('Lỗi khi hiển thị modal:', error);
+            alert('Có lỗi xảy ra khi hiển thị thông tin người dùng');
+        }
+    }
 </script>
 </body>
 </html>
