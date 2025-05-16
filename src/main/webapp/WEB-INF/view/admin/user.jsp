@@ -1,9 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -133,7 +130,7 @@
                 <td>a@gmail.com</td>
                 <td>Admin</td>
                 <td>01/04/2024</td>
-                <td><span class="badge bg-success">ACTIVE</span></td>
+                <td><span class="badge bg-success">Hoạt động</span></td>
                 <td>
                     <button class="btn btn-sm btn-primary me-1">Xem</button>
                     <button class="btn btn-sm btn-warning me-1">Sửa</button>
@@ -146,17 +143,13 @@
                     <td>${user.fullname}</td>
                     <td>${user.email}</td>
                     <td>${user.role}</td>
-<%--                    <td>${user.createdDate}</td>--%>
-                    <td>
-                        <fmt:formatDate value="${user.createdDate}" pattern="yyyy-MM-dd" />
-                    </td>
-
+                    <td>${user.createdDate}</td>
                     <td>
                         <c:choose>
-                            <c:when test="${user.status == 'ACTIVE'}">
+                            <c:when test="${user.status == 'Hoạt động'}">
                                 <span class="badge bg-success">${user.status}</span>
                             </c:when>
-                            <c:when test="${user.status == 'LOCKED'}">
+                            <c:when test="${user.status == 'Bị khoá'}">
                                 <span class="badge bg-danger">${user.status}</span>
                             </c:when>
                             <c:otherwise>
@@ -165,8 +158,7 @@
                         </c:choose>
                     </td>
                     <td>
-<%--                        <button class="btn btn-sm btn-primary me-1" onclick="detailsUser(${user.id})">Xem</button>--%>
-                        <button class="btn btn-sm btn-primary me-1" onclick="detailsUser(${user.id}, '${user.fullname}', '${user.email}', '${user.userPhone}', '${user.role}', '${user.status}', '${user.createdDate}')">Xem</button>
+                        <button class="btn btn-sm btn-primary me-1">Xem</button>
                         <button class="btn btn-sm btn-warning me-1">Sửa</button>
                         <button class="btn btn-sm btn-danger btn-delete-user" data-id="${user.id}">Xóa</button>
                     </td>
@@ -201,7 +193,6 @@
 <jsp:include page="footer.jsp"/>
 <!-- End Footer -->
 
-
 <a
         href="#"
         class="back-to-top d-flex align-items-center justify-content-center"
@@ -235,10 +226,8 @@
     </div>
 </div>
 
-
-
-
-
+<!-- Modal thêm người dùng -->
+<jsp:include page="crud_user/add_user.jsp"/>
 <!-- Template Main JS File -->
 <script src="/js/bootstrap.min.js"></script>
 <script>
@@ -250,21 +239,6 @@
        const  confirmDelModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
        confirmDelModal.show();
     });
-
-    function detailsUser(id, fullname, email, userPhone, role, status, createdDate) {
-        document.getElementById('userDetails').innerText = `
-        ID: ${id}
-        Tên đầy đủ: ${fullname}
-        Email: ${email}
-        Số điện thoại: ${userPhone}
-        Vai trò: ${role}
-        Trạng thái: ${status}
-        Ngày tạo: ${new Date(createdDate).toLocaleDateString()}
-    `;
-
-        $('#userDetailsModal').modal('show');
-    }
-
 </script>
 </body>
 </html>

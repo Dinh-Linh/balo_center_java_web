@@ -4,7 +4,7 @@
 <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form action="/admin/user/add" method="post">
+            <form action="/admin/product/add" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addProductModalLabel">Thêm sản phẩm mới mới</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
@@ -15,12 +15,12 @@
                         <input id="productName" type="text" class="form-control" name="productName" required>
                     </div>
                     <div class="mb-3">
-                        <label for="category" class="form-label">Danh mục</label>
-                        <input type="text" class="form-control" id="category" name="category" required>
+                        <label for="categoryName" class="form-label">Danh mục</label>
+                        <input type="text" class="form-control" id="categoryName" name="categoryName" required>
                     </div>
                     <div class="mb-3">
-                        <label for="trademark" class="form-label">Thương hiệu</label>
-                        <input type="text" class="form-control" id="trademark" name="trademark" required>
+                        <label for="branchName" class="form-label">Thương hiệu</label>
+                        <input type="text" class="form-control" id="branchName" name="branchName" required>
                     </div>
                     <div class="mb-3">
                         <label for="quantity" class="form-label">Số lượng</label>
@@ -31,8 +31,8 @@
                         <input type="number" class="form-control" id="price" name="price" required>
                     </div>
                     <div class="mb-3">
-                        <label for="detail" class="form-label">Mô tả</label>
-                        <input type="number" class="form-control" id="detail" name="detail" required>
+                        <label for="detailsDesc" class="form-label">Mô tả</label>
+                        <input type="text" class="form-control" id="detailsDesc" name="detailsDesc" required>
                     </div>
 
                 </div>
