@@ -130,7 +130,8 @@
 
         <!-- Table -->
         <!-- Debug information -->
-        <div style="display: none">
+        <%-- Uncomment for debugging
+        <div class="d-none">
             <c:forEach var="user" items="${users}">
                 <p>
                     Debug User Info:<br>
@@ -144,6 +145,7 @@
                 </p>
             </c:forEach>
         </div>
+        --%>
         <table class="table table-hover table-bordered align-middle">
             <thead class="table-light">
             <tr>
@@ -158,18 +160,14 @@
             </thead>
             <tbody>
             <c:forEach var="user" items="${users}" varStatus="itemStart">
-                <!-- Debug information -->
-                <c:out value="Debug: ${user}" />
                 <tr>
-                    <td>${itemStart.index+1}</td>
+                    <td>${itemStart.index + 1}</td>
                     <td>${user.fullname}</td>
                     <td>${user.email}</td>
                     <td>${user.role}</td>
-<%--                    <td>${user.createdDate}</td>--%>
                     <td>
-                        <fmt:formatDate value="${user.createdDate}" pattern="yyyy-MM-dd" />
+                        <fmt:formatDate value="${user.createdDate}" pattern="dd/MM/yyyy"/>
                     </td>
-
                     <td>
                         <c:choose>
                             <c:when test="${user.status == 'ACTIVE'}">
@@ -184,7 +182,6 @@
                         </c:choose>
                     </td>
                     <td>
-<%--                        <button class="btn btn-sm btn-primary me-1" onclick="detailsUser(${user.id})">Xem</button>--%>
                         <button class="btn btn-sm btn-primary me-1" onclick="detailsUser(
                             '${user.id}',
                             '${user.fullname}',
@@ -199,7 +196,6 @@
                     </td>
                 </tr>
             </c:forEach>
-            <!-- More rows -->
             </tbody>
         </table>
 
