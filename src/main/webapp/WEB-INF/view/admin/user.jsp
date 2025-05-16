@@ -235,8 +235,23 @@
     </div>
 </div>
 
-
-
+<!-- Modal -->
+<div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userDetailsModalLabel">Thông tin người dùng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <pre id="userDetails"></pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- Template Main JS File -->
@@ -252,6 +267,7 @@
     });
 
     function detailsUser(id, fullname, email, userPhone, role, status, createdDate) {
+        const formattedDate = new Date(createdDate).toLocaleDateString('vi-VN');
         document.getElementById('userDetails').innerText = `
         ID: ${id}
         Tên đầy đủ: ${fullname}
@@ -259,10 +275,9 @@
         Số điện thoại: ${userPhone}
         Vai trò: ${role}
         Trạng thái: ${status}
-        Ngày tạo: ${new Date(createdDate).toLocaleDateString()}
+        Ngày tạo: ${formattedDate}
     `;
-
-        $('#userDetailsModal').modal('show');
+        $('#userDetailsModal').modal();
     }
 
 </script>
