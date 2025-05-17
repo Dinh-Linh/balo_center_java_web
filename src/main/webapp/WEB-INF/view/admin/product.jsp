@@ -156,8 +156,6 @@
                     <th>Số lượng</th>
                     <th>Đã bán</th>
                     <th>Giá</th>
-                    <th>Mô tả</th>
-                    <th>Chi tiết</th>
                     <th>Thao tác</th>
                 </tr>
                 </thead>
@@ -173,8 +171,6 @@
                                 <td>${product.quantity}</td>
                                 <td>${product.sold}</td>
                                 <td>${product.price} VND</td>
-                                <td>${product.shortDesc}</td>
-                                <td><span class="badge bg-primary">Xem</span></td>
                                 <td>
                                     <button class="btn btn-sm btn-primary me-1 " data-bs-toggle="modal"
                                             data-bs-target="#viewProductModal_${product.id}">Xem

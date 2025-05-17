@@ -1,8 +1,6 @@
 package com.example.balo_center.module.controller.admin;
 
-import com.example.balo_center.domain.dto.ProductDTO;
 import com.example.balo_center.domain.dto.ProductFormDTO;
-import com.example.balo_center.domain.entity.Product;
 import com.example.balo_center.module.service.admin.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

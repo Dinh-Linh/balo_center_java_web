@@ -44,3 +44,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("#addProductModal form");
+        const requiredFields = form.querySelectorAll("input[required]");
+
+        form.addEventListener("submit", function (e) {
+            let isValid = true;
+            let message = "Vui lòng nhập đầy đủ thông tin:\n";
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    const label = form.querySelector(`label[for="${field.id}"]`);
+                    const fieldName = label ? label.innerText : field.name;
+                    message += `- ${fieldName}\n`;
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                alert(message);
+            }
+        });
+    });
+</script>

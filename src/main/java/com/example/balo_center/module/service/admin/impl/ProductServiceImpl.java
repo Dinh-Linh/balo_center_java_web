@@ -1,6 +1,5 @@
 package com.example.balo_center.module.service.admin.impl;
 
-import com.example.balo_center.domain.dto.ProductDTO;
 import com.example.balo_center.domain.dto.ProductFormDTO;
 import com.example.balo_center.domain.entity.Branch;
 import com.example.balo_center.domain.entity.Category;
@@ -28,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
     private BranchRepo branchRepo;
 
     @Override
-    public List<ProductDTO> getAllProduct() {
+    public List<ProductFormDTO> getAllProduct() {
         return productRepo.findAllProduct();
     }
 
