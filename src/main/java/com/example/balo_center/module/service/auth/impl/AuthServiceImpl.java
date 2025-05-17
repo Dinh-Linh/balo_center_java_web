@@ -3,7 +3,7 @@ package com.example.balo_center.module.service.auth.impl;
 import com.example.balo_center.domain.dto.LoginRequest;
 import com.example.balo_center.domain.dto.RegisterRequest;
 import com.example.balo_center.domain.entity.User;
-import com.example.balo_center.domain.entity.repo.UserRepo;
+import com.example.balo_center.domain.repo.UserRepo;
 import com.example.balo_center.module.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

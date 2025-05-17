@@ -3,7 +3,7 @@ package com.example.balo_center.module.service.auth.impl;
 import com.example.balo_center.converter.UserConverter;
 import com.example.balo_center.domain.dto.UserDTO;
 import com.example.balo_center.domain.entity.User;
-import com.example.balo_center.domain.entity.repo.UserRepo;
+import com.example.balo_center.domain.repo.UserRepo;
 import com.example.balo_center.module.service.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
