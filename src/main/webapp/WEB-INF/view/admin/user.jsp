@@ -127,25 +127,6 @@
                 <button class="btn btn-primary w-100">Lọc</button>
             </div>
         </form>
-
-        <!-- Table -->
-        <!-- Debug information -->
-        <%-- Uncomment for debugging
-        <div class="d-none">
-            <c:forEach var="user" items="${users}">
-                <p>
-                    Debug User Info:<br>
-                    ID: ${user.id}<br>
-                    Name: ${user.fullname}<br>
-                    Email: ${user.email}<br>
-                    Phone: ${user.userPhone}<br>
-                    Role: ${user.role}<br>
-                    Status: ${user.status}<br>
-                    Created: ${user.createdDate}
-                </p>
-            </c:forEach>
-        </div>
-        --%>
         <table class="table table-hover table-bordered align-middle">
             <thead class="table-light">
             <tr>
@@ -183,15 +164,23 @@
                     </td>
                     <td>
                         <button class="btn btn-sm btn-primary me-1" onclick="detailsUser(
-                            '${user.id}',
-                            '${user.fullname}',
-                            '${user.email}',
-                            '${user.userPhone}',
-                            '${user.role}',
-                            '${user.status}',
-                            '${user.createdDate}'
+                                '${user.id}',
+                                '${user.fullname}',
+                                '${user.email}',
+                                '${user.userPhone}',
+                                '${user.role}',
+                                '${user.status}',
+                                '${user.createdDate}'
                         )">Xem</button>
-                        <button class="btn btn-sm btn-warning me-1">Sửa</button>
+                        <button class="btn btn-sm btn-warning me-1" onclick="editUser(
+                                '${user.id}',
+                                '${user.fullname}',
+                                '${user.email}',
+                                '${user.userPhone}',
+                                '${user.role}',
+                                '${user.status}',
+                                '${user.createdDate}'
+                        )">Sửa</button>
                         <button class="btn btn-sm btn-danger btn-delete-user" data-id="${user.id}">Xóa</button>
                     </td>
                 </tr>
@@ -283,7 +272,54 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="userEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userEditModalLabel">Chỉnh sửa thông tin người dùng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
+                    <input type="hidden" id="edituserId">
+                    <div class="mb-3">
+                        <label for="edituserFullname" class="form-label">Tên đầy đủ</label>
+                        <input type="text" class="form-control" id="edituserFullname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edituserEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="edituserEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edituserPhone" class="form-label">Số điện thoại</label>
+                        <input type="tel" class="form-control" id="edituserPhone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edituserRole" class="form-label">Vai trò</label>
+                        <input type="text" class="form-control" id="edituserRole" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edituserStatus" class="form-label">Trạng thái</label>
+                        <select class="form-select" id="edituserStatus" required>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="LOCKED">LOCKED</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edituserCreatedDate" class="form-label">Ngày tạo</label>
+                        <input type="text" class="form-control" id="edituserCreatedDate" readonly>
+                    </div>
 
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="updateUser()">Cập nhật</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/assets/vendor/js/bootstrap.bundle.min.js"></script>
@@ -324,6 +360,32 @@
             alert('Có lỗi xảy ra khi hiển thị thông tin người dùng');
         }
     }
+
+    function editUser(id, fullname, email, userPhone, role, status, createdDate) {
+        try {
+            // Format date
+            const formattedDate = createdDate ? new Date(createdDate).toLocaleDateString('vi-VN') : 'Không có';
+            
+            // Update modal content
+            document.getElementById('edituserId').value = id || '';
+            document.getElementById('edituserFullname').value = fullname || '';
+            document.getElementById('edituserEmail').value = email || '';
+            document.getElementById('edituserPhone').value = userPhone || '';
+            document.getElementById('edituserRole').value = role || '';
+            document.getElementById('edituserStatus').value = status.toUpperCase() || 'ACTIVE';
+            document.getElementById('edituserCreatedDate').value = formattedDate;
+
+            // Show modal using Bootstrap 5 syntax
+            const editUserModal = new bootstrap.Modal(document.getElementById('editUserModal'));
+            editUserModal.show();
+        } catch (error) {
+            console.error('Lỗi khi hiển thị modal chỉnh sửa:', error);
+            alert('Có lỗi xảy ra khi hiển thị thông tin người dùng');
+        }
+    }
+
+
+
 </script>
 </body>
 </html>
