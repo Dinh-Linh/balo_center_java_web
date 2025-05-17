@@ -16,7 +16,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
     @Bean
-    public ViewResolver viewResolver(){
+    public ViewResolver viewResolver() {
         final InternalResourceViewResolver bean = new InternalResourceViewResolver();
         bean.setViewClass(JstlView.class);
         bean.setPrefix("/WEB-INF/view/");
@@ -25,21 +25,40 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void configureViewResolvers(ViewResolverRegistry registry){
+    public void configureViewResolvers(ViewResolverRegistry registry) {
         registry.viewResolver(viewResolver());
     }
+
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/");
-        registry.addResourceHandler("/font/**").addResourceLocations("/resources/font/");
-        registry.addResourceHandler("/image/**").addResourceLocations("/resources/image/");
-        registry.addResourceHandler("/template/**").addResourceLocations("/resources/template/");
-        registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
-        registry.addResourceHandler("/eshopper/**").addResourceLocations("/WEB-INF/view/end_user/eshopper-1.0.0/");
-        registry
-                .addResourceHandler("/resources/**")
-                .addResourceLocations("classpath:/static/resources/", "/resources/", "/WEB-INF/resources/");
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Add resource handlers for all required paths
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");
+
+        registry.addResourceHandler("/assets/**")
+                .addResourceLocations("/resources/assets/");
+
+        registry.addResourceHandler("/vendor/**")
+                .addResourceLocations("/resources/assets/vendor/");
+
+        registry.addResourceHandler("/css/**")
+                .addResourceLocations("/resources/assets/css/");
+
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("/resources/assets/js/");
+
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("/resources/assets/img/");
+
+        registry.addResourceHandler("/fonts/**")
+                .addResourceLocations("/resources/assets/fonts/");
+
+        // Add mapping for template resources
+        registry.addResourceHandler("/template/**")
+                .addResourceLocations("/resources/template/");
+
+        // Add mapping for webjars if needed
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
-
-
 }

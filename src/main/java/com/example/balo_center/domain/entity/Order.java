@@ -31,6 +31,8 @@ public class Order {
     private Integer quality_product;
     @Column(name = "total_price")
     private Double total_price;
+    @Column(name = "status")
+    private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

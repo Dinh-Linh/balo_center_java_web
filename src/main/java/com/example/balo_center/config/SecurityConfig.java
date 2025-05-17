@@ -28,31 +28,35 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/view/auth/**", "/login", "/register",
-                                "/assets/**", "/css/**", "/js/**", "/images/**", "/fonts/**",
-                                "/template/**", "/vendor/**", "/resources/**", "/static/**", "/webjars/**").permitAll()
+                                "/resources/**",
+                                "/assets/**",
+                                "/vendor/**",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**",
+                                "/fonts/**",
+                                "/template/**",
+                                "/webjars/**")
+                        .permitAll()
                         .requestMatchers("/view/admin/**").hasRole("ADMIN")
                         .requestMatchers("/view/end_user/**").authenticated()
-                        .anyRequest().permitAll()
-                )
+                        .anyRequest().permitAll())
                 .formLogin(form -> form
-                                .loginPage("/view/auth/login")
-                                .loginProcessingUrl("/login")
-                                .successHandler(customSuccessHandler)
-                                .failureUrl("/view/auth/login?error=true")
-                                .permitAll()
-                )
+                        .loginPage("/view/auth/login")
+                        .loginProcessingUrl("/login")
+                        .successHandler(customSuccessHandler)
+                        .failureUrl("/view/auth/login?error=true")
+                        .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/view/auth/login")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
-                        .permitAll()
-                )
+                        .permitAll())
                 .sessionManagement(session -> session
                         .sessionFixation().migrateSession()
                         .maximumSessions(1)
-                        .expiredUrl("/view/auth/login?expired=true")
-                );
+                        .expiredUrl("/view/auth/login?expired=true"));
         httpSecurity.authenticationProvider(authenticationProvider());
 
         return httpSecurity.build();
@@ -72,7 +76,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 }
