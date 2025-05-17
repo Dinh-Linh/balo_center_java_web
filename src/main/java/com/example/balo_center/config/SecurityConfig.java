@@ -1,7 +1,7 @@
 package com.example.balo_center.config;
 
-import com.example.balo_center.authentication.UserSessionDetail;
-import com.example.balo_center.component.CustomSuccessHandler;
+import com.example.balo_center.security.UserSessionDetail;
+import com.example.balo_center.security.CustomSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

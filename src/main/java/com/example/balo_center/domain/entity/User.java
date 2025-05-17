@@ -1,56 +1,73 @@
 package com.example.balo_center.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.UUID;
-
-@Getter
-@Setter
+@Entity
+@Table(name = "users")
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
-@Entity
 public class User {
-    @Column(name = "id")
     @Id
-    private String id;
-    @Column(name = "email")
-    private String email;
-    @Column(name = "fullname")
-    private String fullname;
-    @Column(name = "password")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true, nullable = false)
+    private String username;
+    @Column(nullable = false)
     private String password;
-    @Column(name = "phone")
-    private String userPhone;
-    @Column(name = "role")
-    private String role;
-    @Column(name = "status")
-    private String status;
-    @Column(name = "avatar")
-    private String avatar;
-    @Column(name = "created_date")
-    private Timestamp createdDate;
+    @Column(unique = true, nullable = false)
+    private String email;
+    private String name;
+    private String roles;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<DeliveryAddress> deliveryAddressList;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<Order> orderList;
-
-    @PrePersist
-    public void prePersist() {
-        if (this.id == null || this.id.isEmpty()) {
-            this.id = UUID.randomUUID().toString();
-        }
+    public Long getId() {
+        return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
 }
