@@ -1,4 +1,4 @@
-package com.example.balo_center.domain.entity.repo;
+package com.example.balo_center.domain.repo;
 
 import com.example.balo_center.domain.entity.Branch;
 import com.example.balo_center.domain.entity.Category;

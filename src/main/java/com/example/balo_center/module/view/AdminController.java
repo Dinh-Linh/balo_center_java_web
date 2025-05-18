@@ -4,6 +4,7 @@ import com.example.balo_center.domain.dto.ProductFormDTO;
 import com.example.balo_center.domain.dto.UserDTO;
 import com.example.balo_center.domain.entity.User;
 import com.example.balo_center.module.service.admin.ProductService;
+import com.example.balo_center.module.service.auth.UserService;
 import com.example.balo_center.share.UserDataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,9 +31,6 @@ public class AdminController {
     }
 
     @GetMapping(value = "admin/user")
-    public String user(Model model) {
-        List<User> users = UserDataGenerator.generateMockUsers();
-    }
     public String user(Model model){
         //List<User> users = UserDataGenerator.generateMockUsers();
         List<UserDTO> users = userService.getAllUser();

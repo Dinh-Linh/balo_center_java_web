@@ -1,7 +1,7 @@
 package com.example.balo_center.module.view;
 
 import com.example.balo_center.domain.entity.User;
-import com.example.balo_center.domain.entity.repo.UserRepo;
+import com.example.balo_center.domain.repo.UserRepo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ModelAttribute;
