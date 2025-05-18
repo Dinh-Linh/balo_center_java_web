@@ -1,9 +1,9 @@
 package com.example.balo_center.controller.user;
 
-import com.example.balo_center.domain.entity.User;
 import com.example.balo_center.domain.dto.request.ChangePasswordRequest;
 import com.example.balo_center.domain.dto.request.UpdateProfileRequest;
 import com.example.balo_center.domain.dto.response.UserProfileResponse;
+import com.example.balo_center.domain.entity.User;
 import com.example.balo_center.repository.UserRepository;
 import com.example.balo_center.service.user.impl.UserDetailsImpl;
 import jakarta.validation.Valid;
@@ -32,9 +32,9 @@ public class UserController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userRepository.findById(userDetails.getId())
                 .orElseThrow();
-        List<String> roles = Arrays.asList(user.getRoles().split(","));
+        List<String> roles = Arrays.asList(user.getRole().split(","));
         UserProfileResponse profile = new UserProfileResponse(
-                user.getId(), user.getUsername(), user.getEmail(), user.getName(), roles);
+                Long.valueOf(user.getId()), user.getEmail(), user.getFullName(), roles);
         return ResponseEntity.ok(profile);
     }
 
@@ -46,7 +46,7 @@ public class UserController {
         if (!user.getEmail().equals(request.email()) && userRepository.existsByEmail(request.email())) {
             return ResponseEntity.badRequest().body("Error: Email is already in use!");
         }
-        user.setName(request.name());
+        user.setFullName(request.name());
         user.setEmail(request.email());
         userRepository.save(user);
         return ResponseEntity.ok("Profile updated successfully");

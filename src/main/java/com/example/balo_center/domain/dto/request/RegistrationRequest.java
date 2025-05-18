@@ -8,9 +8,6 @@ public record RegistrationRequest(
         @NotBlank(message = "Name is required")
         String name,
 
-        @NotBlank(message = "Username is required")
-        String username,
-
         @NotBlank(message = "Email is required")
         @Email(message = "Invalid email")
         String email,

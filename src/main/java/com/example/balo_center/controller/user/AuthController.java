@@ -54,7 +54,7 @@ public class AuthController {
     @ResponseBody
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
+                new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -70,11 +70,6 @@ public class AuthController {
     @PostMapping("/api/auth/register")
     @ResponseBody
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.username())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Error: Username is already taken!");
-        }
         if (userRepository.existsByEmail(signUpRequest.email())) {
             return ResponseEntity
                     .badRequest()
@@ -87,11 +82,10 @@ public class AuthController {
         }
 
         User user = new User();
-        user.setUsername(signUpRequest.username());
         user.setEmail(signUpRequest.email());
-        user.setName(signUpRequest.name());
+        user.setFullName(signUpRequest.name());
         user.setPassword(encoder.encode(signUpRequest.password()));
-        user.setRoles("ROLE_USER");
+        user.setRole("ROLE_USER");
 
         userRepository.save(user);
 

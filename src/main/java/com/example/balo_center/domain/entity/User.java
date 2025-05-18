@@ -1,16 +1,15 @@
 package com.example.balo_center.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -21,11 +20,12 @@ import java.util.UUID;
 public class User {
     @Column(name = "id")
     @Id
+    @UuidGenerator
     private String id;
     @Column(name = "email")
     private String email;
     @Column(name = "fullname")
-    private String fullname;
+    private String fullName;
     @Column(name = "password")
     private String password;
     @Column(name = "phone")
@@ -45,12 +45,4 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Order> orderList;
-
-    @PrePersist
-    public void prePersist() {
-        if (this.id == null || this.id.isEmpty()) {
-            this.id = UUID.randomUUID().toString();
-        }
-    }
-
 }

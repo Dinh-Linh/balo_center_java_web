@@ -1,6 +1,8 @@
 package com.example.balo_center.service.user.impl;
 
 import com.example.balo_center.domain.entity.User;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,16 +13,21 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Setter
 @Service
 public class UserDetailsImpl implements UserDetails {
+    @Getter
     private Long id;
     private String username;
+    @Getter
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl() {
-    }    public UserDetailsImpl(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    }
+
+    public UserDetailsImpl(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -29,12 +36,12 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(User user) {
-        List<GrantedAuthority> authorities = Arrays.stream(user.getRoles().split(","))
+        List<GrantedAuthority> authorities = Arrays.stream(user.getRole().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
         return new UserDetailsImpl(
-                user.getId(),
-                user.getUsername(),
+                Long.valueOf(user.getId()),
+                user.getFullName(),
                 user.getEmail(),
                 user.getPassword(),
                 authorities);
@@ -43,7 +50,9 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
-    }    @Override
+    }
+
+    @Override
     public String getPassword() {
         return password;
     }
@@ -51,30 +60,6 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public String getUsername() {
         return username;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        this.authorities = authorities;
     }
 
     @Override
