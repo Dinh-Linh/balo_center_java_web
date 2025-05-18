@@ -1,6 +1,7 @@
 package com.example.balo_center.module.view;
 
 import com.example.balo_center.domain.dto.ProductFormDTO;
+import com.example.balo_center.domain.dto.UserDTO;
 import com.example.balo_center.domain.entity.User;
 import com.example.balo_center.module.service.admin.ProductService;
 import com.example.balo_center.share.UserDataGenerator;
@@ -19,6 +20,9 @@ public class AdminController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private UserService userService;
+
     //View user
     @GetMapping(value = "admin/dashboard")
     public String dashboard() {
@@ -28,6 +32,11 @@ public class AdminController {
     @GetMapping(value = "admin/user")
     public String user(Model model) {
         List<User> users = UserDataGenerator.generateMockUsers();
+    }
+    public String user(Model model){
+        //List<User> users = UserDataGenerator.generateMockUsers();
+        List<UserDTO> users = userService.getAllUser();
+
         model.addAttribute("users", users);
         return "admin/user";
     }
