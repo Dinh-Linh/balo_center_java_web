@@ -1,37 +1,27 @@
 version: '3.8'
-
 services:
-  mysqldb:
+  mysql:
     image: mysql:8.0
-    container_name: mysqldb
+    container_name: spring-boot-mysql
     restart: always
     environment:
-      MYSQL_DATABASE: balo_center
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: product_db
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: springpassword
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - balo-network
-
-  app:
-    build: .
-    container_name: balo-app
-    depends_on:
-      - mysqldb
-    restart: always
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/balo_center
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 123456
-    networks:
-      - balo-network
-
-networks:
-  balo-network:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - ./mysql/custom.cnf:/etc/mysql/conf.d/custom.cnf
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
-  mysql-data:
+  mysql_data:
+    name: spring-boot-mysql-data
