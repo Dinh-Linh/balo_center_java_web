@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Navbar Start -->
 <div class="container-fluid mb-5">
     <div class="row border-top px-xl-5">
@@ -27,8 +29,17 @@
                         <a href="/contact" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0">
-                        <a href="${pageContext.request.contextPath}/view/auth/login" class="nav-item nav-link">Login</a>
-                        <a href="${pageContext.request.contextPath}/view/auth/register" class="nav-item nav-link">Register</a>
+                        <sec:authorize access="!isAuthenticated()">
+                            <a href="${pageContext.request.contextPath}/view/auth/login" class="nav-item nav-link">Login</a>
+                            <a href="${pageContext.request.contextPath}/view/auth/register" class="nav-item nav-link">Register</a>
+                        </sec:authorize>
+                        <sec:authorize access="isAuthenticated()">
+                            <span class="nav-item nav-link">Hello, ${username}</span>
+                            <form action="${pageContext.request.contextPath}/logout" method="post" style="display: inline;">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                <button type="submit" class="nav-item nav-link" style="background: none; border: none;">Logout</button>
+                            </form>
+                        </sec:authorize>
                     </div>
                 </div>
             </nav>

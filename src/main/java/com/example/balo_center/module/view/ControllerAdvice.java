@@ -15,12 +15,16 @@ public class ControllerAdvice {
     }
 
     @ModelAttribute("username")
-    public String usernmae() {
+    public String username() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getName())) {
+            System.out.println("No authenticated user found");
+            return "Người dùng";
+        }
         String email = authentication.getName();
+        System.out.println("Authenticated email: " + email);
         return userRepo.findUsersByEmail(email)
                 .map(User::getFullname)
                 .orElse("Người dùng");
-
     }
 }

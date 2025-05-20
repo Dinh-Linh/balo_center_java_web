@@ -1,11 +1,11 @@
 package com.example.balo_center.module.view;
 
+import com.example.balo_center.share.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-//@RequestMapping("/homepage")
-public class ViewEndUserController {
+public class ViewEndUserController extends BaseController {
     @GetMapping("/homepage")
     public String vewHomePage() {
         return "end_user/index";
