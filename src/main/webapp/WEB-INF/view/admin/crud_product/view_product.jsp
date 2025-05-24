@@ -48,6 +48,20 @@
                         <th scope="row">Mô tả chi tiết</th>
                         <td>${product.detailsDesc}</td>
                     </tr>
+                    <tr>
+                        <th scope="row">Hình ảnh</th>
+                        <td>
+                            <c:if test="${not empty product.imageLinks}">
+                                <div class="row">
+                                    <c:forEach var="image" items="${product.imageLinks}">
+                                        <div class="col-md-4 mb-2">
+                                            <img src="${image}" class="img-fluid" alt="Product image">
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </c:if>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
 

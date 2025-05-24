@@ -204,19 +204,31 @@
             </c:if>
 
             <!-- Pagination -->
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item disabled">
-                        <a class="page-link">Trước</a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Sau</a>
-                    </li>
-                </ul>
-            </nav>
+            <c:if test="${totalPages > 0}">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        Bạn đang xem trang ${currentPage} trên ${totalPages} trang
+                    </div>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   href="?page=${currentPage - 1}&size=10${not empty searchName ? '&searchName='.concat(searchName) : ''}${not empty brand ? '&brand='.concat(brand) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}">Trước</a>
+                            </li>
+                            <c:forEach begin="1" end="${totalPages}" var="i">
+                                <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                    <a class="page-link"
+                                       href="?page=${i}&size=10${not empty searchName ? '&searchName='.concat(searchName) : ''}${not empty brand ? '&brand='.concat(brand) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}">${i}</a>
+                                </li>
+                            </c:forEach>
+                            <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   href="?page=${currentPage + 1}&size=10${not empty searchName ? '&searchName='.concat(searchName) : ''}${not empty brand ? '&brand='.concat(brand) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}">Sau</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </c:if>
         </div>
     </main>
 

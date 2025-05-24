@@ -1,11 +1,10 @@
 package com.example.balo_center.module.service.admin;
 
 import com.example.balo_center.domain.dto.ProductFormDTO;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface ProductService {
-    public List<ProductFormDTO> getAllProduct();
+    public Page<ProductFormDTO> getAllProduct(int page, int size, String searchName, String brand, String sortBy);
     public void saveProduct(ProductFormDTO form);
 
     public ProductFormDTO getProductById(String id);

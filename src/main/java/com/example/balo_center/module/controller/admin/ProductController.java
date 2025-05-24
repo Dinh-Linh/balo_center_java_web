@@ -25,13 +25,6 @@ public class ProductController {
         return "redirect:/view/admin/product";
     }
 
-    @GetMapping("/admin/product/view/{id}")
-    public String viewProduct(@PathVariable String id, Model model) {
-        ProductFormDTO product = productService.getProductById(id); // hoặc mapper từ Entity -> DTO
-        model.addAttribute("product", product);
-        return "view_product"; // sẽ render ra view_product.jsp
-    }
-
     @PostMapping("/update")
     public String editProduct(@ModelAttribute ProductFormDTO form, RedirectAttributes redirectAttributes) {
         try {

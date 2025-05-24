@@ -10,6 +10,10 @@ import com.example.balo_center.domain.repo.ProductRepo;
 import com.example.balo_center.module.service.admin.ProductService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -27,8 +31,21 @@ public class ProductServiceImpl implements ProductService {
     private BranchRepo branchRepo;
 
     @Override
-    public List<ProductFormDTO> getAllProduct() {
-        return productRepo.findAllProduct();
+    public Page<ProductFormDTO> getAllProduct(int page, int size, String searchName, String brand, String sortBy) {
+        Pageable pageable = PageRequest.of(page, size);
+        
+        if (sortBy != null && !sortBy.isEmpty()) {
+            Sort sort = switch (sortBy) {
+                case "priceAsc" -> Sort.by(Sort.Direction.ASC, "price");
+                case "priceDesc" -> Sort.by(Sort.Direction.DESC, "price");
+                case "soldAsc" -> Sort.by(Sort.Direction.ASC, "sold");
+                case "soldDesc" -> Sort.by(Sort.Direction.DESC, "sold");
+                default -> Sort.unsorted();
+            };
+            pageable = PageRequest.of(page, size, sort);
+        }
+        
+        return productRepo.findAllProduct(searchName, brand, pageable);
     }
 
     @Override
@@ -41,6 +58,7 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(form.getPrice());
         product.setProductDetailDesc(form.getDetailsDesc());
         product.setProductShortDesc(words.length <= 5 ? form.getDetailsDesc() : String.join(" ", Arrays.copyOfRange(words, 0, 10)) + "...");
+        product.setImage(form.getImageLinks());
 
         Category category = categoryRepo.findByCategoryName(form.getCategoryName());
         if (category == null) {
@@ -63,6 +81,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductFormDTO getProductById(String id) {
         ProductFormDTO product = productRepo.findProductById(id);
+        if (product != null) {
+            List<String> images = productRepo.findProductImages(id);
+            product.setImageLinks(images);
+        }
         return product;
     }
 

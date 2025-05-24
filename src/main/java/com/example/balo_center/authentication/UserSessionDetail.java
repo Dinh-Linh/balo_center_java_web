@@ -19,7 +19,7 @@ public class UserSessionDetail implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findUsersByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
-        log.info("Loading user: email={}, fullname={}", user.getEmail(), user.getFullname());
+//        log.info("Loading user: email={}, fullname={}", user.getEmail(), user.getFullname());
         return new CustomUserDetails(user);
     }
 }

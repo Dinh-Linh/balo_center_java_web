@@ -3,6 +3,7 @@ package com.example.balo_center.domain.dto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,6 +17,7 @@ public class ProductFormDTO {
     private Double price;
     private String shortDesc;
     private String detailsDesc;
+    private List<String> imageLinks;
 
     public ProductFormDTO(String id, String productName, String categoryName, String branchName, Integer quantity, Integer sold, Double price, String shortDesc, String detailsDesc) {
         this.id = id;
