@@ -15,40 +15,7 @@
     <title>Register</title>
 </head>
 <body>
-<!-- Header -->
-<%--<header class="bg-white shadow-sm" style="background-color: #eee">--%>
-<%--    <div class="container py-3">--%>
-<%--        <div class="d-flex align-items-center justify-content-between">--%>
-<%--            <!-- Logo -->--%>
-<%--            <a href="#" class="navbar-brand">--%>
-<%--                <img src="${pageContext.request.contextPath}/resources/image/logo.png" alt="Logo" style="height: 50px;">--%>
-<%--            </a>--%>
 
-<%--            <!-- Search Bar -->--%>
-<%--            <div class="flex-grow-1 mx-4 p-2">--%>
-<%--                <div class="input-group">--%>
-<%--                    <input type="text" class="form-control p-2" placeholder="Searching..." >--%>
-<%--                    <button class="btn btn-primary" type="button">--%>
-<%--                        <i class="fas fa-search"></i>--%>
-<%--                    </button>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-
-<%--            <!-- Account & Cart -->--%>
-<%--            <div class="d-flex align-items-center">--%>
-<%--                <a href="#" class="text-dark me-4 text-decoration-none">--%>
-<%--                    <i class="fas fa-user fa-lg"></i>Account--%>
-<%--                </a>--%>
-<%--                <a href="#" class="text-dark text-decoration-none">--%>
-<%--                    <i class="fas fa-shopping-cart fa-lg"></i>Cart--%>
-<%--                </a>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-
-<%--    <!-- Line dưới header -->--%>
-<%--    <hr class="m-0 w-75 center">--%>
-<%--</header>--%>
 <section class="vh-100 d-flex align-items-center justify-content-center bg-gradient-custom"
          style="background-color: #eee;">
     <div class="container h-100">

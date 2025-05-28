@@ -9,26 +9,31 @@ import com.example.balo_center.domain.repo.CategoryRepo;
 import com.example.balo_center.domain.repo.ProductRepo;
 import com.example.balo_center.module.service.admin.ProductService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
+@RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    private ProductRepo productRepo;
 
-    @Autowired
-    private CategoryRepo categoryRepo;
+    private final ProductRepo productRepo;
 
-    @Autowired
-    private BranchRepo branchRepo;
+    private final CategoryRepo categoryRepo;
+
+    private final BranchRepo branchRepo;
 
     @Override
     public Page<ProductFormDTO> getAllProduct(int page, int size, String searchName, String brand, String sortBy) {
@@ -135,5 +140,126 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(String id) {
         productRepo.deleteById(id);
+    }
+
+    @Override
+    public List<Map<String, String>> importProductsFromExcel(MultipartFile file) throws Exception {
+        List<Map<String, String>> results = new ArrayList<>();
+        List<Product> products = new ArrayList<>();
+
+        try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0);
+            Row headerRow = sheet.getRow(0);
+
+            // Validate header row
+            validateHeaderRow(headerRow);
+
+            // Process data rows
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                Row row = sheet.getRow(i);
+                if (row == null) continue;
+
+                try {
+                    Product product = createProductFromRow(row);
+                    products.add(product);
+                    results.add(createSuccessResult(product));
+                } catch (Exception e) {
+                    results.add(createErrorResult(row.getRowNum(), e.getMessage()));
+                }
+            }
+
+            // Save all valid products
+            if (!products.isEmpty()) {
+                productRepo.saveAll(products);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Lỗi khi đọc file Excel: " + e.getMessage());
+        }
+
+        return results;
+    }
+
+    private void validateHeaderRow(Row headerRow) {
+        if (headerRow == null) {
+            throw new RuntimeException("File Excel không có header");
+        }
+
+        String[] expectedHeaders = {"Tên sản phẩm", "Giá", "Mô tả", "Số lượng", "Danh mục"};
+        for (int i = 0; i < expectedHeaders.length; i++) {
+            Cell cell = headerRow.getCell(i);
+            if (cell == null || !expectedHeaders[i].equals(cell.getStringCellValue())) {
+                throw new RuntimeException("Header không hợp lệ. Header phải là: " + String.join(", ", expectedHeaders));
+            }
+        }
+    }
+
+    private Product createProductFromRow(Row row) {
+        Product product = new Product();
+
+        // Tên sản phẩm
+        Cell nameCell = row.getCell(0);
+        if (nameCell == null || nameCell.getStringCellValue().trim().isEmpty()) {
+            throw new RuntimeException("Tên sản phẩm không được để trống");
+        }
+        product.setProductName(nameCell.getStringCellValue().trim());
+
+        // Giá
+        Cell priceCell = row.getCell(1);
+        if (priceCell == null) {
+            throw new RuntimeException("Giá không được để trống");
+        }
+        try {
+            product.setPrice(priceCell.getNumericCellValue());
+        } catch (Exception e) {
+            throw new RuntimeException("Giá không hợp lệ");
+        }
+
+        // Mô tả
+        Cell descriptionCell = row.getCell(2);
+        if (descriptionCell != null) {
+            product.setProductDetailDesc(descriptionCell.getStringCellValue().trim());
+        }
+
+        // Số lượng
+        Cell quantityCell = row.getCell(3);
+        if (quantityCell == null) {
+            throw new RuntimeException("Số lượng không được để trống");
+        }
+        try {
+            product.setQuality((int) quantityCell.getNumericCellValue());
+        } catch (Exception e) {
+            throw new RuntimeException("Số lượng không hợp lệ");
+        }
+
+        // Danh mục
+        Cell categoryCell = row.getCell(4);
+        if (categoryCell == null || categoryCell.getStringCellValue().trim().isEmpty()) {
+            throw new RuntimeException("Danh mục không được để trống");
+        }
+        String categoryName = categoryCell.getStringCellValue().trim();
+        Category category = categoryRepo.findByCategoryName(categoryName);
+        if (category == null) {
+            category = new Category();
+            category.setCategoryName(categoryName);
+            categoryRepo.save(category);
+        }
+        product.setCategory(category);
+
+        return product;
+    }
+
+    private Map<String, String> createSuccessResult(Product product) {
+        Map<String, String> result = new HashMap<>();
+        result.put("status", "success");
+        result.put("message", "Thêm sản phẩm thành công: " + product.getProductName());
+        return result;
+    }
+
+    private Map<String, String> createErrorResult(int rowNum, String errorMessage) {
+        Map<String, String> result = new HashMap<>();
+        result.put("status", "error");
+        result.put("message", "Dòng " + (rowNum + 1) + ": " + errorMessage);
+        return result;
     }
 }

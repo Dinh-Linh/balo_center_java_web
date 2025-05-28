@@ -107,12 +107,23 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="mb-0">Danh sách sản phẩm</h4>
                 <div class="dropdown">
-                    <button class="btn btn-success" type="button" id="openModalBtn"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-success dropdown-toggle" type="button" id="addNewDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         + Thêm mới
                     </button>
-
+                    <ul class="dropdown-menu" aria-labelledby="addNewDropdown">
+                        <li>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                                Nhập
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#importProductModal">
+                                Import file
+                            </a>
+                        </li>
+                    </ul>
                 </div>
+
             </div>
 
             <!-- Search & Filter Form -->
@@ -235,11 +246,7 @@
     <jsp:include page="footer.jsp"/>
 
 </div>
-<a
-        href="#"
-        class="back-to-top d-flex align-items-center justify-content-center"
-><i class="bi bi-arrow-up-short"></i
-></a>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Nút mở Modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
@@ -247,23 +254,34 @@
 </button>
 
 <jsp:include page="crud_product/create_product.jsp"/>
+<jsp:include page="crud_product/import_file.jsp"/>
 
-</body>
+<!-- Vendor JS Files -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
 
 <!-- Template Main JS File -->
-<script src="/js/bootstrap.min.js"></script>
 <script>
-    document.getElementById("openModalBtn").addEventListener("click", function () {
-        var myModal = new bootstrap.Modal(document.getElementById("addProductModal"));
-        myModal.show();
-    });
     document.addEventListener("DOMContentLoaded", function () {
+        // Khởi tạo tất cả các dropdown
+        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+        var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+            return new bootstrap.Dropdown(dropdownToggleEl);
+        });
+
+        // Khởi tạo toast messages
         var toasts = document.querySelectorAll('.toast');
         toasts.forEach(function (toast) {
             new bootstrap.Toast(toast).show();
         });
     });
 </script>
+
 <style>
     html, body {
         height: 100%;
@@ -280,4 +298,5 @@
         flex: 1;
     }
 </style>
+</body>
 </html>
