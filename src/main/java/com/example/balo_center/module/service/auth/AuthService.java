@@ -7,4 +7,6 @@ import com.example.balo_center.domain.entity.User;
 public interface AuthService {
     public User register(RegisterRequest registerRequest);
     public User login(LoginRequest loginRequest);
+
+    public boolean existsByEmail(String email);
 }

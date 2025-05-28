@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFullname(request.getFullName());
-        user.setRole("ROLE_USER"); // mặc định đăng ký là USER
+        user.setRole("USER"); // mặc định đăng ký là USER
         return userRepo.save(user);
     }
 
@@ -36,5 +36,10 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Sai mật khẩu");
         }
         return user;
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepo.existsByEmail(email);
     }
 }
