@@ -331,9 +331,9 @@
     </div>
     <div class="row px-xl-5 pb-3">
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/product-1.jpg"
+            <div class="card productSell-item border-0 mb-4">
+                <div class="card-header productSell-img position-relative overflow-hidden bg-transparent border p-0">
+                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/productSell-1.jpg"
                          alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
@@ -354,9 +354,9 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/product-2.jpg"
+            <div class="card productSell-item border-0 mb-4">
+                <div class="card-header productSell-img position-relative overflow-hidden bg-transparent border p-0">
+                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/productSell-2.jpg"
                          alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
@@ -376,9 +376,9 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/product-3.jpg"
+            <div class="card productSell-item border-0 mb-4">
+                <div class="card-header productSell-img position-relative overflow-hidden bg-transparent border p-0">
+                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/productSell-3.jpg"
                          alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
@@ -398,9 +398,9 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/product-4.jpg"
+            <div class="card productSell-item border-0 mb-4">
+                <div class="card-header productSell-img position-relative overflow-hidden bg-transparent border p-0">
+                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/productSell-4.jpg"
                          alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
@@ -420,9 +420,9 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/product-5.jpg"
+            <div class="card productSell-item border-0 mb-4">
+                <div class="card-header productSell-img position-relative overflow-hidden bg-transparent border p-0">
+                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/productSell-5.jpg"
                          alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
@@ -442,9 +442,9 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/product-6.jpg"
+            <div class="card productSell-item border-0 mb-4">
+                <div class="card-header productSell-img position-relative overflow-hidden bg-transparent border p-0">
+                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/productSell-6.jpg"
                          alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
@@ -464,9 +464,9 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/product-7.jpg"
+            <div class="card productSell-item border-0 mb-4">
+                <div class="card-header productSell-img position-relative overflow-hidden bg-transparent border p-0">
+                    <img class="img-fluid w-100" src="${pageContext.request.contextPath}/eshopper/img/productSell-7.jpg"
                          alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">

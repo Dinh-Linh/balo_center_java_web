@@ -685,7 +685,7 @@
                                         <th scope="row">
                                             <a href="#"
                                             ><img
-                                                    src="assets/img/product-1.jpg"
+                                                    src="assets/img/productSell-1.jpg"
                                                     alt=""
                                             /></a>
                                         </th>
@@ -705,7 +705,7 @@
                                         <th scope="row">
                                             <a href="#"
                                             ><img
-                                                    src="assets/img/product-2.jpg"
+                                                    src="assets/img/productSell-2.jpg"
                                                     alt=""
                                             /></a>
                                         </th>
@@ -726,7 +726,7 @@
                                         <th scope="row">
                                             <a href="#"
                                             ><img
-                                                    src="assets/img/product-3.jpg"
+                                                    src="assets/img/productSell-3.jpg"
                                                     alt=""
                                             /></a>
                                         </th>
@@ -746,7 +746,7 @@
                                         <th scope="row">
                                             <a href="#"
                                             ><img
-                                                    src="assets/img/product-4.jpg"
+                                                    src="assets/img/productSell-4.jpg"
                                                     alt=""
                                             /></a>
                                         </th>
@@ -766,7 +766,7 @@
                                         <th scope="row">
                                             <a href="#"
                                             ><img
-                                                    src="assets/img/product-5.jpg"
+                                                    src="assets/img/productSell-5.jpg"
                                                     alt=""
                                             /></a>
                                         </th>

@@ -116,7 +116,7 @@
             </div>
 
             <!-- Search & Filter Form -->
-            <form class="row g-3 mb-4" method="get" action="${pageContext.request.contextPath}/admin/product">
+            <form class="row g-3 mb-4" method="get" action="${pageContext.request.contextPath}/admin/productSell">
                 <div class="col-md-3">
                     <input type="text" class="form-control" placeholder="Tìm theo tên..." name="searchName"
                            value="${param.searchName}">
@@ -162,24 +162,24 @@
                 <tbody>
                 <c:choose>
                     <c:when test="${not empty products}">
-                        <c:forEach var="product" items="${products}" varStatus="status">
+                        <c:forEach var="productSell" items="${products}" varStatus="status">
                             <tr>
                                 <td>${status.index + 1}</td>
-                                <td>${product.productName}</td>
-                                <td>${product.categoryName}</td>
-                                <td>${product.branchName}</td>
-                                <td>${product.quantity}</td>
-                                <td>${product.sold}</td>
-                                <td>${product.price} VND</td>
+                                <td>${productSell.productName}</td>
+                                <td>${productSell.categoryName}</td>
+                                <td>${productSell.branchName}</td>
+                                <td>${productSell.quantity}</td>
+                                <td>${productSell.sold}</td>
+                                <td>${productSell.price} VND</td>
                                 <td>
                                     <button class="btn btn-sm btn-primary me-1 " data-bs-toggle="modal"
-                                            data-bs-target="#viewProductModal_${product.id}">Xem
+                                            data-bs-target="#viewProductModal_${productSell.id}">Xem
                                     </button>
                                     <button class="btn btn-sm btn-warning me-1" data-bs-toggle="modal"
-                                            data-bs-target="#editProductModal_${product.id}">Sửa
+                                            data-bs-target="#editProductModal_${productSell.id}">Sửa
                                     </button>
                                     <button class="btn btn-sm btn-danger me-1" data-bs-toggle="modal"
-                                            data-bs-target="#deleteProductModal_${product.id}">Xóa
+                                            data-bs-target="#deleteProductModal_${productSell.id}">Xóa
                                     </button>
                                 </td>
                             </tr>
@@ -196,7 +196,7 @@
 
             </table>
             <c:if test="${not empty products}">
-                <c:forEach var="product" items="${products}">
+                <c:forEach var="productSell" items="${products}">
                     <%@ include file="crud_product/view_product.jsp" %>
                     <%@ include file="crud_product/edit_product.jsp" %>
                     <%@include file="crud_product/delete_product.jsp" %>

@@ -10,9 +10,9 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "products")
+@Table(name = "products_sell")
 @Entity
-public class Product {
+public class ProductSell {
     @Column(name = "id")
     @Id
     private String id;
@@ -41,10 +41,10 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "productSell", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "productSell", cascade = CascadeType.ALL)
     private List<Cart> carts;
 
     @PrePersist

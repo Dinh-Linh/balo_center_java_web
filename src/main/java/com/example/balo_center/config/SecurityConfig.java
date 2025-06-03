@@ -32,6 +32,7 @@ public class SecurityConfig {
                                 "/template/**", "/vendor/**", "/resources/**", "/static/**", "/webjars/**").permitAll()
                         .requestMatchers("/view/admin/**").hasRole("ADMIN")
                         .requestMatchers("/view/end_user/**").authenticated()
+                        .requestMatchers("http://localhost:4200/").permitAll()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form

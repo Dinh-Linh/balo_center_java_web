@@ -10,7 +10,7 @@ This branch contains the source code for the Balo Center Java Web application, a
 - Admin interface
 - End-user features:
   - Product browsing and search
-  - View product details
+  - View productSell details
   - Filter products by category or branch
   - User-friendly web interface
   - Shopping cart and checkout
