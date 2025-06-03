@@ -1,7 +1,7 @@
 package com.example.balo_center.service.admin.impl;
 
 import com.example.balo_center.domain.dto.response.ProductFormResponseDTO;
-import com.example.balo_center.domain.entity.Product;
+import com.example.balo_center.domain.entity.ProductSell;
 import com.example.balo_center.repository.BranchRepo;
 import com.example.balo_center.repository.CategoryRepository;
 import com.example.balo_center.repository.ProductRepo;
@@ -33,16 +33,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void updateProduct(String id, ProductFormResponseDTO updatedProduct) {
-        Product existingProduct = productRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+        ProductSell existingProductSell = productRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
 
-        productUpdateStrategy.update(existingProduct, updatedProduct);
-        productRepo.save(existingProduct);
+        productUpdateStrategy.update(existingProductSell, updatedProduct);
+        productRepo.save(existingProductSell);
     }
 
     @Override
     public void saveProduct(ProductFormResponseDTO form) {
-        Product product = productFactory.createProduct(form);
-        productRepo.save(product);
+        ProductSell productSell = productFactory.createProduct(form);
+        productRepo.save(productSell);
     }
 
     @Override

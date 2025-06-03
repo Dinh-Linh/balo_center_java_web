@@ -23,11 +23,11 @@
             </a>
         </li>
 
-        <li class="nav-item <%= uri.contains("/product") ? "active" : ""%>">
+        <li class="nav-item <%= uri.contains("/productSell") ? "active" : ""%>">
             <a
                     class="nav-link collapsed"
-                    data-bs-target="#product-nav"
-                    href="/view/admin/product"
+                    data-bs-target="#productSell-nav"
+                    href="/view/admin/productSell"
             >
                 <i class="bi bi-journal-text"></i><span>Sản phẩm</span
             ><i class="bi bi-chevron-right ms-auto"></i>

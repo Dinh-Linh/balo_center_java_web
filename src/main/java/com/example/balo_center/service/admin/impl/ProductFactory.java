@@ -4,7 +4,7 @@ import com.example.balo_center.domain.builder.ProductBuilder;
 import com.example.balo_center.domain.dto.response.ProductFormResponseDTO;
 import com.example.balo_center.domain.entity.Branch;
 import com.example.balo_center.domain.entity.Category;
-import com.example.balo_center.domain.entity.Product;
+import com.example.balo_center.domain.entity.ProductSell;
 import com.example.balo_center.repository.BranchRepo;
 import com.example.balo_center.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class ProductFactory {
     private final CategoryRepository categoryRepository;
     private final BranchRepo branchRepo;
 
-    public Product createProduct(ProductFormResponseDTO formResponseDTO) {
+    public ProductSell createProduct(ProductFormResponseDTO formResponseDTO) {
         return new ProductBuilder()
                 .withBasicInfo(formResponseDTO)
                 .withCategory(getCategoryOrCreate(formResponseDTO.categoryName()))

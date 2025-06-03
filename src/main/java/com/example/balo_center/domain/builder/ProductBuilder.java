@@ -3,26 +3,26 @@ package com.example.balo_center.domain.builder;
 import com.example.balo_center.domain.dto.response.ProductFormResponseDTO;
 import com.example.balo_center.domain.entity.Branch;
 import com.example.balo_center.domain.entity.Category;
-import com.example.balo_center.domain.entity.Product;
+import com.example.balo_center.domain.entity.ProductSell;
 
 import java.util.Arrays;
 
 public class ProductBuilder {
-    private final Product product = new Product();
+    private final ProductSell productSell = new ProductSell();
 
     public ProductBuilder withBasicInfo(ProductFormResponseDTO formResponseDTO) {
-        product.setProductName(formResponseDTO.productName());
-        product.setQuality(formResponseDTO.quantity());
-        product.setSold(0);
-        product.setPrice(formResponseDTO.price());
+        productSell.setProductName(formResponseDTO.productName());
+        productSell.setQuality(formResponseDTO.quantity());
+        productSell.setSold(0);
+        productSell.setPrice(formResponseDTO.price());
         setDescription(formResponseDTO.detailsDesc());
         return this;
     }
 
     private void setDescription(String detailDesc) {
-        product.setProductDetailDesc(detailDesc);
+        productSell.setProductDetailDesc(detailDesc);
         String[] words = detailDesc.split("\\s+");
-        product.setProductShortDesc(
+        productSell.setProductShortDesc(
                 words.length <= 5 ?
                         detailDesc :
                         String.join(" ", Arrays.toString(Arrays.copyOfRange(words, 0, 10)) + "...")
@@ -30,16 +30,16 @@ public class ProductBuilder {
     }
 
     public ProductBuilder withCategory(Category category) {
-        product.setCategory(category);
+        productSell.setCategory(category);
         return this;
     }
 
     public ProductBuilder withBranch(Branch branch) {
-        product.setBranch(branch);
+        productSell.setBranch(branch);
         return this;
     }
 
-    public Product build() {
-        return product;
+    public ProductSell build() {
+        return productSell;
     }
 }

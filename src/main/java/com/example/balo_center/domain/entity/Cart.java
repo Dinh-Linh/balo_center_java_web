@@ -18,7 +18,7 @@ public class Cart {
 
     @ManyToOne()
     @JoinColumn(name = "product_id")
-    private Product product;
+    private ProductSell productSell;
 
     @ManyToOne()
     @JoinColumn(name = "user_id")

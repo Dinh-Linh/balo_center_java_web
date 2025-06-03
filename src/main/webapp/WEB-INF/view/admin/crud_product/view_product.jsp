@@ -1,11 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!-- Modal View Product -->
-<div class="modal fade" id="viewProductModal_${product.id}" tabindex="-1" aria-labelledby="viewProductModalLabel" aria-hidden="true">
+<div class="modal fade" id="viewProductModal_${productSell.id}" tabindex="-1" aria-labelledby="viewProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="viewProductModalLabel_${product.id}">Chi tiết sản phẩm</h5>
+                <h5 class="modal-title" id="viewProductModalLabel_${productSell.id}">Chi tiết sản phẩm</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
             <div class="modal-body">
@@ -14,39 +14,39 @@
                     <tbody>
                     <tr>
                         <th scope="row">ID</th>
-                        <td>${product.id}</td>
+                        <td>${productSell.id}</td>
                     </tr>
                     <tr>
                         <th scope="row">Tên sản phẩm</th>
-                        <td>${product.productName}</td>
+                        <td>${productSell.productName}</td>
                     </tr>
                     <tr>
                         <th scope="row">Danh mục</th>
-                        <td>${product.categoryName}</td>
+                        <td>${productSell.categoryName}</td>
                     </tr>
                     <tr>
                         <th scope="row">Thương hiệu</th>
-                        <td>${product.branchName}</td>
+                        <td>${productSell.branchName}</td>
                     </tr>
                     <tr>
                         <th scope="row">Số lượng</th>
-                        <td>${product.quantity}</td>
+                        <td>${productSell.quantity}</td>
                     </tr>
                     <tr>
                         <th scope="row">Đã bán</th>
-                        <td>${product.sold}</td>
+                        <td>${productSell.sold}</td>
                     </tr>
                     <tr>
                         <th scope="row">Giá</th>
-                        <td>${product.price}</td>
+                        <td>${productSell.price}</td>
                     </tr>
                     <tr>
                         <th scope="row">Mô tả ngắn</th>
-                        <td>${product.shortDesc}</td>
+                        <td>${productSell.shortDesc}</td>
                     </tr>
                     <tr>
                         <th scope="row">Mô tả chi tiết</th>
-                        <td>${product.detailsDesc}</td>
+                        <td>${productSell.detailsDesc}</td>
                     </tr>
                     </tbody>
                 </table>
