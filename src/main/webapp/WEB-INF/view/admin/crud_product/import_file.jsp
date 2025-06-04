@@ -44,14 +44,14 @@
                         </c:if>
 
                         <!-- Form upload -->
-                        <form action="${pageContext.request.contextPath}/admin/products/import" method="post" enctype="multipart/form-data">
+                        <form action="/admin/product/import" method="post" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="file" class="form-label">Chọn file Excel (.xlsx)</label>
                                 <input type="file" class="form-control" id="file" name="file" accept=".xlsx" required>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Import</button>
-                                <a href="${pageContext.request.contextPath}/admin/products" class="btn btn-secondary">Quay lại</a>
+                                <a href="view/admin/product" class="btn btn-secondary">Quay lại</a>
                             </div>
                         </form>
 
@@ -76,4 +76,5 @@
 </div>
 
 </body>
+<%--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>--%>
 </html>
