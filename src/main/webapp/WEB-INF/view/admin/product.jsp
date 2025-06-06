@@ -54,146 +54,199 @@
 </head>
 
 <body>
-<!-- ======= Header ======= -->
-<jsp:include page="header.jsp"/>
-<!-- End Header -->
 
-<!-- ======= Sidebar ======= -->
-<jsp:include page="sidebar.jsp"/>
-<!-- End Sidebar-->
+<div class="wrapper">
+    <jsp:include page="header.jsp"/>
 
-<main id="main" class="main">
-    <div class="pagetitle d-flex justify-content-between">
-        <h1>Product</h1>
-        <nav>
-            <ol class="breadcrumb d-flex">
-                <li class="breadcrumb-item ms-auto">
-                    <a href="index.html"><i class="bi bi-house"></i></a>
-                </li>
-                <li class="breadcrumb-item active">Product</li>
-            </ol>
-        </nav>
-    </div>
-    <!-- End Page Title -->
-    <div class="container-fluid mt-4">
-        <!-- Header: Tiêu đề + Thêm mới -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="mb-0">Danh sách sản phẩm</h4>
-            <div class="dropdown">
-                <button class="btn btn-success" type="button" id="#openModalBtn"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                    + Thêm mới
-                </button>
+    <jsp:include page="sidebar.jsp"/>
 
-            </div>
+    <main id="main" class="main">
+        <div class="pagetitle d-flex justify-content-between">
+            <h1>Product</h1>
+            <nav>
+                <ol class="breadcrumb d-flex">
+                    <li class="breadcrumb-item ms-auto">
+                        <a href="index.html"><i class="bi bi-house"></i></a>
+                    </li>
+                    <li class="breadcrumb-item active">Product</li>
+                </ol>
+            </nav>
         </div>
+        <!-- End Page Title -->
+        <div class="container-fluid mt-4">
+            <%--        Show message--%>
+            <div class="toast-container position-fixed top-0 end-0 p-3">
+                <c:if test="${not empty successMessage}">
+                    <div class="toast align-items-center text-white bg-success border-0" role="alert"
+                         aria-live="assertive"
+                         aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                    ${successMessage}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                                    aria-label="Close"></button>
+                        </div>
+                    </div>
+                </c:if>
+                <c:if test="${not empty errorMessage}">
+                    <div class="toast align-items-center text-white bg-danger border-0" role="alert"
+                         aria-live="assertive"
+                         aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                    ${errorMessage}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                                    aria-label="Close"></button>
+                        </div>
+                    </div>
+                </c:if>
+            </div>
+            <!-- Header: Tiêu đề + Thêm mới -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0">Danh sách sản phẩm</h4>
+                <div class="dropdown">
+                    <button class="btn btn-success dropdown-toggle" type="button" id="addNewDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        + Thêm mới
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="addNewDropdown">
+                        <li>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                                Nhập
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#importProductModal">
+                                Import file
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
-        <!-- Search & Filter -->
-        <form class="row g-3 mb-4">
-            <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="Tìm theo tên..." name="searchName">
             </div>
-            <div class="col-md-3">
-                <select class="form-select" name="role">
-                    <option value="">-- Vai trò --</option>
-                    <option value="admin">Admin</option>
-                    <option value="editor">Editor</option>
-                    <option value="user">User</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select class="form-select" name="status">
-                    <option value="">-- Trạng thái --</option>
-                    <option value="active">Hoạt động</option>
-                    <option value="inactive">Bị khóa</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-primary w-100">Lọc</button>
-            </div>
-        </form>
 
-        <!-- Table -->
-        <table class="table table-hover table-bordered align-middle">
-            <thead class="table-light">
-            <tr>
-                <th>#</th>
-                <th>Tên sản phẩm</th>
-                <th>Danh mục</th>
-                <th>Thương hiệu</th>
-                <th>Số lượng</th>
-                <th>Đã bán</th>
-                <th>Giá</th>
-                <th>Mô tả</th>
-                <th>Chi tiết</th>
-                <th>Thao tác</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:choose>
-                <c:when test="${not empty products}">
-                    <c:forEach var="product" items="${products}" varStatus="status">
+            <!-- Search & Filter Form -->
+            <form class="row g-3 mb-4" method="get" action="${pageContext.request.contextPath}/admin/product">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Tìm theo tên..." name="searchName"
+                           value="${param.searchName}">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="brand">
+                        <option value="">-- Tất cả hãng --</option>
+                        <c:forEach var="brand" items="${brands}">
+                            <option value="${brand.branchName}" ${param.brand == brand.branchName ? 'selected' : ''}>${brand.branchName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="sortBy">
+                        <option value="">-- Sắp xếp --</option>
+                        <option value="priceAsc" ${param.sortBy == 'priceAsc' ? 'selected' : ''}>Giá: Tăng dần</option>
+                        <option value="priceDesc" ${param.sortBy == 'priceDesc' ? 'selected' : ''}>Giá: Giảm dần
+                        </option>
+                        <option value="soldAsc" ${param.sortBy == 'soldAsc' ? 'selected' : ''}>Đã bán: Tăng dần</option>
+                        <option value="soldDesc" ${param.sortBy == 'soldDesc' ? 'selected' : ''}>Đã bán: Giảm dần
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary w-100" type="submit">Lọc</button>
+                </div>
+            </form>
+
+            <!-- Table -->
+            <table class="table table-hover table-bordered align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th>Thương hiệu</th>
+                    <th>Số lượng</th>
+                    <th>Đã bán</th>
+                    <th>Giá</th>
+                    <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:choose>
+                    <c:when test="${not empty products}">
+                        <c:forEach var="product" items="${products}" varStatus="status">
+                            <tr>
+                                <td>${status.index + 1}</td>
+                                <td>${product.productName}</td>
+                                <td>${product.categoryName}</td>
+                                <td>${product.branchName}</td>
+                                <td>${product.quantity}</td>
+                                <td>${product.sold}</td>
+                                <td>${product.price} VND</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary me-1 " data-bs-toggle="modal"
+                                            data-bs-target="#viewProductModal_${product.id}">Xem
+                                    </button>
+                                    <button class="btn btn-sm btn-warning me-1" data-bs-toggle="modal"
+                                            data-bs-target="#editProductModal_${product.id}">Sửa
+                                    </button>
+                                    <button class="btn btn-sm btn-danger me-1" data-bs-toggle="modal"
+                                            data-bs-target="#deleteProductModal_${product.id}">Xóa
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
                         <tr>
-                            <td>${status.index + 1}</td>
-                            <td>${product.productName}</td>
-                            <td>${product.categoryName}</td>
-                            <td>${product.branchName}</td>
-                            <td>${product.quantity}</td>
-                            <td>${product.sold}</td>
-                            <td>${product.price} VND</td>
-                            <td>${product.shortDesc}</td>
-                            <td><span class="badge bg-primary">Xem</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-primary me-1 " data-bs-toggle="modal" data-bs-target="#viewProductModal_${product.id}">Xem</button>
-                                <button class="btn btn-sm btn-warning me-1">Sửa</button>
-                                <button class="btn btn-sm btn-danger">Xóa</button>
-                            </td>
+                            <td colspan="10" class="text-center text-danger fw-bold">Không có sản phẩm</td>
                         </tr>
+                    </c:otherwise>
+                </c:choose>
+                </tbody>
 
-                    </c:forEach>
-                </c:when>
-                <c:otherwise>
-                    <tr>
-                        <td colspan="10" class="text-center text-danger fw-bold">Không có sản phẩm</td>
-                    </tr>
-                </c:otherwise>
-            </c:choose>
-            </tbody>
+            </table>
+            <c:if test="${not empty products}">
+                <c:forEach var="product" items="${products}">
+                    <%@ include file="crud_product/view_product.jsp" %>
+                    <%@ include file="crud_product/edit_product.jsp" %>
+                    <%@include file="crud_product/delete_product.jsp" %>
+                </c:forEach>
+            </c:if>
 
-        </table>
-        <c:if test="${not empty products}">
-            <c:forEach var="product" items="${products}">
-                <%@ include file="crud_product/view_product.jsp"%>
-            </c:forEach>
-        </c:if>
+            <!-- Pagination -->
+            <c:if test="${totalPages > 0}">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        Bạn đang xem trang ${currentPage} trên ${totalPages} trang
+                    </div>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   href="?page=${currentPage - 1}&size=10${not empty searchName ? '&searchName='.concat(searchName) : ''}${not empty brand ? '&brand='.concat(brand) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}">Trước</a>
+                            </li>
+                            <c:forEach begin="1" end="${totalPages}" var="i">
+                                <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                    <a class="page-link"
+                                       href="?page=${i}&size=10${not empty searchName ? '&searchName='.concat(searchName) : ''}${not empty brand ? '&brand='.concat(brand) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}">${i}</a>
+                                </li>
+                            </c:forEach>
+                            <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   href="?page=${currentPage + 1}&size=10${not empty searchName ? '&searchName='.concat(searchName) : ''}${not empty brand ? '&brand='.concat(brand) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}">Sau</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </c:if>
+        </div>
+    </main>
 
-        <!-- Pagination -->
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-end">
-                <li class="page-item disabled">
-                    <a class="page-link">Trước</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Sau</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</main>
-<!-- End #main -->
+    <jsp:include page="footer.jsp"/>
 
-<!-- ======= Footer ======= -->
-<jsp:include page="footer.jsp"/>
-<!-- End Footer -->
-
-<a
-        href="#"
-        class="back-to-top d-flex align-items-center justify-content-center"
-><i class="bi bi-arrow-up-short"></i
-></a>
+</div>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Nút mở Modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
@@ -201,14 +254,49 @@
 </button>
 
 <jsp:include page="crud_product/create_product.jsp"/>
+<jsp:include page="crud_product/import_file.jsp"/>
+
+<!-- Vendor JS Files -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
 
 <!-- Template Main JS File -->
-<script src="/js/bootstrap.min.js"></script>
 <script>
-    document.getElementById("#openModalBtn").addEventListener("click", function () {
-        var myModal = new bootstrap.Modal(document.getElementById("addProductModal"));
-        myModal.show();
+    document.addEventListener("DOMContentLoaded", function () {
+        // Khởi tạo tất cả các dropdown
+        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+        var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+            return new bootstrap.Dropdown(dropdownToggleEl);
+        });
+
+        // Khởi tạo toast messages
+        var toasts = document.querySelectorAll('.toast');
+        toasts.forEach(function (toast) {
+            new bootstrap.Toast(toast).show();
+        });
     });
 </script>
+
+<style>
+    html, body {
+        height: 100%;
+        padding: 0 0;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .main {
+        flex: 1;
+    }
+</style>
 </body>
 </html>

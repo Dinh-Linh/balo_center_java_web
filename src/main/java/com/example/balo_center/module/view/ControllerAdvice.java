@@ -1,7 +1,7 @@
 package com.example.balo_center.module.view;
 
 import com.example.balo_center.domain.entity.User;
-import com.example.balo_center.domain.entity.repo.UserRepo;
+import com.example.balo_center.domain.repo.UserRepo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,12 +15,16 @@ public class ControllerAdvice {
     }
 
     @ModelAttribute("username")
-    public String usernmae() {
+    public String username() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getName())) {
+            System.out.println("No authenticated user found");
+            return "Người dùng";
+        }
         String email = authentication.getName();
+        System.out.println("Authenticated email: " + email);
         return userRepo.findUsersByEmail(email)
                 .map(User::getFullname)
                 .orElse("Người dùng");
-
     }
 }

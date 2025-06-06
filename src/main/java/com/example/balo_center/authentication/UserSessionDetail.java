@@ -1,16 +1,15 @@
 package com.example.balo_center.authentication;
 
 import com.example.balo_center.domain.entity.User;
-import com.example.balo_center.domain.entity.repo.UserRepo;
+import com.example.balo_center.domain.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserSessionDetail implements UserDetailsService {
@@ -20,10 +19,7 @@ public class UserSessionDetail implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findUsersByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
-        );
+//        log.info("Loading user: email={}, fullname={}", user.getEmail(), user.getFullname());
+        return new CustomUserDetails(user);
     }
 }

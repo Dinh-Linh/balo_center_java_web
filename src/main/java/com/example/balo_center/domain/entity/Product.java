@@ -21,7 +21,7 @@ public class Product {
     private String id;
     @Column(name = "product_name")
     private String productName;
-    @Column(name = "detail_desc")
+    @Column(name = "detail_desc", columnDefinition = "TEXT")
     private String productDetailDesc;
     @Column(name = "short_desc")
     private String productShortDesc;

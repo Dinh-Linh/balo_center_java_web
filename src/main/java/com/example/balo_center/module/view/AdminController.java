@@ -2,14 +2,21 @@ package com.example.balo_center.module.view;
 
 import com.example.balo_center.domain.dto.ProductDTO;
 import com.example.balo_center.domain.entity.Order;
+import com.example.balo_center.domain.dto.ProductFormDTO;
+import com.example.balo_center.domain.dto.UserDTO;
 import com.example.balo_center.domain.entity.User;
 import com.example.balo_center.module.service.admin.OrderService;
 import com.example.balo_center.module.service.admin.ProductService;
+import com.example.balo_center.module.service.auth.UserService;
 import com.example.balo_center.share.UserDataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -27,24 +34,40 @@ public class AdminController {
         this.orderService = orderService;
     }
 
-    // View user
+    @Autowired
+    private UserService userService;
+
+    //View user
     @GetMapping(value = "admin/dashboard")
     public String dashboard() {
         return "admin/index";
     }
 
     @GetMapping(value = "admin/user")
-    public String user(Model model) {
-        List<User> users = UserDataGenerator.generateMockUsers();
+    public String user(Model model){
+        //List<User> users = UserDataGenerator.generateMockUsers();
+        List<UserDTO> users = userService.getAllUser();
+
         model.addAttribute("users", users);
         return "admin/user";
     }
 
-    // View product
+    //View product
     @GetMapping(value = "admin/product")
-    public String product(Model model) {
-        List<ProductDTO> products = productService.getAllProduct();
-        model.addAttribute("products", products);
+    public String product(Model model,
+                         @RequestParam(defaultValue = "1") int page,
+                         @RequestParam(defaultValue = "10") int size,
+                         @RequestParam(required = false) String searchName,
+                         @RequestParam(required = false) String brand,
+                         @RequestParam(required = false) String sortBy) {
+        Page<ProductFormDTO> products = productService.getAllProduct(page - 1, size, searchName, brand, sortBy);
+        model.addAttribute("products", products.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("totalItems", products.getTotalElements());
+        model.addAttribute("searchName", searchName);
+        model.addAttribute("brand", brand);
+        model.addAttribute("sortBy", sortBy);
         return "admin/product";
     }
 
@@ -78,22 +101,23 @@ public class AdminController {
         return "admin/crud_order/detail";
     }
 
-    // View sidebar
+    //View sidebar
     @GetMapping(value = "admin/sidebar")
     public String sidebar() {
         return "admin/sidebar";
     }
 
-    // View header
+    //View header
     @GetMapping(value = "admin/header")
     public String header() {
         return "admin/header";
     }
 
-    // View footer
+    //View footer
     @GetMapping(value = "admin/footer")
     public String footer() {
         return "admin/footer";
     }
+
 
 }

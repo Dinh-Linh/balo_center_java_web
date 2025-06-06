@@ -1,6 +1,5 @@
 package com.example.balo_center.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,7 +32,7 @@ public class User {
     @Column(name = "role")
     private String role;
     @Column(name = "status")
-    private String status;
+    private String status = "ACTIVE";
     @Column(name = "avatar")
     private String avatar;
     @Column(name = "created_date")
@@ -50,6 +49,9 @@ public class User {
     public void prePersist() {
         if (this.id == null || this.id.isEmpty()) {
             this.id = UUID.randomUUID().toString();
+        }
+        if (this.createdDate == null) {
+            this.createdDate = new Timestamp(System.currentTimeMillis());
         }
     }
 

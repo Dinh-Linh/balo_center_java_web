@@ -15,40 +15,7 @@
     <title>Register</title>
 </head>
 <body>
-<!-- Header -->
-<%--<header class="bg-white shadow-sm" style="background-color: #eee">--%>
-<%--    <div class="container py-3">--%>
-<%--        <div class="d-flex align-items-center justify-content-between">--%>
-<%--            <!-- Logo -->--%>
-<%--            <a href="#" class="navbar-brand">--%>
-<%--                <img src="${pageContext.request.contextPath}/resources/image/logo.png" alt="Logo" style="height: 50px;">--%>
-<%--            </a>--%>
 
-<%--            <!-- Search Bar -->--%>
-<%--            <div class="flex-grow-1 mx-4 p-2">--%>
-<%--                <div class="input-group">--%>
-<%--                    <input type="text" class="form-control p-2" placeholder="Searching..." >--%>
-<%--                    <button class="btn btn-primary" type="button">--%>
-<%--                        <i class="fas fa-search"></i>--%>
-<%--                    </button>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-
-<%--            <!-- Account & Cart -->--%>
-<%--            <div class="d-flex align-items-center">--%>
-<%--                <a href="#" class="text-dark me-4 text-decoration-none">--%>
-<%--                    <i class="fas fa-user fa-lg"></i>Account--%>
-<%--                </a>--%>
-<%--                <a href="#" class="text-dark text-decoration-none">--%>
-<%--                    <i class="fas fa-shopping-cart fa-lg"></i>Cart--%>
-<%--                </a>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-
-<%--    <!-- Line dưới header -->--%>
-<%--    <hr class="m-0 w-75 center">--%>
-<%--</header>--%>
 <section class="vh-100 d-flex align-items-center justify-content-center bg-gradient-custom"
          style="background-color: #eee;">
     <div class="container h-100">
@@ -59,14 +26,27 @@
                         <div class="row justify-content-center">
                             <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Đăng ký</p>
-                                <form class="mx-1 mx-md-4">
+                                
+                                <% if (request.getAttribute("error") != null) { %>
+                                    <div class="alert alert-danger" role="alert">
+                                        <%= request.getAttribute("error") %>
+                                    </div>
+                                <% } %>
+                                
+                                <% if (request.getAttribute("success") != null) { %>
+                                    <div class="alert alert-success" role="alert">
+                                        <%= request.getAttribute("success") %>
+                                    </div>
+                                <% } %>
+                                
+                                <form class="mx-1 mx-md-4" action="${pageContext.request.contextPath}/view/register" method="POST">
 
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                         <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="form3Example1c">Họ tên</label>
-                                            <input type="text" id="form3Example1c" class="form-control"
-                                                   placeholder="Nguyen Van A"/>
+                                            <label class="form-label" for="fullName">Họ tên</label>
+                                            <input type="text" id="fullName" name="fullName" class="form-control"
+                                                   placeholder="Nguyen Van A" required/>
 
                                         </div>
                                     </div>
@@ -74,9 +54,9 @@
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                         <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="form3Example3c">Email</label>
-                                            <input type="email" id="form3Example3c" class="form-control"
-                                                   placeholder="abc@gmail.com"/>
+                                            <label class="form-label" for="email">Email</label>
+                                            <input type="email" id="email" name="email" class="form-control"
+                                                   placeholder="abc@gmail.com" required/>
 
                                         </div>
                                     </div>
@@ -84,36 +64,34 @@
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                         <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="form3Example4c">Mật khẩu</label>
-                                            <input type="password" id="form3Example4c" class="form-control"
-                                                   placeholder="*********"/>
+                                            <label class="form-label" for="password">Mật khẩu</label>
+                                            <input type="password" id="password" name="password" class="form-control"
+                                                   placeholder="*********" required/>
                                         </div>
                                     </div>
 
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                                         <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="form3Example4cd">Nhập lại mật khẩu</label>
-                                            <input type="password" id="form3Example4cd" class="form-control"
-                                                   placeholder="*********"/>
+                                            <label class="form-label" for="confirmPassword">Nhập lại mật khẩu</label>
+                                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+                                                   placeholder="*********" required/>
                                         </div>
                                     </div>
 
                                     <div class="form-check d-flex justify-content-center mb-2">
                                         <input class="form-check-input me-2" type="checkbox" value=""
-                                               id="form2Example3c"/>
+                                               id="form2Example3c" required/>
                                         <label class="form-check-label" for="form2Example3c">
                                             I agree all statements in <a href="#!">Terms of service</a>
                                         </label>
                                     </div>
                                     <div class="d-flex justify-content-center column-gap-3">
-                                        <p>If you have an account?</p><a href="login">Đăng nhập</a>
+                                        <p>If you have an account?</p><a href="${pageContext.request.contextPath}/auth/login">Đăng nhập</a>
                                     </div>
 
                                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                        <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                                class="btn btn-primary btn-lg">Đăng ký
-                                        </button>
+                                        <button type="submit" class="btn btn-primary btn-lg">Đăng ký</button>
                                     </div>
                                 </form>
 

@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!-- Modal View Product -->
 <div class="modal fade" id="viewProductModal_${product.id}" tabindex="-1" aria-labelledby="viewProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -46,6 +47,20 @@
                     <tr>
                         <th scope="row">Mô tả chi tiết</th>
                         <td>${product.detailsDesc}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Hình ảnh</th>
+                        <td>
+                            <c:if test="${not empty product.imageLinks}">
+                                <div class="row">
+                                    <c:forEach var="image" items="${product.imageLinks}">
+                                        <div class="col-md-4 mb-2">
+                                            <img src="${image}" class="img-fluid" alt="Product image">
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </c:if>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
