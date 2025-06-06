@@ -95,4 +95,10 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/search-suggestions")
+    @ResponseBody
+    public List<Map<String, String>> getSearchSuggestions(@RequestParam String term) {
+        return productService.getProductSuggestions(term);
+    }
+
 }

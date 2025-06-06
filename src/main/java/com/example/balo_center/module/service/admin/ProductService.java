@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ProductService {
-    public Page<ProductFormDTO> getAllProduct(int page, int size, String searchName, String brand, String sortBy);
+    public Page<ProductFormDTO> getAllProduct(int page, int size, String searchName, String brand, String category, String sortBy);
 
     List<Map<String, String>> importProductsFromExcel(MultipartFile file) throws Exception;
     public void saveProduct(ProductFormDTO form);
@@ -18,4 +18,6 @@ public interface ProductService {
     public void updateProduct(String id, ProductFormDTO updatedProduct);
 
     public void deleteProduct(String id);
+
+    List<Map<String, String>> getProductSuggestions(String term);
 }

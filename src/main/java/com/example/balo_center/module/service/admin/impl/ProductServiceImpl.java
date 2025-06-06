@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -36,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
     private final BranchRepo branchRepo;
 
     @Override
-    public Page<ProductFormDTO> getAllProduct(int page, int size, String searchName, String brand, String sortBy) {
+    public Page<ProductFormDTO> getAllProduct(int page, int size, String searchName, String brand, String category, String sortBy) {
         Pageable pageable = PageRequest.of(page, size);
         
         if (sortBy != null && !sortBy.isEmpty()) {
@@ -50,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
             pageable = PageRequest.of(page, size, sort);
         }
         
-        return productRepo.findAllProduct(searchName, brand, pageable);
+        return productRepo.findAllProduct(searchName, brand, category, pageable);
     }
 
     @Override
@@ -261,5 +262,22 @@ public class ProductServiceImpl implements ProductService {
         result.put("status", "error");
         result.put("message", "Dòng " + (rowNum + 1) + ": " + errorMessage);
         return result;
+    }
+
+    @Override
+    public List<Map<String, String>> getProductSuggestions(String term) {
+        List<Product> products = productRepo.findTop10ByProductNameContainingIgnoreCase(term);
+        return products.stream()
+                .map(product -> {
+                    Map<String, String> suggestion = new HashMap<>();
+                    suggestion.put("id", product.getId());
+                    suggestion.put("label", product.getProductName());
+                    suggestion.put("value", product.getProductName());
+                    suggestion.put("category", product.getCategory().getCategoryName());
+                    suggestion.put("brand", product.getBranch().getBranchName());
+                    suggestion.put("price", String.valueOf(product.getPrice()));
+                    return suggestion;
+                })
+                .collect(Collectors.toList());
     }
 }

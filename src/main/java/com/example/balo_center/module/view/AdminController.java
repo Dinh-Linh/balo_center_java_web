@@ -3,6 +3,8 @@ package com.example.balo_center.module.view;
 import com.example.balo_center.domain.dto.ProductFormDTO;
 import com.example.balo_center.domain.dto.UserDTO;
 import com.example.balo_center.domain.entity.User;
+import com.example.balo_center.domain.repo.BranchRepo;
+import com.example.balo_center.domain.repo.CategoryRepo;
 import com.example.balo_center.module.service.admin.ProductService;
 import com.example.balo_center.module.service.auth.UserService;
 import com.example.balo_center.share.UserDataGenerator;
@@ -26,6 +28,12 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CategoryRepo categoryRepo;
+
+    @Autowired
+    private BranchRepo branchRepo;
+
     //View user
     @GetMapping(value = "admin/dashboard")
     public String dashboard() {
@@ -48,15 +56,19 @@ public class AdminController {
                          @RequestParam(defaultValue = "10") int size,
                          @RequestParam(required = false) String searchName,
                          @RequestParam(required = false) String brand,
+                         @RequestParam(required = false) String category,
                          @RequestParam(required = false) String sortBy) {
-        Page<ProductFormDTO> products = productService.getAllProduct(page - 1, size, searchName, brand, sortBy);
+        Page<ProductFormDTO> products = productService.getAllProduct(page - 1, size, searchName, brand, category, sortBy);
         model.addAttribute("products", products.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", products.getTotalPages());
         model.addAttribute("totalItems", products.getTotalElements());
         model.addAttribute("searchName", searchName);
         model.addAttribute("brand", brand);
+        model.addAttribute("category", category);
         model.addAttribute("sortBy", sortBy);
+        model.addAttribute("categories", categoryRepo.findAll());
+        model.addAttribute("brands", branchRepo.findAll());
         return "admin/product";
     }
 

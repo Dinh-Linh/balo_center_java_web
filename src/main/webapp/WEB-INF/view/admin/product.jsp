@@ -40,9 +40,38 @@
             href="${pageContext.request.contextPath}/resources/assets/vendor/simple-datatables/style.css"
             rel="stylesheet"
     />
+    <link href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet"/>
 
     <!-- Template Main CSS File -->
     <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet"/>
+
+    <style>
+        .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            z-index: 1000;
+        }
+        .ui-autocomplete .ui-menu-item {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        .ui-autocomplete .ui-menu-item:hover {
+            background-color: #f8f9fa;
+        }
+        .ui-autocomplete .ui-menu-item .product-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .ui-autocomplete .ui-menu-item .product-details {
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
 
     <!-- =======================================================
 * Template Name: NiceAdmin
@@ -66,7 +95,7 @@
             <nav>
                 <ol class="breadcrumb d-flex">
                     <li class="breadcrumb-item ms-auto">
-                        <a href="index.html"><i class="bi bi-house"></i></a>
+                        <a href="/view/admin/dashboard"><i class="bi bi-house"></i></a>
                     </li>
                     <li class="breadcrumb-item active">Product</li>
                 </ol>
@@ -127,31 +156,45 @@
             </div>
 
             <!-- Search & Filter Form -->
-            <form class="row g-3 mb-4" method="get" action="${pageContext.request.contextPath}/admin/product">
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Tìm theo tên..." name="searchName"
+            <form class="row g-3 mb-4" method="get" action="${pageContext.request.contextPath}/view/admin/product">
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Tìm theo tên..." name="searchName"
                            value="${param.searchName}">
                 </div>
-                <div class="col-md-3">
-                    <select class="form-select" name="brand">
+                <div class="col-md-2">
+                    <select class="form-select" name="brand" onchange="this.form.submit()">
                         <option value="">-- Tất cả hãng --</option>
                         <c:forEach var="brand" items="${brands}">
                             <option value="${brand.branchName}" ${param.brand == brand.branchName ? 'selected' : ''}>${brand.branchName}</option>
                         </c:forEach>
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <select class="form-select" name="sortBy">
-                        <option value="">-- Sắp xếp --</option>
-                        <option value="priceAsc" ${param.sortBy == 'priceAsc' ? 'selected' : ''}>Giá: Tăng dần</option>
-                        <option value="priceDesc" ${param.sortBy == 'priceDesc' ? 'selected' : ''}>Giá: Giảm dần
-                        </option>
-                        <option value="soldAsc" ${param.sortBy == 'soldAsc' ? 'selected' : ''}>Đã bán: Tăng dần</option>
-                        <option value="soldDesc" ${param.sortBy == 'soldDesc' ? 'selected' : ''}>Đã bán: Giảm dần
-                        </option>
+                <div class="col-md-2">
+                    <select class="form-select" name="category" onchange="this.form.submit()">
+                        <option value="">-- Tất cả danh mục --</option>
+                        <c:forEach var="category" items="${categories}">
+                            <option value="${category.categoryName}" ${param.category == category.categoryName ? 'selected' : ''}>${category.categoryName}</option>
+                        </c:forEach>
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
+                    <select class="form-select" name="sortBy" onchange="this.form.submit()">
+                        <option value="">-- Sắp xếp --</option>
+                        <option value="priceAsc" ${param.sortBy == 'priceAsc' ? 'selected' : ''}>Giá: Tăng dần</option>
+                        <option value="priceDesc" ${param.sortBy == 'priceDesc' ? 'selected' : ''}>Giá: Giảm dần</option>
+                        <option value="soldAsc" ${param.sortBy == 'soldAsc' ? 'selected' : ''}>Đã bán: Tăng dần</option>
+                        <option value="soldDesc" ${param.sortBy == 'soldDesc' ? 'selected' : ''}>Đã bán: Giảm dần</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-select" name="size" onchange="this.form.submit()">
+                        <option value="5" ${param.size == '5' ? 'selected' : ''}>5 sản phẩm/trang</option>
+                        <option value="10" ${param.size == '10' ? 'selected' : ''}>10 sản phẩm/trang</option>
+                        <option value="20" ${param.size == '20' ? 'selected' : ''}>20 sản phẩm/trang</option>
+                        <option value="50" ${param.size == '50' ? 'selected' : ''}>50 sản phẩm/trang</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
                     <button class="btn btn-primary w-100" type="submit">Lọc</button>
                 </div>
             </form>
@@ -184,13 +227,13 @@
                                 <td>${product.price} VND</td>
                                 <td>
                                     <button class="btn btn-sm btn-primary me-1 " data-bs-toggle="modal"
-                                            data-bs-target="#viewProductModal_${product.id}">Xem
+                                            data-bs-target="#viewProductModal_${product.id}"><i class="bi bi-eye"></i>
                                     </button>
                                     <button class="btn btn-sm btn-warning me-1" data-bs-toggle="modal"
-                                            data-bs-target="#editProductModal_${product.id}">Sửa
+                                            data-bs-target="#editProductModal_${product.id}"><i class="bi bi-pencil-fill"></i>
                                     </button>
                                     <button class="btn btn-sm btn-danger me-1" data-bs-toggle="modal"
-                                            data-bs-target="#deleteProductModal_${product.id}">Xóa
+                                            data-bs-target="#deleteProductModal_${product.id}"><i class="bi bi-trash3"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -224,17 +267,17 @@
                         <ul class="pagination justify-content-end">
                             <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
                                 <a class="page-link"
-                                   href="?page=${currentPage - 1}&size=10${not empty searchName ? '&searchName='.concat(searchName) : ''}${not empty brand ? '&brand='.concat(brand) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}">Trước</a>
+                                   href="?page=${currentPage - 1}&size=${param.size}${not empty searchName ? '&searchName='.concat(searchName) : ''}${not empty brand ? '&brand='.concat(brand) : ''}${not empty category ? '&category='.concat(category) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}">Trước</a>
                             </li>
                             <c:forEach begin="1" end="${totalPages}" var="i">
                                 <li class="page-item ${currentPage == i ? 'active' : ''}">
                                     <a class="page-link"
-                                       href="?page=${i}&size=10${not empty searchName ? '&searchName='.concat(searchName) : ''}${not empty brand ? '&brand='.concat(brand) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}">${i}</a>
+                                       href="?page=${i}&size=${param.size}${not empty searchName ? '&searchName='.concat(searchName) : ''}${not empty brand ? '&brand='.concat(brand) : ''}${not empty category ? '&category='.concat(category) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}">${i}</a>
                                 </li>
                             </c:forEach>
                             <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
                                 <a class="page-link"
-                                   href="?page=${currentPage + 1}&size=10${not empty searchName ? '&searchName='.concat(searchName) : ''}${not empty brand ? '&brand='.concat(brand) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}">Sau</a>
+                                   href="?page=${currentPage + 1}&size=${param.size}${not empty searchName ? '&searchName='.concat(searchName) : ''}${not empty brand ? '&brand='.concat(brand) : ''}${not empty category ? '&category='.concat(category) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}">Sau</a>
                             </li>
                         </ul>
                     </nav>
@@ -257,28 +300,54 @@
 <jsp:include page="crud_product/import_file.jsp"/>
 
 <!-- Vendor JS Files -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/echarts/echarts.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/php-email-form/validate.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
 <!-- Template Main JS File -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Khởi tạo tất cả các dropdown
-        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-        var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-            return new bootstrap.Dropdown(dropdownToggleEl);
-        });
+<script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
 
-        // Khởi tạo toast messages
-        var toasts = document.querySelectorAll('.toast');
-        toasts.forEach(function (toast) {
-            new bootstrap.Toast(toast).show();
-        });
+<script>
+    $(document).ready(function() {
+        $("#searchInput").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/admin/product/search-suggestions",
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 2,
+            select: function(event, ui) {
+                $("#searchInput").val(ui.item.value);
+                return false;
+            }
+        }).autocomplete("instance")._renderItem = function(ul, item) {
+            return $("<li>")
+                .append("<div class='product-info'>" +
+                    "<div>" +
+                    "<strong>" + item.label + "</strong><br>" +
+                    "<span class='product-details'>" +
+                    "Danh mục: " + item.category + " | " +
+                    "Hãng: " + item.brand + " | " +
+                    "Giá: " + item.price + " VND" +
+                    "</span>" +
+                    "</div>" +
+                    "</div>")
+                .appendTo(ul);
+        };
     });
 </script>
 
