@@ -1,13 +1,14 @@
 package com.example.balo_center.module.service.admin.impl;
 
 import com.example.balo_center.domain.entity.Order;
-import com.example.balo_center.domain.entity.repo.OrderRepo;
+import com.example.balo_center.domain.repo.OrderRepo;
 import com.example.balo_center.module.service.admin.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class OrderServiceImpl implements OrderService {
     @Autowired

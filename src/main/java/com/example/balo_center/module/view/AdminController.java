@@ -1,6 +1,6 @@
 package com.example.balo_center.module.view;
 
-import com.example.balo_center.domain.dto.ProductDTO;
+//import com.example.balo_center.domain.dto.ProductDTO;
 import com.example.balo_center.domain.entity.Order;
 import com.example.balo_center.domain.dto.ProductFormDTO;
 import com.example.balo_center.domain.dto.UserDTO;
@@ -28,14 +28,15 @@ public class AdminController {
     private ProductService productService;
     @Autowired
     private OrderService orderService;
-
-    public AdminController(ProductService productService, OrderService orderService) {
-        this.productService = productService;
-        this.orderService = orderService;
-    }
-
     @Autowired
     private UserService userService;
+    public AdminController(ProductService productService, OrderService orderService , UserService userService) {
+        this.productService = productService;
+        this.orderService = orderService;
+        this.userService = userService;
+    }
+
+
 
     //View user
     @GetMapping(value = "admin/dashboard")
