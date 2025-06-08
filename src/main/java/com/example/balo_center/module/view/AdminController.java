@@ -2,14 +2,18 @@ package com.example.balo_center.module.view;
 
 import com.example.balo_center.domain.dto.UserDTO;
 import com.example.balo_center.domain.entity.User;
+import com.example.balo_center.domain.request.SearchRequest;
 import com.example.balo_center.module.service.auth.UserService;
 import com.example.balo_center.share.UserDataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 //Simple Datatable
@@ -27,13 +31,20 @@ public class AdminController {
 
 
 
-    @GetMapping(value = "admin/user")
-    public String user(Model model){
-        //List<User> users = UserDataGenerator.generateMockUsers();
-        List<UserDTO> users = userService.getAllUser();
+//    @GetMapping(value = "admin/user")
+//    public String user(Model model){
+//        List<UserDTO> users = userService.getAllUser();
+//        model.addAttribute("users", users);
+//        return "admin/user";}
 
-        model.addAttribute("users", users);
-        return "admin/user";}
+    @GetMapping(value = "admin/user")
+    public ModelAndView user(@ModelAttribute SearchRequest searchRequest){
+        ModelAndView modelAndView = new ModelAndView("admin/user");
+        List<UserDTO> users = userService.findUser(searchRequest);
+        modelAndView.addObject("searchRequest",searchRequest);
+        modelAndView.addObject("users",users);
+        return modelAndView;
+    }
 
 
 

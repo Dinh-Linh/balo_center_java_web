@@ -29,21 +29,25 @@
     <link
             href="${pageContext.request.contextPath}/resources/assets/vendor/css/bootstrap.min.css"
             rel="stylesheet"
+            type="text/css"
     />
     <link
             href="${pageContext.request.contextPath}/resources/assets/vendor/css/bootstrap-icons.css"
             rel="stylesheet"
+            type="text/css"
     />
     <link
             href="${pageContext.request.contextPath}/resources/assets/vendor/css/boxicons.min.css"
             rel="stylesheet"
+            type="text/css"
     />
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.snow.css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.bubble.css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/remixicon/remixicon.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.snow.css" rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.bubble.css" rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/resources/assets/vendor/remixicon/remixicon.css" rel="stylesheet" type="text/css"/>
     <link
             href="${pageContext.request.contextPath}/resources/assets/vendor/simple-datatables/style.css"
             rel="stylesheet"
+            type="text/css"
     />
 
     <!-- Template Main CSS File -->
@@ -104,29 +108,31 @@
         </div>
 
         <!-- Search & Filter -->
-        <form class="row g-3 mb-4">
+        <%--@elvariable id="searchRequest" type="com.example.balo_center.domain.request.SearchRequest"--%>
+        <form:form class="row g-3 mb-4" id="searchForm" method="GET" action="/view/admin/user" modelAttribute="searchRequest" >
             <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="Tìm theo tên..." name="searchName">
+                <form:input type="text" class="form-control" placeholder="Tìm theo tên..." onChange="this.form.submit()" name="searchName" path="searchName"/>
             </div>
             <div class="col-md-3">
-                <select class="form-select" name="role">
-                    <option value="">-- Vai trò --</option>
-                    <option value="admin">Admin</option>
-                    <option value="editor">Editor</option>
-                    <option value="user">User</option>
-                </select>
+                <form:select class="form-select" name="role" path="searchRole" onChange="this.form.submit()">
+                    <form:option value="">-- Vai trò --</form:option>
+                    <form:option value="admin">Admin</form:option>
+                    <form:option value="editor">Editor</form:option>
+                    <form:option value="user">User</form:option>
+                </form:select>
             </div>
             <div class="col-md-3">
-                <select class="form-select" name="status">
-                    <option value="">-- Trạng thái --</option>
-                    <option value="active">Hoạt động</option>
-                    <option value="inactive">Bị khóa</option>
-                </select>
+                <form:select class="form-select" name="status" path="searchStatus" onChange="this.form.submit()">
+                    <form:option value="">-- Trạng thái --</form:option>
+                    <form:option value="active">Hoạt động</form:option>
+                    <form:option value="locked">Bị khóa</form:option>
+                </form:select>
             </div>
-            <div class="col-md-2">
-                <button class="btn btn-primary w-100">Lọc</button>
+            <div class="col-md-1">
+                <button class="btn btn-primary w-100" id="findUser">Lọc</button>
             </div>
-        </form>
+        </form:form>
+
         <table class="table table-hover table-bordered align-middle">
             <thead class="table-light">
             <tr>
@@ -171,7 +177,10 @@
                                 '${user.role}',
                                 '${user.status}',
                                 '${user.createdDate}'
-                        )">Xem</button>
+                        )"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                        </svg></button>
                         <button class="btn btn-sm btn-warning me-1" onclick="editUser(
                                 '${user.id}',
                                 '${user.fullname}',
@@ -180,8 +189,12 @@
                                 '${user.role}',
                                 '${user.status}',
                                 '${user.createdDate}'
-                        )">Sửa</button>
-                        <button class="btn btn-sm btn-danger btn-delete-user" data-id="${user.id}">Xóa</button>
+                        )"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+                        </svg></button>
+                        <button class="btn btn-sm btn-danger btn-delete-user" data-id="${user.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                        </svg></button>
                     </td>
                 </tr>
             </c:forEach>
@@ -226,7 +239,6 @@
 </button>
 
 <!-- Modal thêm người dùng -->
-<jsp:include page="crud_user/add_user.jsp"/>
 
 <%--Modal delete người dùng--%>
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -260,7 +272,7 @@
                     <p><strong>ID:</strong> <span id="userId"></span></p>
                     <p><strong>Tên đầy đủ:</strong> <span id="userFullname"></span></p>
                     <p><strong>Email:</strong> <span id="userEmail"></span></p>
-                    <p><strong>Số điện thoại:</strong> <span id="userPhone"></span></p>
+                    <p><strong>Số điện thoại:</strong> <span id="userUserPhone"></span></p>
                     <p><strong>Vai trò:</strong> <span id="userRole"></span></p>
                     <p><strong>Trạng thái:</strong> <span id="userStatus"></span></p>
                     <p><strong>Ngày tạo:</strong> <span id="userCreatedDate"></span></p>
@@ -282,6 +294,7 @@
             </div>
             <div class="modal-body">
                 <form id="editUserForm">
+<%--            <form:form class="form-horizontal" role="form" id="editUserForm">--%>
                     <input type="hidden" id="edituserId">
                     <div class="mb-3">
                         <label for="edituserFullname" class="form-label">Tên đầy đủ</label>
@@ -297,7 +310,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="edituserRole" class="form-label">Vai trò</label>
-                        <input type="text" class="form-control" id="edituserRole" required>
+<%--                        <input type="text" class="form-control" id="edituserRole" required>--%>
+                        <select class="form-select" id="edituserRole" required>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="USER">USER</option>
+                            <option value="EDITOR">EDITOR</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="edituserStatus" class="form-label">Trạng thái</label>
@@ -311,18 +329,70 @@
                         <input type="text" class="form-control" id="edituserCreatedDate" readonly>
                     </div>
 
-                </form>
+            </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="updateUser()">Cập nhật</button>
+                <button type="button" class="btn btn-primary" id="updateUserButton" onclick="updateUser()">Cập nhật</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
             </div>
         </div>
     </div>
 </div>
 
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form action="/admin/user" method="post" id="adduserform">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserModalLabel">Thêm người dùng mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="fullname" class="form-label">Họ và tên</label>
+                        <input id="fullname" type="text" class="form-control" name="fullname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="userPhone" class="form-label">Số điện thoại</label>
+                        <input id="userPhone" type="text" class="form-control" name="userPhone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input type="password" class="form-control" id="password" name="password" required autocomplete="current-password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Vai trò</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="ADMIN">Admin</option>
+                            <option value="EDITOR">Editor</option>
+                            <option value="USER">User</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Trạng thái</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="LOCKED">LOCKED</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary" id="adduser">Lưu</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <!-- Template Main JS File -->
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script>
     document.getElementById("openModalBtn").addEventListener("click", function () {
         var myModal = new bootstrap.Modal(document.getElementById("addUserModal"));
@@ -347,7 +417,7 @@
             document.getElementById('userId').textContent = id || 'Không có';
             document.getElementById('userFullname').textContent = fullname || 'Không có';
             document.getElementById('userEmail').textContent = email || 'Không có';
-            document.getElementById('userPhone').textContent = userPhone || 'Không có';
+            document.getElementById('userUserPhone').textContent = userPhone || 'Không có';
             document.getElementById('userRole').textContent = role || 'Không có';
             document.getElementById('userStatus').textContent = status || 'Không có';
             document.getElementById('userCreatedDate').textContent = formattedDate;
@@ -384,6 +454,125 @@
         }
     }
 
+    $("#updateUserButton").click(function () {
+        var json = {
+            id: $("#edituserId").val(),
+            fullname: $("#edituserFullname").val(),
+            email: $("#edituserEmail").val(),
+            userPhone: $("#edituserPhone").val(),
+            role: $("#edituserRole").val(),
+            status: $("#edituserStatus").val()
+        };
+
+        // Kiểm tra dữ liệu trước khi gửi
+        if (!json.id || !json.fullname || !json.email || !json.userPhone || !json.role || !json.status) {
+            alert("Vui lòng điền đầy đủ thông tin");
+            return;
+        }
+        updateUser(json);
+    });
+
+    // Sửa hàm updateUser
+    function updateUser(json) {
+        $.ajax({
+            type: "PUT",
+            url: "/admin/user/" + json.id, // Sửa URL để thêm ID
+            data: JSON.stringify(json),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (response) {
+                console.log("Response:", response);
+                if (response.message === "Success") {
+                    alert("Cập nhật người dùng thành công");
+                    window.location.href = "/view/admin/user";
+                } else {
+                    alert("Cập nhật người dùng thất bại: " + (response.message || "Lỗi không xác định"));
+                    window.location.href = "/view/admin/user";
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+                console.error("Response:", xhr.responseText);
+                let errorMessage = xhr.responseJSON?.message || xhr.responseText || error;
+                alert("Cập nhật người dùng thất bại: " + errorMessage);
+                window.location.href = "/view/admin/user";
+            }
+        });
+    }
+
+    $("#adduser").click(function () {
+            var formData = $("#adduserform").serializeArray();
+            var json = {};
+            $.each(formData, function (i, it) {
+                json["" + it.name + ""] = it.value;
+            });
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/user",
+            data: JSON.stringify(json),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                console.log("Response:", response);
+                if (response.message === "Success") {
+                    alert("Thêm người dùng thành công");
+                    window.location.href = "/view/admin/user";
+                } else {
+                    alert("Thêm người dùng thất bại: " + (response.message || JSON.stringify(response)));
+                    window.location.href = "/view/admin/user";
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+                console.error("Response:", xhr.responseText);
+                alert("Thêm người dùng thất bại: " + (xhr.responseText || error));
+                window.location.href = "/view/admin/user";
+            }
+        });
+    });
+
+    document.querySelectorAll(".btn-delete-user").forEach(button => {
+        button.addEventListener("click", function () {
+            const userId = this.getAttribute("data-id");
+            const confirmDelModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
+            confirmDelModal.show();
+            document.querySelector("#confirmDeleteModal .btn-danger").onclick = function () {
+                deleteUser(userId);
+            };
+        });
+    });
+
+    function deleteUser(id) {
+        $.ajax({
+            type: "DELETE",
+            url: "/admin/user/"+id,
+            dataType: "json",
+            contentType: "application/json",
+            success: function (response) {
+                console.log("Response:", response);
+                if (response.message === "Success") {
+                    alert("Xoá người dùng thành công");
+                    window.location.href = "/view/admin/user";
+                } else {
+                    alert("Xoá người dùng thất bại: " + (response.message || JSON.stringify(response)));
+                    window.location.href = "/view/admin/user";
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+                console.error("Response:", xhr.responseText);
+                alert("Xoá người dùng thất bại: " + (xhr.responseText || error));
+                window.location.href = "/view/admin/user";
+            }
+        });
+
+    }
+
+    $("#findUser").click(function (e){
+        e.preventDefault();
+        $("#searchForm").submit();
+    });
 
 
 </script>
