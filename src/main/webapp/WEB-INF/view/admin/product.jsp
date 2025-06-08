@@ -299,20 +299,13 @@
 <jsp:include page="crud_product/create_product.jsp"/>
 <jsp:include page="crud_product/import_file.jsp"/>
 
-<!-- Vendor JS Files -->
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/chart.js/chart.umd.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/echarts/echarts.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/php-email-form/validate.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
 <!-- Template Main JS File -->
-<script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.bundle.min.js"></script>
 
 <script>
     $(document).ready(function() {

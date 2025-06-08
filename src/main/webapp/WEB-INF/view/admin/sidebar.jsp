@@ -73,6 +73,27 @@
         margin-right: 0 !important;
     }
 
+    /* Sidebar Toggle Styles */
+    .sidebar {
+        transition: all 0.3s ease-in-out;
+    }
+
+    body.toggle-sidebar .sidebar {
+        left: -300px;
+    }
+
+    @media (max-width: 1199px) {
+        .sidebar {
+            left: -300px;
+        }
+        
+        body.toggle-sidebar .sidebar {
+            left: 0;
+        }
+    }
+
 </style>
 
-<script src="/js/bootstrap.min.js"></script>
+<!-- Template Main JS File -->
+<%--<script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/resources/js/bootstrap.bundle.min.js"></script>--%>
