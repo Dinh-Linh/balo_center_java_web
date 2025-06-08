@@ -87,7 +87,7 @@
                                         </label>
                                     </div>
                                     <div class="d-flex justify-content-center column-gap-3">
-                                        <p>If you have an account?</p><a href="${pageContext.request.contextPath}/auth/login">Đăng nhập</a>
+                                        <p>If you have an account?</p><a href="${pageContext.request.contextPath}/view/auth/login">Đăng nhập</a>
                                     </div>
 
                                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">

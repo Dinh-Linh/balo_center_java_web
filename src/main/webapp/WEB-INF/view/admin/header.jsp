@@ -47,3 +47,20 @@
     <!-- End Icons Navigation -->
 </header>
 <!-- End Header -->
+
+<!-- Template Main JS File -->
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleSidebarBtn = document.querySelector('.toggle-sidebar-btn');
+        const sidebar = document.querySelector('#sidebar');
+        const body = document.querySelector('body');
+
+        toggleSidebarBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('toggle-sidebar');
+            body.classList.toggle('toggle-sidebar');
+        });
+    });
+</script>

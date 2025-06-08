@@ -15,10 +15,12 @@ import java.util.List;
 public interface ProductRepo extends JpaRepository<Product, String> {
     @Query("select new com.example.balo_center.domain.dto.ProductFormDTO(p.id, p.productName, c.categoryName, b.branchName, p.quality, p.sold, p.price, p.productShortDesc, p.productDetailDesc) " +
            "from Product p join p.category c join p.branch b " +
-           "where (:searchName is null or p.productName like concat('%', :searchName, '%')) " +
-           "and (:brand is null or b.branchName = :brand)")
+           "where (:searchName is null or :searchName = '' or p.productName like concat('%', :searchName, '%')) " +
+           "and (:brand is null or :brand = '' or b.branchName = :brand) " +
+           "and (:category is null or :category = '' or c.categoryName = :category)")
     Page<ProductFormDTO> findAllProduct(@Param("searchName") String searchName, 
-                                      @Param("brand") String brand, 
+                                      @Param("brand") String brand,
+                                      @Param("category") String category,
                                       Pageable pageable);
 
     @Query("select new com.example.balo_center.domain.dto.ProductFormDTO(" +
@@ -31,4 +33,6 @@ public interface ProductRepo extends JpaRepository<Product, String> {
     List<String> findProductImages(@Param("id") String id);
 
     void deleteById(@Param("id") String id);
+
+    List<Product> findTop10ByProductNameContainingIgnoreCase(String term);
 }
