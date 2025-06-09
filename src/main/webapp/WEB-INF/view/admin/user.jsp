@@ -77,11 +77,21 @@
 
 
         footer {
-            position: fixed;
-            bottom: 0;
+            /* position: fixed; */
+            /* bottom: 0; */
             padding: 20px 0 !important;
-            display: block;
-            width: 90% !important;
+            /* display: block; */
+            /* width: 90% !important; */
+            margin-top: 20px; /* Thêm khoảng trống phía trên footer */
+        }
+
+        #main {
+            padding-bottom: 80px; /* Thêm khoảng trống ở cuối nội dung chính để tránh bị footer che */
+        }
+
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #dee2e6 !important; /* Đảm bảo đường viền hiển thị */
         }
     </style>
 </head>
@@ -113,102 +123,108 @@
         <!-- Header: Tiêu đề + Thêm mới -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="mb-0">Danh sách người dùng</h4>
-            <a href="#" class="btn btn-success" id="openModalBtn">+ Thêm mới</a>
+            <div>
+                <a href="${pageContext.request.contextPath}/admin/user/export" class="btn btn-info me-2" id="xuatex">
+                    <i class="bi bi-file-excel"></i> Xuất Excel
+                </a>
+                <a href="#" class="btn btn-success" id="openModalBtn">+ Thêm mới</a>
+            </div>
         </div>
 
         <!-- Search & Filter -->
         <%--@elvariable id="searchRequest" type="com.example.balo_center.domain.request.SearchRequest"--%>
         <form:form class="row g-3 mb-4" id="searchForm" method="GET" action="/view/admin/user" modelAttribute="searchRequest" >
             <div class="col-md-4">
-                <form:input type="text" class="form-control" placeholder="Tìm theo tên..." onChange="this.form.submit()" name="searchName" path="searchName"/>
+                <form:input type="text" class="form-control" placeholder="Tìm theo tên..." onChange="this.form.submit()" path="searchName"/>
             </div>
             <div class="col-md-3">
-                <form:select class="form-select" name="role" path="searchRole" onChange="this.form.submit()">
+                <form:select class="form-select" path="searchRole" onChange="this.form.submit()">
                     <form:option value="">-- Vai trò --</form:option>
-                    <form:option value="admin">Admin</form:option>
-                    <form:option value="editor">Editor</form:option>
-                    <form:option value="user">User</form:option>
+                    <form:option value="ADMIN">Admin</form:option>
+                    <form:option value="EDITOR">Editor</form:option>
+                    <form:option value="USER">User</form:option>
                 </form:select>
             </div>
             <div class="col-md-3">
-                <form:select class="form-select" name="status" path="searchStatus" onChange="this.form.submit()">
+                <form:select class="form-select" path="searchStatus" onChange="this.form.submit()">
                     <form:option value="">-- Trạng thái --</form:option>
-                    <form:option value="active">Hoạt động</form:option>
-                    <form:option value="locked">Bị khóa</form:option>
+                    <form:option value="ACTIVE">Hoạt động</form:option>
+                    <form:option value="LOCKED">Bị khóa</form:option>
                 </form:select>
             </div>
             <div class="col-md-1">
                 <button class="btn btn-primary w-100" id="findUser">Lọc</button>
             </div>
         </form:form>
-
-        <table class="table table-hover table-bordered align-middle">
-            <thead class="table-light">
-            <tr>
-                <th>#</th>
-                <th>Tên</th>
-                <th>Email</th>
-                <th>Vai trò</th>
-                <th>Ngày tạo</th>
-                <th>Trạng thái</th>
-                <th>Thao tác</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="user" items="${users}" varStatus="itemStart">
+        
+        <div class="card shadow-sm p-3 mb-5 bg-body rounded">
+            <table class="table table-hover table-bordered mt-3">
+                <thead>
                 <tr>
-                    <td>${itemStart.index + 1}</td>
-                    <td>${user.fullname}</td>
-                    <td>${user.email}</td>
-                    <td>${user.role}</td>
-                    <td>
-                        <fmt:formatDate value="${user.createdDate}" pattern="dd/MM/yyyy"/>
-                    </td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${user.status == 'ACTIVE'}">
-                                <span class="badge bg-success">${user.status}</span>
-                            </c:when>
-                            <c:when test="${user.status == 'LOCKED'}">
-                                <span class="badge bg-danger">${user.status}</span>
-                            </c:when>
-                            <c:otherwise>
-                                <span class="badge bg-secondary">${user.status}</span>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-primary me-1" onclick="detailsUser(
-                                '${user.id}',
-                                '${user.fullname}',
-                                '${user.email}',
-                                '${user.userPhone}',
-                                '${user.role}',
-                                '${user.status}',
-                                '${user.createdDate}'
-                                )"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
-                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
-                        </svg></button>
-                        <button class="btn btn-sm btn-warning me-1" onclick="editUser(
-                                '${user.id}',
-                                '${user.fullname}',
-                                '${user.email}',
-                                '${user.userPhone}',
-                                '${user.role}',
-                                '${user.status}',
-                                '${user.createdDate}'
-                                )"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
-                        </svg></button>
-                        <button class="btn btn-sm btn-danger btn-delete-user" data-id="${user.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                        </svg></button>
-                    </td>
+                    <th scope="col">#</th>
+                    <th scope="col" style="width: 5%;">ID</th>
+                    <th scope="col" style="width: 15%;">Họ và tên</th>
+                    <th scope="col" style="width: 15%;">Email</th>
+                    <th scope="col" style="width: 10%;">Số điện thoại</th>
+                    <th scope="col" style="width: 8%;">Vai trò</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col">Ngày tạo</th>
+                    <th scope="col" style="width: 12%;">Thao tác</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <c:if test="${empty users}">
+                    <tr>
+                        <td colspan="9" class="text-center text-danger fw-bold">Không có người dùng nào</td>
+                    </tr>
+                </c:if>
+                <c:forEach var="user" items="${users}" varStatus="loop">
+                    <tr>
+                        <th scope="row">${loop.index + 1 + (searchRequest.page * searchRequest.size)}</th>
+                        <td style="width: 5%;">${user.id}</td>
+                        <td style="width: 15%;">${user.fullname}</td>
+                        <td style="width: 15%;">${user.email}</td>
+                        <td style="width: 10%;">${user.userPhone}</td>
+                        <td style="width: 8%;">${user.role}</td>
+                        <td>
+                            <span class="badge ${user.status == 'ACTIVE' ? 'bg-success' : 'bg-danger'}">
+                                    ${user.status == 'ACTIVE' ? 'Hoạt động' : 'Bị khóa'}
+                            </span>
+                        </td>
+                        <td><fmt:formatDate value="${user.createdDate}" pattern="dd/MM/yyyy HH:mm"/></td>
+                        <td style="width: 12%;">
+                            <button class="btn btn-sm btn-primary me-1" onclick="detailsUser(
+                                    '${user.id}',
+                                    '${user.fullname}',
+                                    '${user.email}',
+                                    '${user.userPhone}',
+                                    '${user.role}',
+                                    '${user.status}',
+                                    '${user.createdDate}'
+                                    )"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                            </svg></button>
+                            <button class="btn btn-sm btn-warning me-1" onclick="editUser(
+                                    '${user.id}',
+                                    '${user.fullname}',
+                                    '${user.email}',
+                                    '${user.userPhone}',
+                                    '${user.role}',
+                                    '${user.status}',
+                                    '${user.createdDate}'
+                                    )"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+                            </svg></button>
+                            <button class="btn btn-sm btn-danger btn-delete-user" data-id="${user.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                            </svg></button>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
 
         <!-- Pagination -->
         <nav aria-label="Page navigation">
@@ -275,20 +291,45 @@
 <!-- Modal -->
 <div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content border border-2 border-primary rounded">
             <div class="modal-header">
                 <h5 class="modal-title" id="userDetailsModalLabel">Thông tin người dùng</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="user-details">
-                    <p><strong>ID:</strong> <span id="userId"></span></p>
-                    <p><strong>Tên đầy đủ:</strong> <span id="userFullname"></span></p>
-                    <p><strong>Email:</strong> <span id="userEmail"></span></p>
-                    <p><strong>Số điện thoại:</strong> <span id="userUserPhone"></span></p>
-                    <p><strong>Vai trò:</strong> <span id="userRole"></span></p>
-                    <p><strong>Trạng thái:</strong> <span id="userStatus"></span></p>
-                    <p><strong>Ngày tạo:</strong> <span id="userCreatedDate"></span></p>
+                <div class="user-details p-3">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th scope="row" class="col-md-4">ID:</th>
+                            <td class="col-md-8"><span class="form-control-plaintext text-secondary fw-bold" id="userId"></span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="col-md-4">Tên đầy đủ:</th>
+                            <td class="col-md-8"><span class="form-control-plaintext text-secondary fw-bold" id="userFullname"></span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="col-md-4">Email:</th>
+                            <td class="col-md-8"><span class="form-control-plaintext text-secondary fw-bold" id="userEmail"></span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="col-md-4">Số điện thoại:</th>
+                            <td class="col-md-8"><span class="form-control-plaintext text-secondary fw-bold" id="userUserPhone"></span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="col-md-4">Vai trò:</th>
+                            <td class="col-md-8"><span class="form-control-plaintext text-secondary fw-bold" id="userRole"></span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="col-md-4">Trạng thái:</th>
+                            <td class="col-md-8"><span class="form-control-plaintext text-secondary fw-bold" id="userStatusText"></span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="col-md-4">Ngày tạo:</th>
+                            <td class="col-md-8"><span class="form-control-plaintext text-secondary fw-bold" id="userCreatedDate"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="modal-footer">
@@ -414,9 +455,23 @@
 
     // Fix delete user modal
     document.querySelectorAll(".btn-delete-user").forEach(button => {
-        button.addEventListener("click", function (){
+        button.addEventListener("click", function () {
+            const userId = this.getAttribute("data-id");
             const confirmDelModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
             confirmDelModal.show();
+            
+            // Xử lý sự kiện cho nút xóa
+            const deleteButton = document.querySelector("#confirmDeleteModal .btn-danger");
+            deleteButton.onclick = function() {
+                deleteUser(userId);
+                confirmDelModal.hide();
+            };
+            
+            // Xử lý sự kiện cho nút huỷ
+            const cancelButton = document.querySelector("#confirmDeleteModal .btn-secondary");
+            cancelButton.onclick = function() {
+                confirmDelModal.hide();
+            };
         });
     });
 
@@ -432,7 +487,7 @@
             document.getElementById('userEmail').textContent = email || 'Không có';
             document.getElementById('userUserPhone').textContent = userPhone || 'Không có';
             document.getElementById('userRole').textContent = role || 'Không có';
-            document.getElementById('userStatus').textContent = status || 'Không có';
+            document.getElementById('userStatusText').textContent = status == 'ACTIVE' ? 'Hoạt động' : 'Bị khóa';
             document.getElementById('userCreatedDate').textContent = formattedDate;
 
             // Show modal
@@ -544,17 +599,6 @@
         });
     });
 
-    document.querySelectorAll(".btn-delete-user").forEach(button => {
-        button.addEventListener("click", function () {
-            const userId = this.getAttribute("data-id");
-            const confirmDelModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
-            confirmDelModal.show();
-            document.querySelector("#confirmDeleteModal .btn-danger").onclick = function () {
-                deleteUser(userId);
-            };
-        });
-    });
-
     function deleteUser(id) {
         $.ajax({
             type: "DELETE",
@@ -584,6 +628,20 @@
     $("#findUser").click(function (e){
         e.preventDefault();
         $("#searchForm").submit();
+    });
+
+    $("#xuatex").click(function (e){
+        e.preventDefault();
+        var searchName = $("input[name='searchName']").val();
+        var searchRole = $("select[name='searchRole']").val();
+        var searchStatus = $("select[name='searchStatus']").val();
+        
+        var url = "${pageContext.request.contextPath}/admin/user/export";
+        url += "?searchName=" + searchName;
+        url += "&searchRole=" + searchRole;
+        url += "&searchStatus=" + searchStatus;
+        
+        window.location.href = url;
     });
 
 

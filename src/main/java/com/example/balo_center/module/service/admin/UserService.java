@@ -4,6 +4,7 @@ import com.example.balo_center.domain.dto.UserDTO;
 import com.example.balo_center.domain.entity.User;
 import com.example.balo_center.domain.request.SearchRequest;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -13,4 +14,5 @@ public interface UserService {
     User addUser(UserDTO userDTO);
     User updateUser(UserDTO userDTO);
     void deleteUser(String id);
+    byte[] exportUsersToExcel(SearchRequest searchRequest) throws IOException;
 }

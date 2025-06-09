@@ -2,12 +2,16 @@ package com.example.balo_center.domain.api;
 
 import com.example.balo_center.domain.dto.UserDTO;
 import com.example.balo_center.domain.entity.User;
+import com.example.balo_center.domain.request.SearchRequest;
 import com.example.balo_center.module.service.admin.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,5 +70,16 @@ public class UserAPI {
         }
     }
 
-
+    @GetMapping("/export")
+    public ResponseEntity<byte[]> exportUsersToExcel(@ModelAttribute SearchRequest searchRequest) {
+        try {
+            byte[] excelFile = userService.exportUsersToExcel(searchRequest);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("attachment", "users.xlsx");
+            return new ResponseEntity<>(excelFile, headers, HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -15,14 +15,14 @@ public class UserRepoImpl implements UserRepoCustom {
 
     private String buildWhere(SearchRequest searchRequest){
         StringBuilder where = new StringBuilder(" ");
-        if (searchRequest.getSearchName()!= null && !searchRequest.getSearchName().isEmpty()){
-            where.append(" AND u.fullName").append(" LIKE '%").append(searchRequest.getSearchName()).append("%'");
+        if (searchRequest.getSearchName() != null && !searchRequest.getSearchName().isEmpty()){
+            where.append(" AND u.fullName LIKE '%").append(searchRequest.getSearchName()).append("%'");
         }
-        if(searchRequest.getSearchRole()!= null && !searchRequest.getSearchRole().isEmpty()){
-            where.append(" AND u.role").append(" LIKE '%").append(searchRequest.getSearchRole()).append("%'");
+        if(searchRequest.getSearchRole() != null && !searchRequest.getSearchRole().isEmpty()){
+            where.append(" AND u.role = '").append(searchRequest.getSearchRole().toUpperCase()).append("'");
         }
-        if(searchRequest.getSearchStatus()!= null && !searchRequest.getSearchStatus().isEmpty()){
-            where.append(" AND u.status").append(" LIKE '%").append(searchRequest.getSearchStatus()).append("%'");
+        if(searchRequest.getSearchStatus() != null && !searchRequest.getSearchStatus().isEmpty()){
+            where.append(" AND u.status = '").append(searchRequest.getSearchStatus().toUpperCase()).append("'");
         }
         return where.toString();
     }
@@ -34,9 +34,12 @@ public class UserRepoImpl implements UserRepoCustom {
         sql.append(buildWhere(searchRequest));
         sql.append(" GROUP BY u.id ");
         Query query = entityManager.createNativeQuery(sql.toString(), User.class);
-        // Thêm phân trang
-        query.setFirstResult(searchRequest.getPage() * searchRequest.getSize());
-        query.setMaxResults(searchRequest.getSize());
+        
+        // Chỉ thêm phân trang nếu size > 0
+        if (searchRequest.getSize() > 0) {
+            query.setFirstResult(searchRequest.getPage() * searchRequest.getSize());
+            query.setMaxResults(searchRequest.getSize());
+        }
 
         return query.getResultList();
     }
