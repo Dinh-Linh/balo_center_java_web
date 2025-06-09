@@ -87,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
                 default -> order.getStatus();
             };
 
-            writer.println(String.format("%s,%s,%s,%s,%s,%s,%.2f,%s,%d",
+            writer.println(String.format("%s,%s,%s,%s,%s,%.2f,%s,%d",
                     order.getId(),
                     dateFormat.format(order.getDate()),
                     order.getUser().getFullname(),
