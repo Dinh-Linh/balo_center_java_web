@@ -55,18 +55,22 @@
             border-radius: 4px;
             z-index: 1000;
         }
+
         .ui-autocomplete .ui-menu-item {
             padding: 8px 12px;
             cursor: pointer;
         }
+
         .ui-autocomplete .ui-menu-item:hover {
             background-color: #f8f9fa;
         }
+
         .ui-autocomplete .ui-menu-item .product-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .ui-autocomplete .ui-menu-item .product-details {
             font-size: 0.9em;
             color: #666;
@@ -136,7 +140,8 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="mb-0">Danh sách sản phẩm</h4>
                 <div class="dropdown">
-                    <button class="btn btn-success dropdown-toggle" type="button" id="addNewDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-success dropdown-toggle" type="button" id="addNewDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                         + Thêm mới
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="addNewDropdown">
@@ -146,7 +151,8 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#importProductModal">
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                               data-bs-target="#importProductModal">
                                 Import file
                             </a>
                         </li>
@@ -158,7 +164,8 @@
             <!-- Search & Filter Form -->
             <form class="row g-3 mb-4" method="get" action="${pageContext.request.contextPath}/view/admin/product">
                 <div class="col-md-2">
-                    <input type="text" class="form-control" id="searchInput" placeholder="Tìm theo tên..." name="searchName"
+                    <input type="text" class="form-control" id="searchInput" placeholder="Tìm theo tên..."
+                           name="searchName"
                            value="${param.searchName}">
                 </div>
                 <div class="col-md-2">
@@ -181,9 +188,11 @@
                     <select class="form-select" name="sortBy" onchange="this.form.submit()">
                         <option value="">-- Sắp xếp --</option>
                         <option value="priceAsc" ${param.sortBy == 'priceAsc' ? 'selected' : ''}>Giá: Tăng dần</option>
-                        <option value="priceDesc" ${param.sortBy == 'priceDesc' ? 'selected' : ''}>Giá: Giảm dần</option>
+                        <option value="priceDesc" ${param.sortBy == 'priceDesc' ? 'selected' : ''}>Giá: Giảm dần
+                        </option>
                         <option value="soldAsc" ${param.sortBy == 'soldAsc' ? 'selected' : ''}>Đã bán: Tăng dần</option>
-                        <option value="soldDesc" ${param.sortBy == 'soldDesc' ? 'selected' : ''}>Đã bán: Giảm dần</option>
+                        <option value="soldDesc" ${param.sortBy == 'soldDesc' ? 'selected' : ''}>Đã bán: Giảm dần
+                        </option>
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -230,10 +239,12 @@
                                             data-bs-target="#viewProductModal_${product.id}"><i class="bi bi-eye"></i>
                                     </button>
                                     <button class="btn btn-sm btn-warning me-1" data-bs-toggle="modal"
-                                            data-bs-target="#editProductModal_${product.id}"><i class="bi bi-pencil-fill"></i>
+                                            data-bs-target="#editProductModal_${product.id}"><i
+                                            class="bi bi-pencil-fill"></i>
                                     </button>
                                     <button class="btn btn-sm btn-danger me-1" data-bs-toggle="modal"
-                                            data-bs-target="#deleteProductModal_${product.id}"><i class="bi bi-trash3"></i>
+                                            data-bs-target="#deleteProductModal_${product.id}"><i
+                                            class="bi bi-trash3"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -289,7 +300,8 @@
     <jsp:include page="footer.jsp"/>
 
 </div>
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
 
 <!-- Nút mở Modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
@@ -308,26 +320,26 @@
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#searchInput").autocomplete({
-            source: function(request, response) {
+            source: function (request, response) {
                 $.ajax({
                     url: "${pageContext.request.contextPath}/admin/product/search-suggestions",
                     dataType: "json",
                     data: {
                         term: request.term
                     },
-                    success: function(data) {
+                    success: function (data) {
                         response(data);
                     }
                 });
             },
             minLength: 2,
-            select: function(event, ui) {
+            select: function (event, ui) {
                 $("#searchInput").val(ui.item.value);
                 return false;
             }
-        }).autocomplete("instance")._renderItem = function(ul, item) {
+        }).autocomplete("instance")._renderItem = function (ul, item) {
             return $("<li>")
                 .append("<div class='product-info'>" +
                     "<div>" +
@@ -345,19 +357,27 @@
 </script>
 
 <style>
-    html, body {
-        height: 100%;
-        padding: 0 0;
-    }
+    /*html, body {*/
+    /*    height: 100%;*/
+    /*    padding: 0 0;*/
+    /*}*/
 
-    .wrapper {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-    }
+    /*.wrapper {*/
+    /*    display: flex;*/
+    /*    flex-direction: column;*/
+    /*    min-height: 100vh;*/
+    /*}*/
 
-    .main {
-        flex: 1;
+    /*.main {*/
+    /*    flex: 1;*/
+    /*}*/
+
+    footer {
+        position: fixed;
+        bottom: 0;
+        padding: 20px 0 !important;
+        display: block;
+        width: 90% !important;
     }
 </style>
 </body>

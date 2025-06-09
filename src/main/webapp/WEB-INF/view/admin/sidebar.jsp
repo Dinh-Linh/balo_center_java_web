@@ -86,10 +86,19 @@
         .sidebar {
             left: -300px;
         }
-        
+
         body.toggle-sidebar .sidebar {
             left: 0;
         }
+    }
+
+    /* Modal Backdrop Styles */
+    .modal-backdrop {
+        background-color: rgba(252, 249, 249, 0.5) !important;
+    }
+    
+    .modal-backdrop.show {
+        opacity: 1 !important;
     }
 
 </style>
