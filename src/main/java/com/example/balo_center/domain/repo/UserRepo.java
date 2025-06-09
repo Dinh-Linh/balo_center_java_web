@@ -21,8 +21,8 @@ public interface UserRepo extends JpaRepository<User, String> {
             +
             "and (:role is null or :role = '' or u.role = :role)")
     Page<UserFormDTO> findAllUsers(@Param("searchName") String searchName,
-            @Param("role") String role,
-            Pageable pageable);
+                                   @Param("role") String role,
+                                   Pageable pageable);
 
     @Query("select new com.example.balo_center.domain.dto.UserFormDTO(u.id, u.email, u.fullname, u.password, u.userPhone, u.role, u.status, u.avatar, u.createdDate) "
             +

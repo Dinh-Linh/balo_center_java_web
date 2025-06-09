@@ -186,7 +186,17 @@ public class ProductServiceImpl implements ProductService {
             throw new RuntimeException("File Excel không có header");
         }
 
-        String[] expectedHeaders = {"Tên sản phẩm", "Giá", "Mô tả", "Số lượng", "Danh mục"};
+        String[] expectedHeaders = {
+            "Tên sản phẩm", 
+            "Giá", 
+            "Mô tả chi tiết", 
+            "Số lượng", 
+            "Danh mục",
+            "Thương hiệu",
+            "Số lượng đã bán",
+            "Hình ảnh"
+        };
+        
         for (int i = 0; i < expectedHeaders.length; i++) {
             Cell cell = headerRow.getCell(i);
             if (cell == null || !expectedHeaders[i].equals(cell.getStringCellValue())) {
@@ -216,10 +226,14 @@ public class ProductServiceImpl implements ProductService {
             throw new RuntimeException("Giá không hợp lệ");
         }
 
-        // Mô tả
+        // Mô tả chi tiết
         Cell descriptionCell = row.getCell(2);
         if (descriptionCell != null) {
-            product.setProductDetailDesc(descriptionCell.getStringCellValue().trim());
+            String detailDesc = descriptionCell.getStringCellValue().trim();
+            product.setProductDetailDesc(detailDesc);
+            // Tạo mô tả ngắn từ 10 từ đầu tiên
+            String[] words = detailDesc.split("\\s+");
+            product.setProductShortDesc(words.length <= 10 ? detailDesc : String.join(" ", Arrays.copyOfRange(words, 0, 10)) + "...");
         }
 
         // Số lượng
@@ -246,6 +260,42 @@ public class ProductServiceImpl implements ProductService {
             categoryRepo.save(category);
         }
         product.setCategory(category);
+
+        // Thương hiệu
+        Cell branchCell = row.getCell(5);
+        if (branchCell == null || branchCell.getStringCellValue().trim().isEmpty()) {
+            throw new RuntimeException("Thương hiệu không được để trống");
+        }
+        String branchName = branchCell.getStringCellValue().trim();
+        Branch branch = branchRepo.findByBranchName(branchName);
+        if (branch == null) {
+            branch = new Branch();
+            branch.setBranchName(branchName);
+            branchRepo.save(branch);
+        }
+        product.setBranch(branch);
+
+        // Số lượng đã bán
+        Cell soldCell = row.getCell(6);
+        if (soldCell != null) {
+            try {
+                product.setSold((int) soldCell.getNumericCellValue());
+            } catch (Exception e) {
+                throw new RuntimeException("Số lượng đã bán không hợp lệ");
+            }
+        } else {
+            product.setSold(0);
+        }
+
+        // Hình ảnh
+        Cell imagesCell = row.getCell(7);
+        if (imagesCell != null) {
+            String imagesStr = imagesCell.getStringCellValue().trim();
+            if (!imagesStr.isEmpty()) {
+                List<String> images = Arrays.asList(imagesStr.split(","));
+                product.setImage(images);
+            }
+        }
 
         return product;
     }

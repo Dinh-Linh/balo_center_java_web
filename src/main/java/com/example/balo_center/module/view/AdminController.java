@@ -1,26 +1,27 @@
 package com.example.balo_center.module.view;
 
 //import com.example.balo_center.domain.dto.ProductDTO;
+
+import com.example.balo_center.domain.dto.ProductFormDTO;
+import com.example.balo_center.domain.dto.UserFormDTO;
 import com.example.balo_center.domain.dto.dashboard.DashboardSummaryDTO;
 import com.example.balo_center.domain.dto.dashboard.TopSellingProductDTO;
 import com.example.balo_center.domain.entity.Order;
-import com.example.balo_center.domain.dto.ProductFormDTO;
-import com.example.balo_center.domain.dto.UserFormDTO;
 import com.example.balo_center.domain.repo.BranchRepo;
 import com.example.balo_center.domain.repo.CategoryRepo;
 import com.example.balo_center.module.service.admin.DashboardService;
 import com.example.balo_center.module.service.admin.OrderService;
 import com.example.balo_center.module.service.admin.ProductService;
 import com.example.balo_center.module.service.admin.UserService;
-import com.example.balo_center.share.UserDataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -61,13 +62,15 @@ public class AdminController {
         return "admin/index";
     }
 
+
+
     @GetMapping(value = "admin/user")
     public String user(Model model,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String searchName,
-            @RequestParam(required = false) String role,
-            @RequestParam(required = false) String sortBy) {
+                       @RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "10") int size,
+                       @RequestParam(required = false) String searchName,
+                       @RequestParam(required = false) String role,
+                       @RequestParam(required = false) String sortBy) {
         Page<UserFormDTO> usersPage = userService.getAllUsers(page, size, searchName, role, sortBy);
 
         model.addAttribute("users", usersPage.getContent());
@@ -79,6 +82,8 @@ public class AdminController {
         model.addAttribute("sortBy", sortBy);
         return "admin/user";
     }
+
+
 
     // View product
     @GetMapping(value = "admin/product")
