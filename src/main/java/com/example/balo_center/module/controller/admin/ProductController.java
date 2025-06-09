@@ -60,12 +60,12 @@ public class ProductController {
                                  RedirectAttributes redirectAttributes) {
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Vui lòng chọn file Excel");
-            return "redirect:/admin/products/import";
+            return "redirect:/view/admin/product";
         }
 
         if (!file.getOriginalFilename().endsWith(".xlsx")) {
             redirectAttributes.addFlashAttribute("error", "File phải có định dạng .xlsx");
-            return "redirect:/admin/products/import";
+            return "redirect:/view/admin/product";
         }
 
         try {
@@ -86,6 +86,8 @@ public class ProductController {
             }
             if (!errorResults.isEmpty()) {
                 redirectAttributes.addFlashAttribute("errors", errorResults);
+                redirectAttributes.addFlashAttribute("error", 
+                    "Có " + errorResults.size() + " sản phẩm import thất bại. Vui lòng kiểm tra chi tiết bên dưới.");
             }
 
             return "redirect:/view/admin/product";
