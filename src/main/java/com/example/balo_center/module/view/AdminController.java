@@ -41,8 +41,13 @@ public class AdminController {
     public ModelAndView user(@ModelAttribute SearchRequest searchRequest){
         ModelAndView modelAndView = new ModelAndView("admin/user");
         List<UserDTO> users = userService.findUser(searchRequest);
-        modelAndView.addObject("searchRequest",searchRequest);
-        modelAndView.addObject("users",users);
+        long totalUsers = userService.countTotalUsers(searchRequest);
+        int totalPages = (int) Math.ceil((double) totalUsers / searchRequest.getSize());
+        
+        modelAndView.addObject("searchRequest", searchRequest);
+        modelAndView.addObject("users", users);
+        modelAndView.addObject("totalPages", totalPages);
+        modelAndView.addObject("currentPage", searchRequest.getPage());
         return modelAndView;
     }
 

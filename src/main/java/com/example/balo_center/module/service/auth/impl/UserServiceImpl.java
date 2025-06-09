@@ -54,10 +54,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public long countTotalUsers(SearchRequest searchRequest) {
+        return userRepo.countTotalUsers(searchRequest);
+    }
+
+    @Override
     public User addUser(UserDTO userDTO) {
+        if (userRepo.existsByEmail(userDTO.getEmail())) {
+            throw new RuntimeException("Email đã tồn tại");
+        }
         User user = userConverter.toUserEntity(userDTO);
         user.setCreatedDate(Timestamp.from(Instant.now()));
-        user.setPassword("$2b$10$872BSUp9udAncBGLIY8MdeGRPjwIr1QS1mSEnysQ4K.bapAfXlTpC");
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepo.save(user);
         return user;
     }

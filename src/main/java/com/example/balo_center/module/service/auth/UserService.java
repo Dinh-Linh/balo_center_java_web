@@ -9,6 +9,7 @@ import java.util.List;
 public interface UserService {
     List<UserDTO> getAllUser();
     List<UserDTO> findUser(SearchRequest searchRequest);
+    long countTotalUsers(SearchRequest searchRequest);
     User addUser(UserDTO userDTO);
     User updateUser(UserDTO userDTO);
     void deleteUser(String id);

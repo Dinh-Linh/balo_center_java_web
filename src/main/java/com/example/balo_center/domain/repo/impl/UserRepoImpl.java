@@ -33,10 +33,21 @@ public class UserRepoImpl implements UserRepoCustom {
         sql.append(" Where 1=1 ");
         sql.append(buildWhere(searchRequest));
         sql.append(" GROUP BY u.id ");
-        sql.append("ORDER BY u.created_date DESC ");
-        System.out.print(sql);
         Query query = entityManager.createNativeQuery(sql.toString(), User.class);
-        List<User> T = query.getResultList();
-        return T;
+        // Thêm phân trang
+        query.setFirstResult(searchRequest.getPage() * searchRequest.getSize());
+        query.setMaxResults(searchRequest.getSize());
+        
+        return query.getResultList();
+    }
+
+    @Override
+    public long countTotalUsers(SearchRequest searchRequest) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(DISTINCT u.id) FROM users u ");
+        sql.append(" Where 1=1 ");
+        sql.append(buildWhere(searchRequest));
+        
+        Query query = entityManager.createNativeQuery(sql.toString());
+        return ((Number) query.getSingleResult()).longValue();
     }
 }

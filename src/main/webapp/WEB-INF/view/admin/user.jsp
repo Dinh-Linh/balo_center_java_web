@@ -74,6 +74,15 @@
             display: inline-block;
             width: 120px;
         }
+
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            padding: 20px 0 !important;
+            display: block;
+            width: 90% !important;
+        }
     </style>
 </head>
 
@@ -204,14 +213,18 @@
         <!-- Pagination -->
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-end">
-                <li class="page-item disabled">
-                    <a class="page-link">Trước</a>
+                <li class="page-item ${currentPage == 0 ? 'disabled' : ''}">
+                    <a class="page-link" href="?page=${currentPage - 1}&size=${searchRequest.size}&searchName=${searchRequest.searchName}&searchRole=${searchRequest.searchRole}&searchStatus=${searchRequest.searchStatus}">Trước</a>
                 </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Sau</a>
+                <c:if test="${totalPages > 0}">
+                    <c:forEach begin="0" end="${totalPages - 1}" var="i">
+                        <li class="page-item ${currentPage == i ? 'active' : ''}">
+                            <a class="page-link" href="?page=${i}&size=${searchRequest.size}&searchName=${searchRequest.searchName}&searchRole=${searchRequest.searchRole}&searchStatus=${searchRequest.searchStatus}">${i + 1}</a>
+                        </li>
+                    </c:forEach>
+                </c:if>
+                <li class="page-item ${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="?page=${currentPage + 1}&size=${searchRequest.size}&searchName=${searchRequest.searchName}&searchRole=${searchRequest.searchRole}&searchStatus=${searchRequest.searchStatus}">Sau</a>
                 </li>
             </ul>
         </nav>
@@ -302,7 +315,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="edituserEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="edituserEmail" required>
+                        <input type="email" class="form-control" id="edituserEmail" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="edituserPhone" class="form-label">Số điện thoại</label>
@@ -501,11 +514,11 @@
     }
 
     $("#adduser").click(function () {
-            var formData = $("#adduserform").serializeArray();
-            var json = {};
-            $.each(formData, function (i, it) {
-                json["" + it.name + ""] = it.value;
-            });
+        var formData = $("#adduserform").serializeArray();
+        var json = {};
+        $.each(formData, function (i, it) {
+            json["" + it.name + ""] = it.value;
+        });
 
         $.ajax({
             type: "POST",
@@ -520,14 +533,13 @@
                     window.location.href = "/view/admin/user";
                 } else {
                     alert("Thêm người dùng thất bại: " + (response.message || JSON.stringify(response)));
-                    window.location.href = "/view/admin/user";
                 }
             },
             error: function (xhr, status, error) {
                 console.error("Error:", error);
                 console.error("Response:", xhr.responseText);
-                alert("Thêm người dùng thất bại: " + (xhr.responseText || error));
-                window.location.href = "/view/admin/user";
+                let errorMessage = xhr.responseJSON?.message || xhr.responseText || error;
+                alert(errorMessage);
             }
         });
     });
