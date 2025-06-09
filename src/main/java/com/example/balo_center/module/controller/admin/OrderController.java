@@ -11,6 +11,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -44,8 +48,18 @@ public class OrderController {
     @GetMapping("/export/csv")
     public void exportToCSV(HttpServletResponse response) throws IOException {
         response.setContentType("text/csv");
+        response.setCharacterEncoding("UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=danh_sach_don_hang.csv");
 
-        orderService.exportToCSV(response.getWriter());
+        // Write UTF-8 BOM
+        OutputStream outputStream = response.getOutputStream();
+        outputStream.write(0xEF);
+        outputStream.write(0xBB);
+        outputStream.write(0xBF);
+
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+        orderService.exportToCSV(writer);
+        writer.flush();
+        writer.close();
     }
 }
