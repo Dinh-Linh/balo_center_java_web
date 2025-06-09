@@ -88,10 +88,10 @@ public class ProductController {
                 redirectAttributes.addFlashAttribute("errors", errorResults);
             }
 
-            return "redirect:view/admin/product";
+            return "redirect:/view/admin/product";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Lỗi khi import: " + e.getMessage());
-            return "redirect:view/admin/product";
+            return "redirect:/view/admin/product";
         }
     }
 

@@ -61,24 +61,6 @@ public class AdminController {
         return "admin/index";
     }
 
-    @GetMapping(value = "admin/user")
-    public String user(Model model,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String searchName,
-            @RequestParam(required = false) String role,
-            @RequestParam(required = false) String sortBy) {
-        Page<UserFormDTO> usersPage = userService.getAllUsers(page, size, searchName, role, sortBy);
-
-        model.addAttribute("users", usersPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", usersPage.getTotalPages());
-        model.addAttribute("totalItems", usersPage.getTotalElements());
-        model.addAttribute("searchName", searchName);
-        model.addAttribute("role", role);
-        model.addAttribute("sortBy", sortBy);
-        return "admin/user";
-    }
 
     // View product
     @GetMapping(value = "admin/product")

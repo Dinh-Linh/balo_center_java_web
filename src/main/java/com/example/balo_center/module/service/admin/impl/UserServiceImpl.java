@@ -1,99 +1,92 @@
 package com.example.balo_center.module.service.admin.impl;
 
+import com.example.balo_center.converter.UserConverter;
+import com.example.balo_center.domain.dto.UserDTO;
 import com.example.balo_center.domain.dto.UserFormDTO;
 import com.example.balo_center.domain.entity.User;
 import com.example.balo_center.domain.repo.UserRepo;
+import com.example.balo_center.domain.request.SearchRequest;
 import com.example.balo_center.module.service.admin.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
+    @Autowired
+    private UserRepo userRepo;
 
-    private final UserRepo userRepo;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserConverter userConverter;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
-    public Page<UserFormDTO> getAllUsers(int page, int size, String searchName, String role, String sortBy) {
-        Pageable pageable = PageRequest.of(page, size);
-
-        if (sortBy != null && !sortBy.isEmpty()) {
-            Sort sort = switch (sortBy) {
-                case "nameAsc" -> Sort.by(Sort.Direction.ASC, "fullname");
-                case "nameDesc" -> Sort.by(Sort.Direction.DESC, "fullname");
-                case "dateAsc" -> Sort.by(Sort.Direction.ASC, "createdDate");
-                case "dateDesc" -> Sort.by(Sort.Direction.DESC, "createdDate");
-                default -> Sort.unsorted();
-            };
-            pageable = PageRequest.of(page, size, sort);
+    public List<UserDTO> getAllUser() {
+        //List<User> users = userRepo.findAll();
+        List<User>  users = userRepo.findAll(Sort.by(Sort.Direction.ASC, "role"));
+        List<UserDTO> results = new ArrayList<>();
+        for(User user : users){
+            UserDTO userDTO = userConverter.toUserDTO(user);
+            results.add(userDTO);
         }
-
-        return userRepo.findAllUsers(searchName, role, pageable);
+        return results;
     }
 
     @Override
-    public void saveUser(UserFormDTO form) {
-        User user = new User();
-        user.setId(UUID.randomUUID().toString());
-        user.setEmail(form.getEmail());
-        user.setFullname(form.getFullname());
-        user.setPassword(passwordEncoder.encode(form.getPassword()));
-        user.setUserPhone(form.getUserPhone());
-        user.setRole(form.getRole());
-        user.setStatus("ACTIVE");
-        user.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+    public List<UserDTO> findUser(SearchRequest searchRequest) {
+        List<User> users = userRepo.searchUsers(searchRequest);
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for (User x : users){
+            UserDTO userDTO = userConverter.toUserDTO(x);
+            userDTOS.add(userDTO);
+        }
+        return userDTOS;
+    }
+
+    @Override
+    public long countTotalUsers(SearchRequest searchRequest) {
+        return userRepo.countTotalUsers(searchRequest);
+    }
+
+    @Override
+    public User addUser(UserDTO userDTO) {
+        if (userRepo.existsByEmail(userDTO.getEmail())) {
+            throw new RuntimeException("Email đã tồn tại");
+        }
+        User user = userConverter.toUserEntity(userDTO);
+        user.setCreatedDate(Timestamp.from(Instant.now()));
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepo.save(user);
+        return user;
     }
 
     @Override
-    public UserFormDTO getUserById(String id) {
-        return userRepo.findUserById(id);
-    }
-
-    @Override
-    public void updateUser(String id, UserFormDTO updatedUser) {
-        User existingUser = userRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
-
-        if (updatedUser.getFullname() != null) {
-            existingUser.setFullname(updatedUser.getFullname());
-        }
-        if (updatedUser.getEmail() != null) {
-            existingUser.setEmail(updatedUser.getEmail());
-        }
-        if (updatedUser.getUserPhone() != null) {
-            existingUser.setUserPhone(updatedUser.getUserPhone());
-        }
-        if (updatedUser.getRole() != null) {
-            existingUser.setRole(updatedUser.getRole());
-        }
-        if (updatedUser.getStatus() != null) {
-            existingUser.setStatus(updatedUser.getStatus());
-        }
-
-        userRepo.save(existingUser);
+    public User updateUser(UserDTO userDTO) {
+        Timestamp timestamp = userRepo.findById(userDTO.getId()).getCreatedDate();
+        User user = userConverter.toUserEntity(userDTO);
+        user.setCreatedDate(timestamp);
+        userRepo.save(user);
+        return user;
     }
 
     @Override
     public void deleteUser(String id) {
         userRepo.deleteById(id);
-    }
-
-    @Override
-    public void toggleUserStatus(String id) {
-        User user = userRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
-        user.setStatus(user.getStatus().equals("ACTIVE") ? "LOCKED" : "ACTIVE");
-        userRepo.save(user);
     }
 }

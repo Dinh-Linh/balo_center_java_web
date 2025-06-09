@@ -1,18 +1,16 @@
 package com.example.balo_center.module.service.admin;
 
-import com.example.balo_center.domain.dto.UserFormDTO;
-import org.springframework.data.domain.Page;
+import com.example.balo_center.domain.dto.UserDTO;
+import com.example.balo_center.domain.entity.User;
+import com.example.balo_center.domain.request.SearchRequest;
+
+import java.util.List;
 
 public interface UserService {
-    Page<UserFormDTO> getAllUsers(int page, int size, String searchName, String role, String sortBy);
-
-    void saveUser(UserFormDTO form);
-
-    UserFormDTO getUserById(String id);
-
-    void updateUser(String id, UserFormDTO updatedUser);
-
+    List<UserDTO> getAllUser();
+    List<UserDTO> findUser(SearchRequest searchRequest);
+    long countTotalUsers(SearchRequest searchRequest);
+    User addUser(UserDTO userDTO);
+    User updateUser(UserDTO userDTO);
     void deleteUser(String id);
-
-    void toggleUserStatus(String id);
 }
