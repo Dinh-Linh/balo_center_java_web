@@ -12,6 +12,10 @@ import com.example.balo_center.module.service.admin.DashboardService;
 import com.example.balo_center.module.service.admin.OrderService;
 import com.example.balo_center.module.service.admin.ProductService;
 import com.example.balo_center.module.service.admin.UserService;
+import com.example.balo_center.domain.dto.UserDTO;
+import com.example.balo_center.domain.entity.User;
+import com.example.balo_center.domain.request.SearchRequest;
+import com.example.balo_center.module.service.auth.UserService;
 import com.example.balo_center.share.UserDataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,9 +23,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 //Simple Datatable
@@ -61,24 +68,23 @@ public class AdminController {
         return "admin/index";
     }
 
-    @GetMapping(value = "admin/user")
-    public String user(Model model,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String searchName,
-            @RequestParam(required = false) String role,
-            @RequestParam(required = false) String sortBy) {
-        Page<UserFormDTO> usersPage = userService.getAllUsers(page, size, searchName, role, sortBy);
 
-        model.addAttribute("users", usersPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", usersPage.getTotalPages());
-        model.addAttribute("totalItems", usersPage.getTotalElements());
-        model.addAttribute("searchName", searchName);
-        model.addAttribute("role", role);
-        model.addAttribute("sortBy", sortBy);
-        return "admin/user";
+
+    @GetMapping(value = "admin/user")
+    public ModelAndView user(@ModelAttribute SearchRequest searchRequest){
+        ModelAndView modelAndView = new ModelAndView("admin/user");
+        List<UserDTO> users = userService.findUser(searchRequest);
+        long totalUsers = userService.countTotalUsers(searchRequest);
+        int totalPages = (int) Math.ceil((double) totalUsers / searchRequest.getSize());
+
+        modelAndView.addObject("searchRequest", searchRequest);
+        modelAndView.addObject("users", users);
+        modelAndView.addObject("totalPages", totalPages);
+        modelAndView.addObject("currentPage", searchRequest.getPage());
+        return modelAndView;
     }
+
+
 
     // View product
     @GetMapping(value = "admin/product")
