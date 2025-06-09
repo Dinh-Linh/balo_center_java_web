@@ -13,22 +13,16 @@ import com.example.balo_center.module.service.admin.OrderService;
 import com.example.balo_center.module.service.admin.ProductService;
 import com.example.balo_center.module.service.admin.UserService;
 import com.example.balo_center.domain.dto.UserDTO;
-import com.example.balo_center.domain.entity.User;
-import com.example.balo_center.domain.request.SearchRequest;
-import com.example.balo_center.module.service.auth.UserService;
-import com.example.balo_center.share.UserDataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 //Simple Datatable
@@ -73,7 +67,7 @@ public class AdminController {
     @GetMapping(value = "admin/user")
     public ModelAndView user(@ModelAttribute SearchRequest searchRequest){
         ModelAndView modelAndView = new ModelAndView("admin/user");
-        List<UserDTO> users = userService.findUser(searchRequest);
+        List<UserFormDTO> users = userService.findUser(searchRequest);
         long totalUsers = userService.countTotalUsers(searchRequest);
         int totalPages = (int) Math.ceil((double) totalUsers / searchRequest.getSize());
 

@@ -1,8 +1,6 @@
 package com.example.balo_center.domain.repo.impl;
 
 import com.example.balo_center.domain.entity.User;
-import com.example.balo_center.domain.repo.UserRepoCustom;
-import com.example.balo_center.domain.request.SearchRequest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;

@@ -5,7 +5,6 @@ import com.example.balo_center.domain.dto.dashboard.TopSellingProductDTO;
 import com.example.balo_center.domain.repo.OrderDetailRepo;
 import com.example.balo_center.domain.repo.OrderRepo;
 import com.example.balo_center.domain.repo.ProductRepo;
-import com.example.balo_center.domain.repo.UserRepo;
 import com.example.balo_center.module.service.admin.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

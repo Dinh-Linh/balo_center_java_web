@@ -1,7 +1,6 @@
 package com.example.balo_center.authentication;
 
 import com.example.balo_center.domain.entity.User;
-import com.example.balo_center.domain.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
