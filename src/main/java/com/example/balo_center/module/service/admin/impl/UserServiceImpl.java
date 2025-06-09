@@ -2,6 +2,7 @@ package com.example.balo_center.module.service.admin.impl;
 
 import com.example.balo_center.domain.dto.UserFormDTO;
 import com.example.balo_center.domain.entity.User;
+import com.example.balo_center.domain.repo.UserRepo;
 import com.example.balo_center.module.service.admin.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
