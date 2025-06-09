@@ -1,16 +1,17 @@
 package com.example.balo_center.module.view;
 
 //import com.example.balo_center.domain.dto.ProductDTO;
+import com.example.balo_center.domain.dto.dashboard.DashboardSummaryDTO;
+import com.example.balo_center.domain.dto.dashboard.TopSellingProductDTO;
 import com.example.balo_center.domain.entity.Order;
 import com.example.balo_center.domain.dto.ProductFormDTO;
-import com.example.balo_center.domain.dto.UserDTO;
-import com.example.balo_center.domain.entity.User;
+import com.example.balo_center.domain.dto.UserFormDTO;
 import com.example.balo_center.domain.repo.BranchRepo;
 import com.example.balo_center.domain.repo.CategoryRepo;
-import com.example.balo_center.module.service.admin.OrderService;
+import com.example.balo_center.module.service.admin.DashboardService;
 import com.example.balo_center.module.service.admin.OrderService;
 import com.example.balo_center.module.service.admin.ProductService;
-import com.example.balo_center.module.service.auth.UserService;
+import com.example.balo_center.module.service.admin.UserService;
 import com.example.balo_center.share.UserDataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,13 +34,14 @@ public class AdminController {
     private OrderService orderService;
     @Autowired
     private UserService userService;
-//    public AdminController(ProductService productService, OrderService orderService , UserService userService) {
-//        this.productService = productService;
-//        this.orderService = orderService;
-//        this.userService = userService;
-//    }
-
-
+    @Autowired
+    private DashboardService dashboardService;
+    // public AdminController(ProductService productService, OrderService
+    // orderService , UserService userService) {
+    // this.productService = productService;
+    // this.orderService = orderService;
+    // this.userService = userService;
+    // }
 
     @Autowired
     private CategoryRepo categoryRepo;
@@ -47,31 +49,48 @@ public class AdminController {
     @Autowired
     private BranchRepo branchRepo;
 
-    //View user
+    // View user
     @GetMapping(value = "admin/dashboard")
-    public String dashboard() {
+    public String dashboard(Model model) {
+        DashboardSummaryDTO summary = dashboardService.getDashboardSummary();
+        List<TopSellingProductDTO> topSellingProducts = dashboardService.getTopSellingProducts(5); // Get top 5
+
+        model.addAttribute("summary", summary);
+        model.addAttribute("topSellingProducts", topSellingProducts);
+
         return "admin/index";
     }
 
     @GetMapping(value = "admin/user")
-    public String user(Model model){
-        //List<User> users = UserDataGenerator.generateMockUsers();
-        List<UserDTO> users = userService.getAllUser();
+    public String user(Model model,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String searchName,
+            @RequestParam(required = false) String role,
+            @RequestParam(required = false) String sortBy) {
+        Page<UserFormDTO> usersPage = userService.getAllUsers(page, size, searchName, role, sortBy);
 
-        model.addAttribute("users", users);
+        model.addAttribute("users", usersPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", usersPage.getTotalPages());
+        model.addAttribute("totalItems", usersPage.getTotalElements());
+        model.addAttribute("searchName", searchName);
+        model.addAttribute("role", role);
+        model.addAttribute("sortBy", sortBy);
         return "admin/user";
     }
 
-    //View product
+    // View product
     @GetMapping(value = "admin/product")
-    public String product(Model model, 
-                         @RequestParam(defaultValue = "1") int page,
-                         @RequestParam(defaultValue = "10") int size,
-                         @RequestParam(required = false) String searchName,
-                         @RequestParam(required = false) String brand,
-                         @RequestParam(required = false) String category,
-                         @RequestParam(required = false) String sortBy) {
-        Page<ProductFormDTO> products = productService.getAllProduct(page - 1, size, searchName, brand, category, sortBy);
+    public String product(Model model,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String searchName,
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String sortBy) {
+        Page<ProductFormDTO> products = productService.getAllProduct(page - 1, size, searchName, brand, category,
+                sortBy);
         model.addAttribute("products", products.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", products.getTotalPages());
@@ -87,51 +106,42 @@ public class AdminController {
 
     // View order
     @GetMapping("admin/order")
-    public String listOrders(
+    public String manageOrders(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String searchId,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String sortBy,
             Model model) {
-        List<Order> all = orderService.getAllOrders();
-        int totalItems = all.size();
-        int fromIndex = page * size;
-        int toIndex = Math.min(fromIndex + size, totalItems);
-        List<Order> orders = all.subList(
-                Math.min(fromIndex, totalItems),
-                Math.min(toIndex, totalItems));
-        int totalPages = (int) Math.ceil((double) totalItems / size);
+        Page<Order> ordersPage = orderService.getAllOrders(page, size, searchId, status, sortBy);
 
-        model.addAttribute("orders", orders);
+        model.addAttribute("orders", ordersPage.getContent());
         model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("size", size);
-        return "admin/order"; // maps to /WEB-INF/view/admin/order.jsp
+        model.addAttribute("totalPages", ordersPage.getTotalPages());
+        model.addAttribute("totalItems", ordersPage.getTotalElements());
+        model.addAttribute("searchId", searchId);
+        model.addAttribute("status", status);
+        model.addAttribute("sortBy", sortBy);
+
+        return "admin/order";
     }
 
-    // View order detail
-    @GetMapping("admin/order/{id}")
-    public String viewOrderDetail(@PathVariable String id, Model model) {
-        Order order = orderService.getOrderById(id);
-        model.addAttribute("order", order);
-        return "admin/crud_order/detail";
-    }
-
-    //View sidebar
+    // View sidebar
     @GetMapping(value = "admin/sidebar")
     public String sidebar() {
         return "admin/sidebar";
     }
 
-    //View header
+    // View header
     @GetMapping(value = "admin/header")
     public String header() {
         return "admin/header";
     }
 
-    //View footer
+    // View footer
     @GetMapping(value = "admin/footer")
     public String footer() {
         return "admin/footer";
     }
-
 
 }

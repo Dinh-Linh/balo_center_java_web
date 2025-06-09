@@ -30,7 +30,7 @@ public class Order {
     @Column(name = "quality_product")
     private Integer quality_product;
     @Column(name = "total_price")
-    private Double total_price;
+    private Double totalPrice;
     @Column(name = "status")
     private String status;
 

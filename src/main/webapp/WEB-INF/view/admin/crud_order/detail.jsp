@@ -100,7 +100,7 @@
                                         <h6 class="card-subtitle mb-3 text-muted">Thông tin đơn hàng</h6>
                                         <p class="mb-2"><strong>Ngày đặt:</strong> <fmt:formatDate value="${order.date}" pattern="dd/MM/yyyy HH:mm"/></p>
                                         <p class="mb-2"><strong>Số lượng sản phẩm:</strong> ${order.quality_product}</p>
-                                        <p class="mb-0"><strong>Tổng tiền:</strong> <span class="text-primary fw-bold"><fmt:formatNumber value="${order.total_price}" type="currency" currencySymbol="₫"/></span></p>
+                                        <p class="mb-0"><strong>Tổng tiền:</strong> <span class="text-primary fw-bold"><fmt:formatNumber value="${order.totalPrice}" type="currency" currencySymbol="₫"/></span></p>
                                     </div>
                                 </div>
                             </div>

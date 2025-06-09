@@ -19,7 +19,8 @@ public class ProductFormDTO {
     private String detailsDesc;
     private List<String> imageLinks;
 
-    public ProductFormDTO(String id, String productName, String categoryName, String branchName, Integer quantity, Integer sold, Double price, String shortDesc, String detailsDesc) {
+    public ProductFormDTO(String id, String productName, String categoryName, String branchName, Integer quantity,
+            Integer sold, Double price, String shortDesc, String detailsDesc) {
         this.id = id;
         this.productName = productName;
         this.categoryName = categoryName;
