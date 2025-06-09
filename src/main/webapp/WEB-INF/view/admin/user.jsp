@@ -162,14 +162,14 @@
                                     <input type="text" class="form-control" placeholder="Tìm theo tên..." name="searchName" value="${param.searchName}">
                                 </div>
                                 <div class="col-md-3">
-                                    <select class="form-select" name="role">
+                                    <select class="form-select" name="role" onchange="this.form.submit()">
                                         <option value="">-- Vai trò --</option>
                                         <option value="ADMIN" ${param.role == 'ADMIN' ? 'selected' : ''}>Admin</option>
                                         <option value="USER" ${param.role == 'USER' ? 'selected' : ''}>User</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <select class="form-select" name="sortBy">
+                                    <select class="form-select" name="sortBy" onchange="this.form.submit()">
                                         <option value="">-- Sắp xếp --</option>
                                         <option value="nameAsc" ${param.sortBy == 'nameAsc' ? 'selected' : ''}>Tên: A-Z</option>
                                         <option value="nameDesc" ${param.sortBy == 'nameDesc' ? 'selected' : ''}>Tên: Z-A</option>
@@ -281,9 +281,9 @@
 <!-- Include modals -->
 <c:if test="${not empty users}">
     <c:forEach var="user" items="${users}">
-        <jsp:include page="crud_user/view_user.jsp"/>
-        <jsp:include page="crud_user/edit_user.jsp"/>
-        <jsp:include page="crud_user/delete_user.jsp"/>
+        <%@ include file="crud_user/view_user.jsp" %>
+        <%@ include file="crud_user/edit_user.jsp" %>
+        <%@ include file="crud_user/delete_user.jsp" %>
     </c:forEach>
 </c:if>
 <jsp:include page="crud_user/add_user.jsp"/>
@@ -300,9 +300,6 @@
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
 
-<!-- Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var successToastEl = document.getElementById('successToast');
@@ -316,7 +313,60 @@
             var errorToast = new bootstrap.Toast(errorToastEl);
             errorToast.show();
         }
+
+        // Functions to manually open modals
+        function showViewUserModal(userId) {
+            var modalId = 'viewUserModal_' + userId;
+            var modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                var modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            } else {
+                console.error('Modal element not found:', modalId);
+            }
+        }
+
+        function showEditUserModal(userId, fullname, email, userPhone, role) {
+            var modalId = 'editUserModal_' + userId;
+            var modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                // Populate form fields if necessary, e.g., modalElement.querySelector('#editFullname').value = fullname;
+                modalElement.querySelector('input[name="id"]').value = userId;
+                modalElement.querySelector('input[name="fullname"]').value = fullname;
+                modalElement.querySelector('input[name="email"]').value = email;
+                modalElement.querySelector('input[name="userPhone"]').value = userPhone;
+                modalElement.querySelector('select[name="role"]').value = role;
+
+                var modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            } else {
+                console.error('Modal element not found:', modalId);
+            }
+        }
+
+        function showDeleteUserModal(userId, fullname) {
+            var modalId = 'deleteUserModal_' + userId;
+            var modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                // Populate user name in the confirmation message
+                modalElement.querySelector('.modal-body strong').textContent = fullname;
+                modalElement.querySelector('input[name="userId"]').value = userId;
+
+                var modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            } else {
+                console.error('Modal element not found:', modalId);
+            }
+        }
+
+        // Expose functions to global scope for onclick attributes
+        window.showViewUserModal = showViewUserModal;
+        window.showEditUserModal = showEditUserModal;
+        window.showDeleteUserModal = showDeleteUserModal;
     });
 </script>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
