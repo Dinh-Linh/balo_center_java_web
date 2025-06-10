@@ -31,7 +31,7 @@ public class User {
     @Column(name = "phone")
     private String userPhone;
     @Column(name = "role")
-    private String role;
+    private String role = "USER"; // Added default value
     @Column(name = "status")
     private String status;
     @Column(name = "avatar")

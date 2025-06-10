@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserDetailsImpl implements UserDetails {
     @Getter
-    private Long id;
+    private String id;
     private String username;
     @Getter
     private String email;
@@ -27,7 +28,7 @@ public class UserDetailsImpl implements UserDetails {
     public UserDetailsImpl() {
     }
 
-    public UserDetailsImpl(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(String id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) { // Changed id type to String
         this.id = id;
         this.username = username;
         this.email = email;
@@ -36,11 +37,22 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(User user) {
-        List<GrantedAuthority> authorities = Arrays.stream(user.getRole().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        List<GrantedAuthority> authorities;
+        String roleString = user.getRole();
+        if (roleString != null && !roleString.isEmpty()) {
+            authorities = Arrays.stream(roleString.split(","))
+                    .map(String::trim)
+                    .filter(role -> !role.isEmpty())
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
+            if (authorities.isEmpty()) {
+                authorities = Collections.singletonList(new SimpleGrantedAuthority("USER"));
+            }
+        } else {
+            authorities = Collections.singletonList(new SimpleGrantedAuthority("USER"));
+        }
         return new UserDetailsImpl(
-                Long.valueOf(user.getId()),
+                user.getId(),
                 user.getFullName(),
                 user.getEmail(),
                 user.getPassword(),

@@ -30,4 +30,10 @@ public interface ProductUserRepository extends JpaRepository<ProductData, Long> 
             value = "SELECT p FROM ProductData p WHERE p.brandName = :brandName"
     )
     Page<ProductData> getProductDataByBrandName(String brandName, Pageable pageable);
+
+    @Query(
+            value = "SELECT p FROM ProductData p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))"
+    )
+    Page<ProductData> searchProductByNameContainingIgnoreCase(String name,
+                                                              Pageable pageable);
 }

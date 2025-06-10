@@ -6,7 +6,7 @@ import java.util.List;
 
 @Builder
 public record UserProfileResponse(
-        Long id,
+        String id,
         String email,
         String name,
         List<String> roles

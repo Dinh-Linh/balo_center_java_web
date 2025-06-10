@@ -89,6 +89,27 @@ public class ProductUserController {
         return new ApiResponse<>(HttpStatus.OK.value(), "Product filtered Successfully", buildResponse(productResponses));
     }
 
+    @GetMapping("/products/search/{name}")
+    public ApiResponse<Map<String, Object>> searchProductByNameIgnoreCase(
+            @PathVariable String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "ASC") String sortDir,
+            @RequestParam(defaultValue = "name") String sortBy
+    ) {
+        Page<ProductResponse> productResponses = productUserService.searchProductContainIgnoreCase(
+                name,
+                PagingAndSortingParams.builder()
+                        .page(page)
+                        .size(size)
+                        .sortBy(sortBy)
+                        .sortDir(sortDir)
+                        .build()
+        );
+
+        return new ApiResponse<>(HttpStatus.OK.value(), "Product filtered Successfully", buildResponse(productResponses));
+    }
+
     @GetMapping("/products/{id}")
     public ApiResponse<ProductResponse> getProductById(@PathVariable Long id) {
         return new ApiResponse<>(HttpStatus.OK.value(), "Product fetched successfully", productUserService.getProductById(id));
