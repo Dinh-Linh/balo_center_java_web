@@ -12,6 +12,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 @Service
@@ -27,11 +33,48 @@ public class DashboardServiceImpl implements DashboardService {
     private OrderDetailRepo orderDetailRepo;
 
     @Override
-    public DashboardSummaryDTO getDashboardSummary() {
-        long totalProducts = productRepo.count();
-        long totalUsers = userRepo.count();
-        long totalOrders = orderRepo.count();
-        Double totalRevenue = orderRepo.sumTotalPrice();
+    public DashboardSummaryDTO getDashboardSummary(String filter) {
+        long totalProducts;
+        long totalUsers;
+        long totalOrders;
+        Double totalRevenue;
+
+        Timestamp startDate = null;
+        Timestamp endDate = null;
+
+        if ("today".equals(filter)) {
+            LocalDateTime start = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+            LocalDateTime end = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+            startDate = Timestamp.valueOf(start);
+            endDate = Timestamp.valueOf(end);
+        } else if ("month".equals(filter)) {
+            LocalDateTime start = LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()),
+                    LocalTime.MIN);
+            LocalDateTime end = LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()),
+                    LocalTime.MAX);
+            startDate = Timestamp.valueOf(start);
+            endDate = Timestamp.valueOf(end);
+        } else if ("year".equals(filter)) {
+            LocalDateTime start = LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfYear()),
+                    LocalTime.MIN);
+            LocalDateTime end = LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.lastDayOfYear()),
+                    LocalTime.MAX);
+            startDate = Timestamp.valueOf(start);
+            endDate = Timestamp.valueOf(end);
+        }
+
+        if (startDate != null && endDate != null) {
+            totalProducts = productRepo.countByCreatedDateBetween(startDate, endDate);
+            totalUsers = userRepo.countByCreatedDateBetween(startDate, endDate);
+            totalOrders = orderRepo.countByDateBetween(startDate, endDate);
+            totalRevenue = orderRepo.sumTotalPriceByDateBetween(startDate, endDate);
+        } else {
+            // No filter or invalid filter, get overall summary
+            totalProducts = productRepo.count();
+            totalUsers = userRepo.count();
+            totalOrders = orderRepo.count();
+            totalRevenue = orderRepo.sumTotalPrice();
+        }
 
         return new DashboardSummaryDTO(
                 totalProducts,
@@ -44,5 +87,10 @@ public class DashboardServiceImpl implements DashboardService {
     public List<TopSellingProductDTO> getTopSellingProducts(int limit) {
         Pageable pageable = PageRequest.of(0, limit);
         return orderDetailRepo.findTopSellingProducts(pageable);
+    }
+
+    @Override
+    public List<com.example.balo_center.domain.dto.dashboard.OrderRevenueDTO> getTotalRevenueByStatus() {
+        return orderRepo.findTotalRevenueByStatus();
     }
 }

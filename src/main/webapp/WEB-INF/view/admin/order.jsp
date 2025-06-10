@@ -127,7 +127,7 @@
                                 <!-- Search & Filter Form -->
                                 <form class="row g-3 mb-4" method="get" action="${pageContext.request.contextPath}/view/admin/order">
                                     <div class="col-md">
-                                        <input type="text" class="form-control" id="searchInput" placeholder="Tìm theo mã đơn hàng..." name="searchId"
+                                        <input type="text" class="form-control" id="searchInput" placeholder="Tìm theo tên khách hàng..." name="searchId"
                                                value="${param.searchId}">
                                     </div>
                                     <div class="col-md">
@@ -168,7 +168,6 @@
                                         <thead class="table-light">
                                         <tr>
                                             <th>#</th>
-                                            <th>Mã đơn hàng</th>
                                             <th>Khách hàng</th>
                                             <th>Ngày đặt</th>
                                             <th>Tổng tiền</th>
@@ -182,10 +181,9 @@
                                                 <c:forEach var="order" items="${orders}" varStatus="status">
                                                     <tr>
                                                         <td>${status.index + 1}</td>
-                                                        <td>#${order.id}</td>
                                                         <td>
                                                             <div class="d-flex align-items-center">
-                                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKoSURBVFiF7ZdPSBRRHMc/b2Z2/+3urCUpuZmUhRgaJGhJlxAi6BJB0LVDHSKCOtS9U4fwkKcuRdQhglqljh0i6GBQiKBUhLWwRqXLuqAUbvszZ2ceLWG7M7OzM7tB0Pd0Zt7v+/t+Z37v994T2CXIsgxA9/2lGxG/+woQkuV4qWJkZASAYDCIw2FAkiQURUGWZUQxYbfhcJhwOEwkEkFRFPx+P4FAAEVRACgvL6e6uppQKEQoFCIYDBIMBhFFkYqKCvx+P4IgYBgG8XicWCxGNBolGo2iqioAqqpSWVlJVVUVsViMWCyGrusbcW1tbZbvkiTR0tJCPB4nHo+j6zqGYQBQWlpKWVkZmqahqiqKouD1egkEAgBks1kikQjhcJhEIoGu6/h8PrxeL7quEw6HmZ+fJ5PJAOByuWhoaMDj8ZBOp0kmk6RSKeLxONlslkAgQDAYxDAMstks8XicVKlFJZJJBNB0nYqiCKfTqK6uprGxEY/HicViKCwsxOPxEOVySaVSpNNpVFVFbGxscDgcEAQBt9tNamoqtLS00NzcTCaTRFEENpvN72K220WRRGKxGMlkkkwmiSqKaWlpeL1elEql0HQdBEEgGo1SKpWoqanh9/exn7Q9i+g2kUwmqK2t1dMw7E+2HXA4HPsdw3Zk2wGXy7XTMWxHth2oqqra6Ri2I9sO1NTU7HQM25GF7YwLgvC/4/wR/6wDVsKuri5qa2t/O8nU1BTj4+MAmKaJaZosLy/T399PY2MjAGNjY4yOjuL3+2lra6O3t5e2tjYGBwcxTZOFhQVGR0dxuVxMTk7S3d1NZ2cnPT09TE9PMzMzQzabZXBwkKamJnp7e+ns7KS9vZ2hoSFM0+Tly5dMTEzgdruZmpqiu7ubjo4Oent7mZ6e5jvVA5pT5SVH7QAAAABJRU5ErkJggg=="
+                                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKoSURBVFiF7ZdPSBRRHMe/b2Z2/+3urCUpuZmUhRgaJGhJlxAi6BJB0LVDHSKCOtS9U4fwkKcuRdQhglqljh0i6GBQiKBUhLWwRqXLuqAUbvszZ2ceLWG7M7OzM7tB0Pd0Zt7v+/t+Z37v994T2CXIsgxA9/2lGxG/+woQkuV4qWJkZASAYDCIw2FAkiQURUGWZUQxYbfhcJhwOEwkEkFRFPx+P4FAAEVRACgvL6e6uppQKEQoFCIYDBIMBhFFkYqKCvx+P4IgYBgG8XicWCxGNBolGo2iqioAqqpSWVlJVVUVsViMWCyGrusbcW1tbZbvkiTR0tJCPB4nHo+j6zqGYQBQWlpKWVkZmqahqiqKouD1egkEAgBks1kikQjhcJhEIoGu6/h8PrxeL7quEw6HmZ+fJ5PJAOByuhoasLS0hNvtJpvNUlJSQmhoKI/Hw+fzEQwGUSqVKCsrQ1RUFNlsVkxMDFwuF4FAAJVKJYRCoVAoBCgqKqKzsxOPx8Pv9xMNBoiiCLPZLHq9HvPz89rb23E4HIyPj2MymTQ0NCAYDLK6uopkMkkwGGR+fp7V1VWcnp6mpqYGXddJpVLodruMjY3h8XjodDptB0CVSiWEQkHtdotsNoqiCLqu09PTw+PxsN/z50+y/bDTMVVVdHZ2ElVVSUlJCV3XaWdnJ5vNApvN0tLSglQqRVlZGZqmoaury+98S7KdnZ20tLQQjUaJxWJMTU0RTZNlZWWcnp7G4/FgbO3t7QCAw+FgcnKSzs5O+vt7CQaDjI+PMzU1RW9vL21tbaGjo4OhoSHGmZubY3R0lMLCQvR6PbquYxgGysvLyWQyRKFQALC8vJzKyko8Hg+maQBgYmKCoihYLBaGYQDDMKCpKhiGAaZpmpqamhobG/l2k6mpKXg8nr2WZTm/0tLS0tLSgnQ6TSQSERUVhdLSUpRSBgYGKKWUwMBABgYGaGlpoaWlhdzcXMbGxmhqamoGgsHn/Xw+TygUAoHA5/PR3d3N0dFRDg4O0N/fz+joKJvNAoDZbCYaDSKRSADQ3d3N0dERlUrlkK0tLSUlJQUul2uPhUKhpqamHA6HXw/4B/7Q406+b21tZW5uLpvNAoDxeJxoNCYajfJ6vSQSCcrlcjKZLKfTyeVyGYaBIAgwGAxMJhOMx2MAWFtbGwwGs9/b2Njg8/nwer0AgMlkEvV6nUQigbW1NZVKJYFAALVazf7Dcrkkm83y/X4Wi0WAwcHBhMNhxGLxL29uLrvS3p99B9gAAAAASUVORK5CYII="
                                                                      alt="Avatar" class="avatar-sm">
                                                                 <div class="ms-2">
                                                                     <div class="fw-medium">${order.user.fullname}</div>
@@ -194,7 +192,7 @@
                                                             </div>
                                                         </td>
                                                         <td><fmt:formatDate value="${order.date}" pattern="dd/MM/yyyy HH:mm"/></td>
-                                                        <td><fmt:formatNumber value="${order.totalPrice}" type="currency" currencySymbol="₫"/></td>
+                                                        <td><fmt:formatNumber value="${order.totalPrice}" type="currency" currencySymbol="₫" pattern="#,##0.##"/></td>
                                                         <td>
                                                             <span class="badge bg-${order.status == 'PENDING' ? 'warning' :
                                                                                         order.status == 'PROCESSING' ? 'info' :
@@ -248,6 +246,9 @@
                                             </li>
                                         </ul>
                                     </nav>
+                                    <p class="mt-3">
+                                        Bạn đang xem trang ${currentPage + 1} trên ${totalPages} trang
+                                    </p>
                                 </c:if>
                             </div>
                         </div>

@@ -12,4 +12,5 @@ import lombok.Setter;
 public class TopSellingProductDTO {
     private String productName;
     private long totalSold;
+    private Double price;
 }

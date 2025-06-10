@@ -163,12 +163,12 @@
 
             <!-- Search & Filter Form -->
             <form class="row g-3 mb-4" method="get" action="${pageContext.request.contextPath}/view/admin/product">
-                <div class="col-md-2">
+                <div class="col-md">
                     <input type="text" class="form-control" id="searchInput" placeholder="Tìm theo tên..."
                            name="searchName"
-                           value="${param.searchName}">
+                           value="${param.searchName}" onchange="this.form.submit()">
                 </div>
-                <div class="col-md-2">
+                <div class="col-md">
                     <select class="form-select" name="brand" onchange="this.form.submit()">
                         <option value="">-- Tất cả hãng --</option>
                         <c:forEach var="brand" items="${brands}">
@@ -176,7 +176,7 @@
                         </c:forEach>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md">
                     <select class="form-select" name="category" onchange="this.form.submit()">
                         <option value="">-- Tất cả danh mục --</option>
                         <c:forEach var="category" items="${categories}">
@@ -184,7 +184,7 @@
                         </c:forEach>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md">
                     <select class="form-select" name="sortBy" onchange="this.form.submit()">
                         <option value="">-- Sắp xếp --</option>
                         <option value="priceAsc" ${param.sortBy == 'priceAsc' ? 'selected' : ''}>Giá: Tăng dần</option>
@@ -195,7 +195,7 @@
                         </option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md">
                     <select class="form-select" name="size" onchange="this.form.submit()">
                         <option value="5" ${param.size == '5' ? 'selected' : ''}>5 sản phẩm/trang</option>
                         <option value="10" ${param.size == '10' ? 'selected' : ''}>10 sản phẩm/trang</option>
@@ -203,7 +203,7 @@
                         <option value="50" ${param.size == '50' ? 'selected' : ''}>50 sản phẩm/trang</option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md">
                     <button class="btn btn-primary w-100" type="submit">Lọc</button>
                 </div>
             </form>
@@ -233,19 +233,21 @@
                                 <td>${product.branchName}</td>
                                 <td>${product.quantity}</td>
                                 <td>${product.sold}</td>
-                                <td>${product.price} VND</td>
+                                <td><fmt:formatNumber value="${product.price}" type="currency" currencySymbol="₫" /></td>
                                 <td>
-                                    <button class="btn btn-sm btn-primary me-1 " data-bs-toggle="modal"
+                                    <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#viewProductModal_${product.id}"><i class="bi bi-eye"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-warning me-1" data-bs-toggle="modal"
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#editProductModal_${product.id}"><i
                                             class="bi bi-pencil-fill"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-danger me-1" data-bs-toggle="modal"
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#deleteProductModal_${product.id}"><i
                                             class="bi bi-trash3"></i>
                                     </button>
+                                    </div>
                                 </td>
                             </tr>
 

@@ -112,7 +112,7 @@
         <nav>
             <ol class="breadcrumb d-flex">
                 <li class="breadcrumb-item ms-auto">
-                    <a href="index.html"><i class="bi bi-house"></i></a>
+                    <a href="/view/admin/dashboard"><i class="bi bi-house"></i></a>
                 </li>
                 <li class="breadcrumb-item active">User</li>
             </ol>
@@ -156,7 +156,7 @@
                 <button class="btn btn-primary w-100" id="findUser">Lọc</button>
             </div>
         </form:form>
-        
+
         <div class="card shadow-sm p-3 mb-5 bg-body rounded">
             <table class="table table-hover table-bordered mt-3">
                 <thead>
@@ -228,9 +228,9 @@
 
         <!-- Pagination -->
         <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-end">
+            <ul class="pagination justify-content-center">
                 <li class="page-item ${currentPage == 0 ? 'disabled' : ''}">
-                    <a class="page-link" href="?page=${currentPage - 1}&size=${searchRequest.size}&searchName=${searchRequest.searchName}&searchRole=${searchRequest.searchRole}&searchStatus=${searchRequest.searchStatus}">Trước</a>
+                    <a class="page-link" href="?page=${currentPage > 0 ? currentPage - 1 : 0}&size=${searchRequest.size}&searchName=${searchRequest.searchName}&searchRole=${searchRequest.searchRole}&searchStatus=${searchRequest.searchStatus}">Trước</a>
                 </li>
                 <c:if test="${totalPages > 0}">
                     <c:forEach begin="0" end="${totalPages - 1}" var="i">
@@ -244,6 +244,9 @@
                 </li>
             </ul>
         </nav>
+        <p class="mt-3">
+            Bạn đang xem trang ${currentPage + 1} trên ${totalPages} trang
+        </p>
     </div>
 
 
@@ -459,14 +462,14 @@
             const userId = this.getAttribute("data-id");
             const confirmDelModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
             confirmDelModal.show();
-            
+
             // Xử lý sự kiện cho nút xóa
             const deleteButton = document.querySelector("#confirmDeleteModal .btn-danger");
             deleteButton.onclick = function() {
                 deleteUser(userId);
                 confirmDelModal.hide();
             };
-            
+
             // Xử lý sự kiện cho nút huỷ
             const cancelButton = document.querySelector("#confirmDeleteModal .btn-secondary");
             cancelButton.onclick = function() {
@@ -635,12 +638,12 @@
         var searchName = $("input[name='searchName']").val();
         var searchRole = $("select[name='searchRole']").val();
         var searchStatus = $("select[name='searchStatus']").val();
-        
+
         var url = "${pageContext.request.contextPath}/admin/user/export";
         url += "?searchName=" + searchName;
         url += "&searchRole=" + searchRole;
         url += "&searchStatus=" + searchStatus;
-        
+
         window.location.href = url;
     });
 

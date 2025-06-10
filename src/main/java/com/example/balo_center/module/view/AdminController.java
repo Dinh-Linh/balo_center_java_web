@@ -2,6 +2,7 @@ package com.example.balo_center.module.view;
 
 //import com.example.balo_center.domain.dto.ProductDTO;
 import com.example.balo_center.domain.dto.dashboard.DashboardSummaryDTO;
+import com.example.balo_center.domain.dto.dashboard.OrderRevenueDTO;
 import com.example.balo_center.domain.dto.dashboard.TopSellingProductDTO;
 import com.example.balo_center.domain.entity.Order;
 import com.example.balo_center.domain.dto.ProductFormDTO;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 //Simple Datatable
 @Controller
@@ -51,16 +54,24 @@ public class AdminController {
 
     // View user
     @GetMapping(value = "admin/dashboard")
-    public String dashboard(Model model) {
-        DashboardSummaryDTO summary = dashboardService.getDashboardSummary();
+    public String dashboard(Model model, @RequestParam(required = false) String filter) {
+        DashboardSummaryDTO summary = dashboardService.getDashboardSummary(filter);
         List<TopSellingProductDTO> topSellingProducts = dashboardService.getTopSellingProducts(5); // Get top 5
+        List<OrderRevenueDTO> orderRevenueByStatus = dashboardService.getTotalRevenueByStatus();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            model.addAttribute("orderRevenueByStatusJson", objectMapper.writeValueAsString(orderRevenueByStatus));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            model.addAttribute("orderRevenueByStatusJson", "[]"); // Return empty array on error
+        }
 
         model.addAttribute("summary", summary);
         model.addAttribute("topSellingProducts", topSellingProducts);
 
         return "admin/index";
     }
-
 
     // View product
     @GetMapping(value = "admin/product")

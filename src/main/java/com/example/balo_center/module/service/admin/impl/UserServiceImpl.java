@@ -42,10 +42,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getAllUser() {
-        //List<User> users = userRepo.findAll();
-        List<User>  users = userRepo.findAll(Sort.by(Sort.Direction.ASC, "role"));
+        // List<User> users = userRepo.findAll();
+        List<User> users = userRepo.findAll(Sort.by(Sort.Direction.ASC, "role"));
         List<UserDTO> results = new ArrayList<>();
-        for(User user : users){
+        for (User user : users) {
             UserDTO userDTO = userConverter.toUserDTO(user);
             results.add(userDTO);
         }
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> findUser(SearchRequest searchRequest) {
         List<User> users = userRepo.searchUsers(searchRequest);
         List<UserDTO> userDTOS = new ArrayList<>();
-        for (User x : users){
+        for (User x : users) {
             UserDTO userDTO = userConverter.toUserDTO(x);
             userDTOS.add(userDTO);
         }
@@ -82,7 +82,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(UserDTO userDTO) {
-        Timestamp timestamp = userRepo.findById(userDTO.getId()).getCreatedDate();
+        User existingUser = userRepo.findById(userDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userDTO.getId()));
+        Timestamp timestamp = existingUser.getCreatedDate();
         User user = userConverter.toUserEntity(userDTO);
         user.setCreatedDate(timestamp);
         userRepo.save(user);

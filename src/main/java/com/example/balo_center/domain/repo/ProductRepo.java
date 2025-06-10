@@ -13,26 +13,31 @@ import java.util.List;
 
 @Repository
 public interface ProductRepo extends JpaRepository<Product, String> {
-    @Query("select new com.example.balo_center.domain.dto.ProductFormDTO(p.id, p.productName, c.categoryName, b.branchName, p.quality, p.sold, p.price, p.productShortDesc, p.productDetailDesc) " +
-           "from Product p join p.category c join p.branch b " +
-           "where (:searchName is null or :searchName = '' or p.productName like concat('%', :searchName, '%')) " +
-           "and (:brand is null or :brand = '' or b.branchName = :brand) " +
-           "and (:category is null or :category = '' or c.categoryName = :category)")
-    Page<ProductFormDTO> findAllProduct(@Param("searchName") String searchName, 
-                                      @Param("brand") String brand,
-                                      @Param("category") String category,
-                                      Pageable pageable);
+        @Query("select new com.example.balo_center.domain.dto.ProductFormDTO(p.id, p.productName, c.categoryName, b.branchName, p.quality, p.sold, p.price, p.productShortDesc, p.productDetailDesc) "
+                        +
+                        "from Product p join p.category c join p.branch b " +
+                        "where (:searchName is null or :searchName = '' or p.productName like concat('%', :searchName, '%')) "
+                        +
+                        "and (:brand is null or :brand = '' or b.branchName = :brand) " +
+                        "and (:category is null or :category = '' or c.categoryName = :category)")
+        Page<ProductFormDTO> findAllProduct(@Param("searchName") String searchName,
+                        @Param("brand") String brand,
+                        @Param("category") String category,
+                        Pageable pageable);
 
-    @Query("select new com.example.balo_center.domain.dto.ProductFormDTO(" +
-            "p.id, p.productName, c.categoryName, b.branchName, p.quality, p.sold, p.price, p.productShortDesc, p.productDetailDesc) " +
-            "from Product p join p.category c join p.branch b " +
-            "where p.id = :id")
-    ProductFormDTO findProductById(@Param("id") String id);
+        @Query("select new com.example.balo_center.domain.dto.ProductFormDTO(" +
+                        "p.id, p.productName, c.categoryName, b.branchName, p.quality, p.sold, p.price, p.productShortDesc, p.productDetailDesc) "
+                        +
+                        "from Product p join p.category c join p.branch b " +
+                        "where p.id = :id")
+        ProductFormDTO findProductById(@Param("id") String id);
 
-    @Query("select p.image from Product p where p.id = :id")
-    List<String> findProductImages(@Param("id") String id);
+        @Query("select p.image from Product p where p.id = :id")
+        List<String> findProductImages(@Param("id") String id);
 
-    void deleteById(@Param("id") String id);
+        void deleteById(@Param("id") String id);
 
-    List<Product> findTop10ByProductNameContainingIgnoreCase(String term);
+        List<Product> findTop10ByProductNameContainingIgnoreCase(String term);
+
+        long countByCreatedDateBetween(java.sql.Timestamp startDate, java.sql.Timestamp endDate);
 }

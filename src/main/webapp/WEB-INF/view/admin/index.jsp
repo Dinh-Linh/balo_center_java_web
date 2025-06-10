@@ -82,7 +82,7 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
         <nav>
           <ol class="breadcrumb d-flex">
             <li class="breadcrumb-item ms-auto">
-              <a href="index.html"><i class="bi bi-house"></i></a>
+              <a href="/view/admin/dashboard"><i class="bi bi-house"></i></a>
             </li>
             <li class="breadcrumb-item active">Dashboard</li>
           </ol>
@@ -93,7 +93,7 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
       <section class="section dashboard">
         <div class="row">
           <!-- Left side columns -->
-          <div class="col-lg-8">
+          <div class="col-lg-12">
             <div class="row">
               <!-- Total Products Card -->
               <div class="col-xxl-3 col-md-6">
@@ -110,13 +110,25 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                       </li>
 
                       <li>
-                        <a class="dropdown-item" href="#">Today</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=today"
+                          >Today</a
+                        >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">This Month</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=month"
+                          >This Month</a
+                        >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">This Year</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=year"
+                          >This Year</a
+                        >
                       </li>
                     </ul>
                   </div>
@@ -154,13 +166,25 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                       </li>
 
                       <li>
-                        <a class="dropdown-item" href="#">Today</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=today"
+                          >Today</a
+                        >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">This Month</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=month"
+                          >This Month</a
+                        >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">This Year</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=year"
+                          >This Year</a
+                        >
                       </li>
                     </ul>
                   </div>
@@ -198,13 +222,25 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                       </li>
 
                       <li>
-                        <a class="dropdown-item" href="#">Today</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=today"
+                          >Today</a
+                        >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">This Month</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=month"
+                          >This Month</a
+                        >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">This Year</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=year"
+                          >This Year</a
+                        >
                       </li>
                     </ul>
                   </div>
@@ -219,10 +255,10 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                         <i class="bi bi-currency-dollar"></i>
                       </div>
                       <div class="ps-3">
-                        <h6 style="font-size: 0.65em">
+                        <h6>
                           <fmt:formatNumber
                             value="${summary.totalRevenue}"
-                            type="currency"
+                            pattern="#,##0"
                             currencySymbol="₫"
                           />
                         </h6>
@@ -233,7 +269,7 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
               </div>
               <!-- End Total Revenue Card -->
 
-              <!-- Total Customers Card -->
+              <!-- Total Users Card -->
               <div class="col-xxl-3 col-md-6">
                 <div class="card info-card customers-card">
                   <div class="filter">
@@ -248,19 +284,31 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                       </li>
 
                       <li>
-                        <a class="dropdown-item" href="#">Today</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=today"
+                          >Today</a
+                        >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">This Month</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=month"
+                          >This Month</a
+                        >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">This Year</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=year"
+                          >This Year</a
+                        >
                       </li>
                     </ul>
                   </div>
 
                   <div class="card-body">
-                    <h5 class="card-title">Tổng khách hàng</h5>
+                    <h5 class="card-title">Tổng người dùng</h5>
 
                     <div class="d-flex align-items-center">
                       <div
@@ -275,7 +323,7 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                   </div>
                 </div>
               </div>
-              <!-- End Total Customers Card -->
+              <!-- End Total Users Card -->
 
               <!-- Reports -->
               <div class="col-12">
@@ -292,84 +340,132 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                       </li>
 
                       <li>
-                        <a class="dropdown-item" href="#">Today</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=today"
+                          >Today</a
+                        >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">This Month</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=month"
+                          >This Month</a
+                        >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">This Year</a>
+                        <a
+                          class="dropdown-item"
+                          href="${pageContext.request.contextPath}/view/admin/dashboard?filter=year"
+                          >This Year</a
+                        >
                       </li>
                     </ul>
                   </div>
 
                   <div class="card-body">
                     <h5 class="card-title">
-                      Thống kê doanh thu, đơn hàng, người dùng<span
-                        >/Hôm nay</span
-                      >
+                      Thống kê doanh thu theo trạng thái đơn hàng
                     </h5>
 
-                    <!-- Line Chart -->
+                    <!-- Donut Chart -->
                     <div
-                      id="reportsChart"
+                      id="orderStatusChart"
                       style="max-height: 400px; min-height: 250px"
                     >
                       <canvas
-                        id="reportsChartCanvas"
+                        id="orderStatusChartCanvas"
                         style="display: block; width: 100%; height: 100%"
                       ></canvas>
                     </div>
 
                     <script>
                       document.addEventListener("DOMContentLoaded", () => {
-                        const canvas = document.querySelector(
-                          "#reportsChartCanvas"
+                        // Get data from Spring Model
+                        const orderRevenueByStatusJson =
+                          "${orderRevenueByStatusJson}";
+                        let orderRevenueData = [];
+                        try {
+                          orderRevenueData = JSON.parse(
+                            orderRevenueByStatusJson
+                          );
+                        } catch (e) {
+                          console.error("Error parsing order revenue data:", e);
+                        }
+
+                        const labels = orderRevenueData.map((item) => {
+                          let statusText = item.status;
+                          switch (item.status) {
+                            case "PENDING":
+                              statusText = "Chờ xử lý";
+                              break;
+                            case "PROCESSING":
+                              statusText = "Đang xử lý";
+                              break;
+                            case "SHIPPED":
+                              statusText = "Đang giao hàng";
+                              break;
+                            case "DELIVERED":
+                              statusText = "Đã giao hàng";
+                              break;
+                            case "CANCELLED":
+                              statusText = "Đã hủy";
+                              break;
+                          }
+                          return statusText;
+                        });
+                        const data = orderRevenueData.map(
+                          (item) => item.totalRevenue
                         );
-                        console.log("Reports Chart Canvas:", canvas);
-                        console.log("Chart object:", typeof Chart);
+
+                        const colors = [
+                          "rgba(255, 99, 132, 0.7)", // Red
+                          "rgba(54, 162, 235, 0.7)", // Blue
+                          "rgba(255, 206, 86, 0.7)", // Yellow
+                          "rgba(75, 192, 192, 0.7)", // Green
+                          "rgba(153, 102, 255, 0.7)", // Purple
+                        ];
+
+                        const canvas = document.querySelector(
+                          "#orderStatusChartCanvas"
+                        );
                         if (canvas && typeof Chart !== "undefined") {
                           new Chart(canvas, {
-                            type: "line",
+                            type: "doughnut", // Change to doughnut for circular chart
                             data: {
-                              labels: [
-                                "00:00",
-                                "00:05",
-                                "00:10",
-                                "00:15",
-                                "00:20",
-                                "00:25",
-                                "00:30",
-                                "00:35",
-                              ],
+                              labels: labels,
                               datasets: [
                                 {
                                   label: "Doanh thu",
-                                  data: [65, 59, 80, 81, 56, 55, 40, 80],
-                                  fill: true,
-                                  borderColor: "rgb(75, 192, 192)",
-                                  tension: 0.3,
-                                },
-                                {
-                                  label: "Đơn hàng",
-                                  data: [15, 20, 10, 18, 17, 12, 15, 20],
-                                  fill: true,
-                                  borderColor: "rgb(255, 99, 132)",
-                                  tension: 0.3,
-                                },
-                                {
-                                  label: "Người dùng",
-                                  data: [5, 7, 6, 9, 8, 10, 7, 10],
-                                  fill: true,
-                                  borderColor: "rgb(54, 162, 235)",
-                                  tension: 0.3,
+                                  data: data,
+                                  backgroundColor: colors,
+                                  hoverOffset: 4,
                                 },
                               ],
                             },
                             options: {
-                              scales: {
-                                y: {
-                                  beginAtZero: true,
+                              responsive: true,
+                              maintainAspectRatio: false,
+                              plugins: {
+                                legend: {
+                                  position: "top",
+                                },
+                                tooltip: {
+                                  callbacks: {
+                                    label: function (context) {
+                                      let label = context.label || "";
+                                      if (label) {
+                                        label += ": ";
+                                      }
+                                      if (context.parsed) {
+                                        label += new Intl.NumberFormat(
+                                          "vi-VN",
+                                          { style: "currency", currency: "VND" }
+                                        ).format(context.parsed);
+                                      }
+                                      return label;
+                                    },
+                                  },
                                 },
                               },
                             },
@@ -377,7 +473,7 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                         }
                       });
                     </script>
-                    <!-- End Line Chart -->
+                    <!-- End Donut Chart -->
                   </div>
                 </div>
               </div>
@@ -420,6 +516,7 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                                 value="${product.price}"
                                 type="currency"
                                 currencySymbol="₫"
+                                pattern="#,##0"
                               />
                             </td>
                             <td class="fw-bold">${product.totalSold}</td>
@@ -434,197 +531,6 @@ prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
             </div>
           </div>
           <!-- End Left side columns -->
-
-          <!-- Right side columns -->
-          <div class="col-lg-4">
-            <!-- Recent Activity -->
-            <div class="card">
-              <div class="filter">
-                <a class="icon" href="#" data-bs-toggle="dropdown"
-                  ><i class="bi bi-three-dots"></i
-                ></a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                  <li class="dropdown-header text-start">
-                    <h6>Filter</h6>
-                  </li>
-
-                  <li>
-                    <a class="dropdown-item" href="#">Today</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">This Month</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">This Year</a>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="card-body">
-                <h5 class="card-title">
-                  Hoạt động gần đây <span>| Hôm nay</span>
-                </h5>
-
-                <div class="activity">
-                  <div class="activity-item d-flex">
-                    <div class="activite-label">32 min</div>
-                    <i
-                      class="bi bi-circle-fill activity-badge text-success align-self-start"
-                    ></i>
-                    <div class="activity-content">
-                      Quia quae rerum
-                      <a href="#" class="fw-bold text-dark"
-                        >expedita officilis</a
-                      >
-                      beatae
-                    </div>
-                  </div>
-                  <!-- End activity item-->
-
-                  <div class="activity-item d-flex">
-                    <div class="activite-label">2 hrs</div>
-                    <i
-                      class="bi bi-circle-fill activity-badge text-danger align-self-start"
-                    ></i>
-                    <div class="activity-content">
-                      Voluptates corrupti molestias voluptatem
-                    </div>
-                  </div>
-                  <!-- End activity item-->
-
-                  <div class="activity-item d-flex">
-                    <div class="activite-label">1 day</div>
-                    <i
-                      class="bi bi-circle-fill activity-badge text-primary align-self-start"
-                    ></i>
-                    <div class="activity-content">
-                      Necessitatibus ipsum sit
-                      <a href="#" class="fw-bold text-dark">dolor eum</a>
-                      assumenda fuga
-                    </div>
-                  </div>
-                  <!-- End activity item-->
-
-                  <div class="activity-item d-flex">
-                    <div class="activite-label">2 days</div>
-                    <i
-                      class="bi bi-circle-fill activity-badge text-info align-self-start"
-                    ></i>
-                    <div class="activity-content">
-                      Aspernatur rerum perferendis et.
-                    </div>
-                  </div>
-                  <!-- End activity item-->
-
-                  <div class="activity-item d-flex">
-                    <div class="activite-label">4 weeks</div>
-                    <i
-                      class="bi bi-circle-fill activity-badge text-warning align-self-start"
-                    ></i>
-                    <div class="activity-content">
-                      Sit rerum enim excepteur debitis quas
-                    </div>
-                  </div>
-                  <!-- End activity item-->
-                </div>
-              </div>
-            </div>
-            <!-- End Recent Activity -->
-
-            <!-- Popular Products Chart -->
-            <div class="card">
-              <div class="filter">
-                <a class="icon" href="#" data-bs-toggle="dropdown"
-                  ><i class="bi bi-three-dots"></i
-                ></a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                  <li class="dropdown-header text-start">
-                    <h6>Filter</h6>
-                  </li>
-
-                  <li>
-                    <a class="dropdown-item" href="#">Today</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">This Month</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">This Year</a>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="card-body pb-0">
-                <h5 class="card-title">
-                  Sản phẩm phổ biến <span>| Hôm nay</span>
-                </h5>
-
-                <div id="popularProductsChart" class="echart"></div>
-
-                <script>
-                  document.addEventListener("DOMContentLoaded", () => {
-                    const topSellingProductsJson = "${topSellingProductsJson}";
-                    let topSellingProducts = [];
-                    if (
-                      topSellingProductsJson &&
-                      topSellingProductsJson !== ""
-                    ) {
-                      try {
-                        topSellingProducts = JSON.parse(topSellingProductsJson);
-                      } catch (e) {
-                        console.error(
-                          "Error parsing topSellingProductsJson:",
-                          e
-                        );
-                      }
-                    }
-                    const productNames = topSellingProducts.map(
-                      (p) => p.productName
-                    );
-                    const totalSolds = topSellingProducts.map(
-                      (p) => p.totalSold
-                    );
-
-                    new Chart(document.querySelector("#popularProductsChart"), {
-                      type: "pie",
-                      data: {
-                        labels: productNames,
-                        datasets: [
-                          {
-                            label: "Số lượng đã bán",
-                            data: totalSolds,
-                            backgroundColor: [
-                              "rgb(255, 99, 132)",
-                              "rgb(54, 162, 235)",
-                              "rgb(255, 205, 86)",
-                              "rgb(75, 192, 192)",
-                              "rgb(153, 102, 255)",
-                              "rgb(255, 159, 64)",
-                            ],
-                            hoverOffset: 4,
-                          },
-                        ],
-                      },
-                      options: {
-                        responsive: true,
-                        plugins: {
-                          legend: {
-                            position: "top",
-                          },
-                          title: {
-                            display: true,
-                            text: "Sản phẩm phổ biến",
-                          },
-                        },
-                      },
-                    });
-                  });
-                </script>
-              </div>
-            </div>
-            <!-- End Popular Products Chart -->
-          </div>
-          <!-- End Right side columns -->
         </div>
       </section>
     </main>

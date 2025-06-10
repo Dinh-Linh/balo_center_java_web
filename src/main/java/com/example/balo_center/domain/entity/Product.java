@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,6 +37,9 @@ public class Product {
     @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
     private List<String> image;
 
+    @Column(name = "created_date")
+    private Timestamp createdDate;
+
     @ManyToOne
     @JoinColumn(name = "branch_id")
     private Branch branch;
@@ -51,9 +55,12 @@ public class Product {
     private List<Cart> carts;
 
     @PrePersist
-    public void prePersist(){
-        if(this.id == null || this.id.isEmpty()){
+    public void prePersist() {
+        if (this.id == null || this.id.isEmpty()) {
             this.id = UUID.randomUUID().toString();
+        }
+        if (this.createdDate == null) {
+            this.createdDate = new Timestamp(System.currentTimeMillis());
         }
     }
 

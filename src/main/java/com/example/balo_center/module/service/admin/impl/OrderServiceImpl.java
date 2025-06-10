@@ -16,9 +16,12 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -44,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
             List<Predicate> predicates = new ArrayList<>();
 
             if (StringUtils.hasText(searchId)) {
-                predicates.add(criteriaBuilder.like(root.get("id"), "%" + searchId + "%"));
+                predicates.add(criteriaBuilder.like(root.get("user").get("fullname"), "%" + searchId + "%"));
             }
             if (StringUtils.hasText(status)) {
                 predicates.add(criteriaBuilder.equal(root.get("status"), status));
@@ -71,11 +74,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void exportToCSV(PrintWriter writer) throws IOException {
         // Write CSV header
-        writer.println("Mã đơn hàng,Ngày đặt,Tên khách hàng,Số điện thoại,Địa chỉ,Tổng tiền,Trạng thái,Số lượng");
+        writer.println("Ngày đặt,Tên khách hàng,Số điện thoại,Địa chỉ,Tổng tiền,Trạng thái,Số lượng");
 
         // Write data rows
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         List<Order> orders = repo.findAll(); // Get all orders for CSV export
+
+        // For Total Price formatting
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.ROOT);
+        symbols.setGroupingSeparator('.');
+        symbols.setDecimalSeparator('.');
+        DecimalFormat formatter = new DecimalFormat("#,##0.00", symbols);
 
         for (Order order : orders) {
             String orderStatus = switch (order.getStatus()) {
@@ -87,15 +96,25 @@ public class OrderServiceImpl implements OrderService {
                 default -> order.getStatus();
             };
 
-            writer.println(String.format("%s,%s,%s,%s,%s,%.2f,%s,%d",
-                    order.getId(),
-                    dateFormat.format(order.getDate()),
-                    order.getUser().getFullname(),
-                    order.getPhone(),
-                    order.getAddress(),
-                    order.getTotalPrice(),
-                    orderStatus,
+            writer.println(String.format("%s,%s,%s,%s,%s,%s,%d",
+                    escapeCsvField(dateFormat.format(order.getDate())),
+                    escapeCsvField(order.getUser().getFullname()),
+                    escapeCsvField(order.getPhone()),
+                    escapeCsvField(order.getAddress()),
+                    escapeCsvField(formatter.format(order.getTotalPrice())),
+                    escapeCsvField(orderStatus),
                     order.getQuality_product()));
         }
+    }
+
+    private String escapeCsvField(String field) {
+        if (field == null) {
+            return "";
+        }
+        if (field.contains(",") || field.contains("\"") || field.contains("\n") || field.contains("\r")) {
+            String escapedField = field.replace(String.valueOf('"'), String.valueOf('"') + String.valueOf('"'));
+            return "\"" + escapedField + "\"";
+        }
+        return field;
     }
 }
