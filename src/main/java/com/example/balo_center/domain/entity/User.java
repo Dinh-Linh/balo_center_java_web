@@ -31,7 +31,7 @@ public class User {
     @Column(name = "phone")
     private String userPhone;
     @Column(name = "role")
-    private String role;
+    private String role = "USER"; // Added default value
     @Column(name = "status")
     private String status;
     @Column(name = "avatar")
@@ -45,4 +45,26 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Order> orderList;
+
+    // Explicit getters for fields accessed by UserDetailsImpl
+    // Lombok should generate these, but adding them explicitly can help if there's a build/Lombok issue.
+    public String getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getFullName() { // Added for consistency if UserDetailsImpl needs it
+        return fullName;
+    }
 }

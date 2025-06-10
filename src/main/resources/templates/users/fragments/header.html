@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<header th:fragment="header" class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-slate-200 px-10 py-4 shadow-sm">
+    <div class="flex items-center gap-10">
+        <div class="flex items-center gap-3 text-[#141414]">
+            <a th:href="@{/home}"
+               class="flex items-center gap-3 text-[#141414] hover:text-[#eb6c28] transition-colors cursor-pointer">
+                <div class="size-6 text-[#141414]">
+                    <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z"
+                              fill="currentColor"></path>
+                    </svg>
+                </div>
+                <h2 class="text-[#141414] text-xl font-bold leading-tight tracking-[-0.015em]">Backpack Co.</h2>
+            </a>
+        </div>
+        <nav class="flex items-center gap-8">
+            <a class="text-slate-700 hover:text-[#141414] text-sm font-medium leading-normal transition-colors"
+               th:href="@{/products}">New Arrivals</a>
+            <a class="text-slate-700 hover:text-[#141414] text-sm font-medium leading-normal transition-colors"
+               th:href="@{/products?category=featured}">Featured</a> <!-- Example: query param for featured -->
+            <a class="text-slate-700 hover:text-[#141414] text-sm font-medium leading-normal transition-colors"
+               th:href="@{/products?category=men}">Men</a> <!-- Example: query param for men -->
+            <a class="text-slate-700 hover:text-[#141414] text-sm font-medium leading-normal transition-colors"
+               th:href="@{/products?category=women}">Women</a> <!-- Example: query param for women -->
+            <a class="text-slate-700 hover:text-[#141414] text-sm font-medium leading-normal transition-colors"
+               th:href="@{/products?category=accessories}">Accessories</a> <!-- Example: query param for accessories -->
+            <a class="text-slate-700 hover:text-[#141414] text-sm font-medium leading-normal transition-colors"
+               th:href="@{/products?filter=sale}">Sale</a> <!-- Example: query param for sale -->
+        </nav>
+    </div>
+
+    <!-- Middle Section: Username -->
+    <div class="flex-1 text-center px-4">
+        <div sec:authorize="isAuthenticated()">
+            <span class="text-lg font-medium bg-indigo-500 text-white px-4 py-2 rounded-lg shadow-md">
+                Welcome, <span sec:authentication="principal.username">User</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="flex items-center gap-4">
+        <form th:action="@{/products/search}" method="get" class="flex flex-col min-w-48 !h-10 max-w-xs">
+            <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                <button type="submit" class="text-slate-500 flex border border-slate-300 bg-slate-50 items-center justify-center pl-3 rounded-l-lg border-r-0">
+                    <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+                    </svg>
+                </button>
+                <input name="term" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-[#141414] focus:outline-none focus:ring-2 focus:ring-[#141414] focus:border-transparent border border-slate-300 bg-slate-50 h-full placeholder:text-slate-500 px-3 text-sm font-normal leading-normal border-l-0"
+                       placeholder="Search products..." th:value="${currentSearchTerm}" />
+            </div>
+        </form>
+        <div class="flex gap-2">
+            <a th:href="@{/wishlist}" aria-label="Wishlist"
+                    class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-slate-100 hover:bg-slate-200 text-[#141414] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-3 transition-colors">
+                <div class="text-[#141414]">
+                    <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.61,146.24,196.15,128,206.8Z"></path>
+                    </svg>
+                </div>
+            </a>
+            <a th:href="@{/cart}" aria-label="Shopping Cart" id="cart-icon"
+                    class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-slate-100 hover:bg-slate-200 text-[#141414] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-3 transition-colors">
+                <div class="text-[#141414]">
+                    <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V56H216V200ZM176,88a48,48,0,0,1-96,0,8,8,0,0,1,16,0,32,32,0,0,0,64,0,8,8,0,0,1,16,0Z"></path>
+                    </svg>
+                </div>
+            </a>
+        </div>
+        <div class="flex gap-2">
+            <!-- Conditional rendering for Login/Signup or Logout -->
+            <div sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}" type="button"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Login
+                </a>
+                <a th:href="@{/signup}" type="button"
+                        class="ml-2 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                    Sign Up
+                </a>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <!-- Username is now in the middle. Only Logout button here -->
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit"
+                            class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div sec:authorize="isAuthenticated()" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 shadow-sm"
+             th:styleappend="'background-image: url(' + (${#authentication.principal.hasProperty('profileImageUrl')} ? ${#authentication.principal.profileImageUrl} : '/assets/image/default-avatar.png') + ');'">
+        </div>
+         <div sec:authorize="!isAuthenticated()" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 shadow-sm"
+             style="background-image: url('/assets/image/default-avatar.png');">
+        </div>
+    </div>
+</header>
+
+</body>
+</html>

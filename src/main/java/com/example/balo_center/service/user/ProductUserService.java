@@ -13,5 +13,7 @@ public interface ProductUserService {
 
     Page<ProductResponse> filterByBrand(String brandName, PagingAndSortingParams pagingAndSortingParams);
 
+    Page<ProductResponse> searchProductContainIgnoreCase(String name, PagingAndSortingParams pagingAndSortingParams);
+
     ProductResponse getProductById(Long id);
 }

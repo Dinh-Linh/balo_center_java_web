@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{users/app.component}">
+
+<head>
+    <title>Register</title>
+    <style>
+        /* Custom styles for this page can be added here or in a linked CSS file */
+        /* For example, to match the Angular component's body style */
+        body {
+            font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden bg-neutral-100">
+        <div class="layout-container flex h-full grow flex-col">
+            <main class="flex flex-1 items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
+                <div class="w-full max-w-md space-y-8">
+                    <div class="bg-white p-8 shadow-xl rounded-xl">
+                        <h2 class="text-center text-3xl font-extrabold text-neutral-800 mb-2">Create your account</h2>
+                        <p class="text-center text-sm text-neutral-600 mb-8">
+                            Join us and start your journey.
+                        </p>
+                        <!-- Registration Form -->
+                        <form th:action="@{/register}" method="post" class="space-y-6" th:object="${user}">
+                            <!-- Display general error messages -->
+                            <div th:if="${#fields.hasGlobalErrors()}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                                <strong class="font-bold">Error!</strong>
+                                <span class="block sm:inline" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></span>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-neutral-700 pb-1.5" for="name">Full name</label>
+                                <input class="form-input block w-full rounded-lg border-neutral-300 bg-neutral-50 shadow-sm focus:border-neutral-500 focus:ring-neutral-500 h-12 p-3 text-base placeholder-neutral-400" id="name" name="name" placeholder="Your Name" required="" type="text" th:field="*{name}"/>
+                                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-500 text-xs italic"></p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-neutral-700 pb-1.5" for="email">Email address</label>
+                                <input autocomplete="email" class="form-input block w-full rounded-lg border-neutral-300 bg-neutral-50 shadow-sm focus:border-neutral-500 focus:ring-neutral-500 h-12 p-3 text-base placeholder-neutral-400" id="email" name="email" placeholder="you@example.com" required="" type="email" th:field="*{email}"/>
+                                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-500 text-xs italic"></p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-neutral-700 pb-1.5" for="password">Password</label>
+                                <input autocomplete="new-password" class="form-input block w-full rounded-lg border-neutral-300 bg-neutral-50 shadow-sm focus:border-neutral-500 focus:ring-neutral-500 h-12 p-3 text-base placeholder-neutral-400" id="password" name="password" placeholder="••••••••" required="" type="password" th:field="*{password}"/>
+                                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-red-500 text-xs italic"></p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-neutral-700 pb-1.5" for="confirmPassword">Confirm Password</label>
+                                <input autocomplete="new-password" class="form-input block w-full rounded-lg border-neutral-300 bg-neutral-50 shadow-sm focus:border-neutral-500 focus:ring-neutral-500 h-12 p-3 text-base placeholder-neutral-400" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required="" type="password" th:field="*{confirmPassword}"/>
+                                <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="text-red-500 text-xs italic"></p>
+                            </div>
+                            <div class="flex justify-center">
+                                <button class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 @[480px]:h-14 @[480px]:px-8 bg-[#eb6c28] text-white text-base font-bold leading-normal tracking-[0.015em] @[480px]:text-lg @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] hover:bg-[#d95f21] transition-colors shadow-md" type="submit">
+                                    Sign up
+                                </button>
+                            </div>
+                        </form>
+                        <p class="mt-8 text-center text-sm text-neutral-500">
+                            Already have an account?
+                            <a class="font-medium text-[#141414] hover:text-neutral-700 link-subtle" th:href="@{/login}">Log in</a>
+                        </p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

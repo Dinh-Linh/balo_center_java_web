@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter var', sans-serif; /* Ensuring Inter is the default font */
+}
+
+body {
+    background-color: #fef5f0; /* custom-beige */
+    color: #1b120e; /* custom-brown */
+}
+
+/* Example of how you might import custom.css if you want to keep it separate
+   and process it with PostCSS. Otherwise, you can move its content here. */
+/* @import "custom.css"; */
+
+.btn-custom-orange {
+    background-color: #eb6c28; /* custom-orange */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom-orange:hover {
+    background-color: #d05c22; /* Darker shade of custom-orange */
+}
+
+.text-custom-light-brown {
+    color: #7f5e53; /* custom-light-brown */
+}
+
+.bg-custom-beige {
+    background-color: #fef5f0;
+}
+
+/* Add other global styles or component styles from your Angular styles.css here */
+
+/* Styles from home.component.css */
+.material-icons-outlined {
+    font-family: 'Material Icons Outlined', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px; /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+/* Styles from checkout.component.css */
+@media print {
+    header {
+        position: static !important; /* Ensure header is part of the normal flow for printing */
+        box-shadow: none !important; /* Remove shadow for cleaner print */
+        background-color: white !important; /* Ensure background is white for print */
+        color: black !important; /* Ensure text is black for print */
+    }
+
+    header .text-indigo-600,
+    header .text-indigo-700,
+    header .text-green-500 {
+        color: black !important; /* Change colored text to black for print */
+    }
+
+    /* Hide elements not suitable for printing if any */
+    /* .element-to-hide-on-print {
+      display: none !important;
+    } */
+}

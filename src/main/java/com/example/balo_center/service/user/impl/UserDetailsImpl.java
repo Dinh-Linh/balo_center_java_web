@@ -1,47 +1,74 @@
 package com.example.balo_center.service.user.impl;
 
 import com.example.balo_center.domain.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Setter
+@Data
 @Service
 public class UserDetailsImpl implements UserDetails {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Getter
-    private Long id;
-    private String username;
+    private String id; // Changed to String to match User entity
+
+    private String username; // This will hold the identifier used for login (e.g., email)
+
     @Getter
     private String email;
+
+    @JsonIgnore
     private String password;
+
     private Collection<? extends GrantedAuthority> authorities;
 
+    // Default constructor might be needed by some frameworks, ensure it's present if required.
     public UserDetailsImpl() {
     }
 
-    public UserDetailsImpl(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+
+    // Constructor used by the build method
+    public UserDetailsImpl(String id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
-        this.username = username;
+        this.username = username; // Ensure this is the field Spring Security uses for username
         this.email = email;
         this.password = password;
         this.authorities = authorities;
     }
 
     public static UserDetailsImpl build(User user) {
-        List<GrantedAuthority> authorities = Arrays.stream(user.getRole().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        List<GrantedAuthority> authorities;
+        String roleString = user.getRole();
+        if (roleString != null && !roleString.isEmpty()) {
+            authorities = Arrays.stream(roleString.split(","))
+                    .map(String::trim)
+                    .filter(role -> !role.isEmpty())
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
+            if (authorities.isEmpty()) {
+                // Default role if parsing results in empty list but roleString was not empty
+                authorities = Collections.singletonList(new SimpleGrantedAuthority("USER"));
+            }
+        } else {
+            // Default role if roleString is null or empty
+            authorities = Collections.singletonList(new SimpleGrantedAuthority("USER"));
+        }
         return new UserDetailsImpl(
-                Long.valueOf(user.getId()),
-                user.getFullName(),
+                user.getId(), // Assuming User.getId() returns String
+                user.getEmail(), // Using email as the username for Spring Security
                 user.getEmail(),
                 user.getPassword(),
                 authorities);
@@ -59,6 +86,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
+        // This must return the identifier used by Spring Security for authentication (e.g., email)
         return username;
     }
 

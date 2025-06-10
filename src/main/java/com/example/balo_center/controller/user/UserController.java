@@ -7,8 +7,7 @@ import com.example.balo_center.domain.entity.User;
 import com.example.balo_center.repository.UserRepository;
 import com.example.balo_center.service.user.impl.UserDetailsImpl;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,13 +17,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    private UserRepository userRepository;
-    private PasswordEncoder encoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
 
     @GetMapping("/profile")
     public ResponseEntity<UserProfileResponse> getUserProfile() {
@@ -34,7 +32,7 @@ public class UserController {
                 .orElseThrow();
         List<String> roles = Arrays.asList(user.getRole().split(","));
         UserProfileResponse profile = new UserProfileResponse(
-                Long.valueOf(user.getId()), user.getEmail(), user.getFullName(), roles);
+                user.getId(), user.getEmail(), user.getFullName(), roles);
         return ResponseEntity.ok(profile);
     }
 

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{users/app.component}">
+
+<head>
+    <title>All Products</title>
+    <!-- Add any page-specific CSS or JS links if needed -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function animateAddToCart(event, productId, productName, productImageLink) {
+            // In a real Thymeleaf app, the actual cart addition would be a form submit or AJAX to backend.
+            // This JS function can handle the animation part.
+            console.log("Adding to cart (animation):", productId, productName);
+
+            // Find product card and image element
+            const btn = event.currentTarget;
+            const card = btn.closest('.product-card');
+            if (!card) return;
+            const imageDiv = card.querySelector('.product-image');
+            if (!imageDiv) return;
+
+            // Create flying image
+            const flyer = document.createElement('img');
+            flyer.src = productImageLink;
+            const rect = imageDiv.getBoundingClientRect();
+            flyer.style.position = 'fixed';
+            flyer.style.left = rect.left + 'px';
+            flyer.style.top = rect.top + 'px';
+            flyer.style.width = rect.width + 'px';
+            flyer.style.height = rect.height + 'px';
+            flyer.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
+            flyer.style.zIndex = '1000';
+            document.body.appendChild(flyer);
+
+            // Calculate destination (cart icon in header)
+            const cartIcon = document.getElementById('cart-icon'); // Assuming your cart icon has id 'cart-icon'
+            if (cartIcon) {
+                const cartRect = cartIcon.getBoundingClientRect();
+                const dx = (cartRect.left + cartRect.width / 2) - (rect.left + rect.width / 2);
+                const dy = (cartRect.top + cartRect.height / 2) - (rect.top + rect.height / 2);
+                requestAnimationFrame(() => {
+                    flyer.style.transform = `translate(${dx}px, ${dy}px) scale(0.2)`;
+                    flyer.style.opacity = '0.5';
+                });
+            }
+
+            // Cleanup after animation
+            flyer.addEventListener('transitionend', () => {
+                flyer.remove();
+            });
+        }
+
+        function handleSortChange(value) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('sort', value);
+            url.searchParams.set('page', '0'); // Reset to first page on sort change
+            window.location.href = url.toString();
+        }
+
+        function handleBrandChange(value) {
+            const url = new URL(window.location.href);
+            if (value) {
+                url.searchParams.set('brand', value);
+            } else {
+                url.searchParams.delete('brand');
+            }
+            url.searchParams.set('page', '0'); // Reset to first page on brand change
+            window.location.href = url.toString();
+        }
+        /*]]>*/
+    </script>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <div class="flex flex-1 justify-center py-8">
+        <div class="flex flex-col flex-1 gap-8 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+                <div class="flex flex-col gap-2">
+                    <h1 class="text-[#1b120e] tracking-tight text-4xl font-bold leading-tight">All Products</h1>
+                    <p class="text-[#7f5e53] text-base font-normal leading-relaxed">Explore our entire collection of
+                        backpacks, designed for every adventure and lifestyle.</p>
+                </div>
+            </div>
+
+            <!-- Filters and Sorting -->
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 px-4 py-3 mb-6 rounded-xl bg-white shadow-sm">
+                <div class="flex gap-2 items-center">
+                    <button aria-label="Sort Products"
+                            class="p-2 text-[#7f5e53] hover:text-[#1b120e] hover:bg-[#fef5f0] rounded-md transition-colors">
+                        <span class="material-icons-outlined">sort</span> <!-- Using Material Icon for sort -->
+                    </button>
+                    <span class="text-sm text-[#7f5e53]">Sort by</span>
+                    <select onchange="handleSortChange(this.value)"
+                            class="form-select text-sm text-[#1b120e] font-medium border-[#eb6c28] rounded-md focus:ring-2 focus:ring-[#eb6c28] focus:border-transparent">
+                        <option value="name" th:selected="${currentSort == 'name'}">Name</option>
+                        <option value="price-low-high" th:selected="${currentSort == 'price-low-high'}">Price: Low to High</option>
+                        <option value="price-high-low" th:selected="${currentSort == 'price-high-low'}">Price: High to Low</option>
+                        <!-- <option value="popularity" th:selected="${currentSort == 'popularity'}">Popularity</option> -->
+                        <!-- <option value="newest" th:selected="${currentSort == 'newest'}">Newest</option> -->
+                    </select>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-[#7f5e53]">Filter by Brand:</span>
+                    <select onchange="handleBrandChange(this.value)"
+                            class="form-select text-sm text-[#1b120e] font-medium border-[#eb6c28] rounded-md focus:ring-2 focus:ring-[#eb6c28] focus:border-transparent">
+                        <option value="">All Brands</option>
+                        <option th:each="brand : ${brands}" th:value="${brand.name}" th:text="${brand.name}"
+                                th:selected="${selectedBrand == brand.name}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Loading indicator -->
+            <div th:if="${loading}" class="flex justify-center py-8">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#eb6c28]"></div>
+            </div>
+
+            <!-- Error message -->
+            <div th:if="${error}" class="text-red-500 text-center py-4">
+                <p th:text="${error}">Error loading products.</p>
+            </div>
+
+            <!-- Empty state -->
+            <div th:if="${!loading && !error && (#lists.isEmpty(productsPage.content) || productsPage.content.size() == 0)}"
+                 class="flex flex-col items-center justify-center py-12">
+                <div class="bg-gray-100 rounded-full p-6 mb-4">
+                    <span class="material-icons-outlined text-6xl text-gray-400">sentiment_dissatisfied</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">No Products Found</h3>
+                <p class="text-gray-500 text-center mb-6 max-w-md">We couldn't find any products matching your criteria.
+                    Please try a different filter or check back later.</p>
+                <a th:href="@{/products}" onclick="handleBrandChange(''); return false;" <!-- Clears brand filter -->
+                   class="px-4 py-2 bg-[#eb6c28] text-white rounded-lg hover:bg-[#d95f21] transition-colors">
+                    View All Products
+                </a>
+            </div>
+
+            <!-- Products Grid -->
+            <div th:if="${!loading && !error && !#lists.isEmpty(productsPage.content) && productsPage.content.size() > 0}"
+                 class="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-6 p-4">
+                <div th:each="product : ${productsPage.content}"
+                     class="product-card flex flex-col h-full gap-4 pb-4 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 bg-white">
+                    <a class="block overflow-hidden" th:href="@{/product-detail/{id}(id=${product.id})}">
+                        <div class="product-image w-full bg-center bg-no-repeat aspect-[4/3] bg-cover"
+                             th:style="'background-image: url(' + ${product.imageLink != null ? product.imageLink : '/path/to/default/image.png'} + ');'">
+                        </div>
+                    </a>
+                    <div class="px-4 flex flex-col flex-grow">
+                        <a class="block text-[#1b120e] text-lg font-semibold leading-normal hover:text-[#eb6c28] transition-colors"
+                           th:href="@{/product-detail/{id}(id=${product.id})}" th:text="${product.name}">Product Name</a>
+                        <p class="text-[#7f5e53] text-sm font-normal leading-normal mt-1 flex-grow" th:text="${product.brandName}">Brand Name</p>
+                        <p class="text-[#eb6c28] text-base font-bold leading-normal mt-2" th:text="${product.price != null ? #numbers.formatCurrency(product.price) : 'N/A'}">$0.00</p>
+                    </div>
+                    <div class="px-4 mt-auto flex flex-col sm:flex-row gap-2">
+                        <!-- Add to Cart Form -->
+                        <form th:action="@{/cart/add}" method="post" class="flex-1">
+                            <input type="hidden" name="productId" th:value="${product.id}" />
+                            <input type="hidden" name="quantity" value="1" /> <!-- Default quantity to 1 -->
+                            <button type="submit" 
+                                    th:onclick="${isAuthenticated ? 'animateAddToCart(event, \'' + product.id + '\', \'' + product.name + '\', \'' + product.imageLink + '\')' : null}"
+                                    th:disabled="${!isAuthenticated && false}" <!-- Enable button, redirect handled by Spring Security or JS if preferred -->
+                                    class="w-full whitespace-nowrap text-sm font-medium leading-normal text-[#1b120e] bg-transparent border border-[#eb6c28] hover:bg-[#fef5f0] rounded-md px-3 py-2 transition-colors">
+                                Add to Cart
+                            </button>
+                        </form>
+                        <!-- Buy Now Form (typically redirects to checkout with product info) -->
+                        <form th:action="@{/cart/buy-now}" method="post" class="flex-1">
+                             <input type="hidden" name="productId" th:value="${product.id}" />
+                             <input type="hidden" name="quantity" value="1" />
+                            <button type="submit"
+                                    th:disabled="${!isAuthenticated && false}"
+                                    class="w-full whitespace-nowrap text-sm font-medium leading-normal text-white bg-[#eb6c28] hover:bg-[#d95f21] rounded-md px-3 py-2 transition-colors">
+                                Buy Now
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- grid container -->
+
+            <!-- Pagination Buttons -->
+            <div th:if="${productsPage != null && productsPage.totalPages > 1}"
+                 class="flex justify-center items-center gap-4 py-4">
+                <a th:href="${productsPage.hasPrevious() ? '?page=' + (productsPage.number - 1) + '&sort=' + currentSort + (selectedBrand != null ? '&brand=' + selectedBrand : '') : '#'}"
+                   th:classappend="${!productsPage.hasPrevious() ? 'opacity-50 cursor-not-allowed' : ''}"
+                   class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                    Previous
+                </a>
+                
+                <span th:each="i : ${#numbers.sequence(0, productsPage.totalPages - 1)}" >
+                    <a th:href="${i == productsPage.number ? '#' : '?page=' + i + '&sort=' + currentSort + (selectedBrand != null ? '&brand=' + selectedBrand : '')}"
+                       th:text="${i + 1}"
+                       th:class="${i == productsPage.number ? 'px-4 py-2 bg-[#eb6c28] text-white rounded-lg' : 'px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300'}">
+                    </a>
+                </span>
+
+                <a th:href="${productsPage.hasNext() ? '?page=' + (productsPage.number + 1) + '&sort=' + currentSort + (selectedBrand != null ? '&brand=' + selectedBrand : '') : '#'}"
+                   th:classappend="${!productsPage.hasNext() ? 'opacity-50 cursor-not-allowed' : ''}"
+                   class="px-4 py-2 bg-[#eb6c28] text-white rounded-lg hover:bg-[#d95f21] transition-colors">
+                    Next
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

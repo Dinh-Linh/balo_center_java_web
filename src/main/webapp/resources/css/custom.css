@@ -1,0 +1,46 @@
+/* Styles from home.component.css */
+.material-icons-outlined {
+    font-family: 'Material Icons Outlined', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px; /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+/* Styles from checkout.component.css */
+@media print {
+    header {
+        position: static !important; /* Ensure header is part of the normal flow for printing */
+        box-shadow: none !important; /* Remove shadow for cleaner print */
+        background-color: white !important; /* Ensure background is white for print */
+        color: black !important; /* Ensure text is black for print */
+    }
+
+    header .text-indigo-600,
+    header .text-indigo-700,
+    header .text-green-500 {
+        color: black !important; /* Change colored text to black for print */
+    }
+
+    /* Hide elements not suitable for printing if any */
+    /* .element-to-hide-on-print {
+      display: none !important;
+    } */
+}

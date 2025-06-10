@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{users/layout}">
+
+<head>
+    <title>Checkout</title>
+    <!-- Additional head content can go here if needed -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+</head>
+
+<body>
+<div layout:fragment="content">
+    <!-- Main Content -->
+    <main class="flex flex-1 justify-center py-10 sm:py-16 w-full overflow-x-hidden">
+        <div class="flex flex-col lg:flex-row items-start gap-10 w-full p-4">
+
+            <!-- Checkout Form -->
+            <form th:object="${checkoutForm}" th:action="@{/users/checkout/submit}" method="post" id="checkoutFormId" class="w-full lg:w-3/5 space-y-10">
+
+                <!-- Contact & Shipping Section -->
+                <section class="section-card space-y-8 relative p-6 bg-white rounded-lg shadow-md border border-gray-200">
+                    <div class="absolute -top-4 -left-4 w-16 h-16 bg-[#eb6c28]/30 rounded-full opacity-50 blur-xl -z-10 animate-pulse"></div>
+
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="title-text text-[#1b120e] text-2xl font-bold leading-tight flex items-center gap-2.5">
+                            <span class="material-icons-outlined text-3xl text-[#eb6c28]">person_outline</span>
+                            Contact & Shipping
+                        </h2>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="email">Email Address</label>
+                        <div class="relative">
+                            <input
+                                    class="input-field pl-12 border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] w-full rounded-md py-2 px-3"
+                                    th:classappend="${#fields.hasErrors('email')} ? 'input-error border-red-500' : ''"
+                                    id="email"
+                                    th:field="*{email}"
+                                    placeholder="you@example.com"
+                                    type="email"
+                            />
+                            <span class="material-icons-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#99674d] text-2xl">email</span>
+                        </div>
+                        <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                            Email error
+                        </p>
+                    </div>
+
+                    <!-- Newsletter Checkbox -->
+                    <div class="flex items-center gap-3 mt-5">
+                        <input
+                                class="form-checkbox h-5 w-5 text-[#eb6c28] border-[#f3ebe7] rounded focus:ring-[#eb6c28] transition-colors"
+                                id="newsletter"
+                                th:field="*{newsletter}"
+                                type="checkbox"
+                        />
+                        <label class="text-base text-[#1b120e]" for="newsletter">Email me with news and offers</label>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="mt-10 pt-10 border-t border-[#f3ebe7]">
+                        <h3 class="title-text text-[#1b120e] text-xl font-semibold leading-tight mb-6 flex items-center gap-2.5">
+                            <span class="material-icons-outlined text-2xl text-[#eb6c28]">local_shipping</span>
+                            Shipping Address
+                        </h3>
+
+                        <div class="grid grid-cols-1 gap-y-7">
+                            <!-- First Name & Last Name -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-7">
+                                <div>
+                                    <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="first-name">First Name</label>
+                                    <input
+                                            class="input-field w-full border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] rounded-md py-2 px-3"
+                                            th:classappend="${#fields.hasErrors('firstName')} ? 'input-error border-red-500' : ''"
+                                            id="first-name"
+                                            th:field="*{firstName}"
+                                            placeholder="John"
+                                    />
+                                    <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">
+                                        First name error
+                                    </p>
+                                </div>
+                                <div>
+                                    <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="last-name">Last Name</label>
+                                    <input
+                                            class="input-field w-full border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] rounded-md py-2 px-3"
+                                            th:classappend="${#fields.hasErrors('lastName')} ? 'input-error border-red-500' : ''"
+                                            id="last-name"
+                                            th:field="*{lastName}"
+                                            placeholder="Doe"
+                                    />
+                                    <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">
+                                        Last name error
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Address -->
+                            <div>
+                                <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="address">Address</label>
+                                <div class="relative">
+                                    <input
+                                            class="input-field pl-12 w-full border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] rounded-md py-2 px-3"
+                                            th:classappend="${#fields.hasErrors('address')} ? 'input-error border-red-500' : ''"
+                                            id="address"
+                                            th:field="*{address}"
+                                            placeholder="123 Main St"
+                                    />
+                                    <span class="material-icons-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#99674d] text-2xl">home</span>
+                                </div>
+                                <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">
+                                    Address error
+                                </p>
+                            </div>
+
+                            <!-- Apartment -->
+                            <div>
+                                <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="apartment">
+                                    Apartment, suite, etc. <span class="text-[#99674d]">(optional)</span>
+                                </label>
+                                <input
+                                        class="input-field w-full border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] rounded-md py-2 px-3"
+                                        id="apartment"
+                                        th:field="*{apartment}"
+                                        placeholder="Apartment, suite, etc."
+                                />
+                            </div>
+
+                            <!-- City & Country -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-7">
+                                <div>
+                                    <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="city">City</label>
+                                    <input
+                                            class="input-field w-full border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] rounded-md py-2 px-3"
+                                            th:classappend="${#fields.hasErrors('city')} ? 'input-error border-red-500' : ''"
+                                            id="city"
+                                            th:field="*{city}"
+                                            placeholder="Anytown"
+                                    />
+                                    <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('city')}" th:errors="*{city}">
+                                        City error
+                                    </p>
+                                </div>
+                                <div>
+                                    <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="country">Country</label>
+                                    <select
+                                            class="input-field w-full border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] rounded-md py-2 px-3"
+                                            th:classappend="${#fields.hasErrors('country')} ? 'input-error border-red-500' : ''"
+                                            id="country"
+                                            th:field="*{country}"
+                                    >
+                                        <option value="United States">United States</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="United Kingdom">United Kingdom</option>
+                                        <option value="Vietnam" selected>Vietnam</option> <!-- Default to Vietnam -->
+                                    </select>
+                                    <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('country')}" th:errors="*{country}">
+                                        Country error
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- State & ZIP -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-7">
+                                <div>
+                                    <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="state">State / Province</label>
+                                    <input
+                                            class="input-field w-full border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] rounded-md py-2 px-3"
+                                            th:classappend="${#fields.hasErrors('state')} ? 'input-error border-red-500' : ''"
+                                            id="state"
+                                            th:field="*{state}"
+                                            placeholder="CA"
+                                    />
+                                    <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('state')}" th:errors="*{state}">
+                                        State error
+                                    </p>
+                                </div>
+                                <div>
+                                    <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="zip-code">ZIP / Postal Code</label>
+                                    <input
+                                            class="input-field w-full border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] rounded-md py-2 px-3"
+                                            th:classappend="${#fields.hasErrors('zipCode')} ? 'input-error border-red-500' : ''"
+                                            id="zip-code"
+                                            th:field="*{zipCode}"
+                                            placeholder="90210"
+                                    />
+                                    <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}">
+                                        ZIP code error
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div>
+                                <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="phone">
+                                    Phone <span class="text-[#99674d]">(for shipping updates)</span>
+                                </label>
+                                <div class="relative">
+                                    <input
+                                            class="input-field pl-12 w-full border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] rounded-md py-2 px-3"
+                                            th:classappend="${#fields.hasErrors('phone')} ? 'input-error border-red-500' : ''"
+                                            id="phone"
+                                            th:field="*{phone}"
+                                            placeholder="(555) 123-4567"
+                                            type="tel"
+                                    />
+                                    <span class="material-icons-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#99674d] text-2xl">phone</span>
+                                </div>
+                                 <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">
+                                    Phone error
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Save Address Checkbox -->
+                        <div class="mt-8 flex items-center gap-3">
+                            <input
+                                    class="form-checkbox h-5 w-5 text-[#eb6c28] border-[#f3ebe7] rounded focus:ring-[#eb6c28] transition-colors"
+                                    id="save-address"
+                                    th:field="*{saveAddress}"
+                                    type="checkbox"
+                            />
+                            <label class="text-base text-[#1b120e]" for="save-address">Save this information for next time</label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Payment Method Section -->
+                <section class="section-card space-y-8 relative p-6 bg-white rounded-lg shadow-md border border-gray-200">
+                    <div class="absolute -bottom-4 -right-4 w-20 h-20 bg-[#eb6c28]/20 rounded-full opacity-40 blur-xl -z-10 animate-pulse delay-500"></div>
+
+                    <h2 class="title-text text-[#1b120e] text-2xl font-bold leading-tight flex items-center gap-2.5">
+                        <span class="material-icons-outlined text-3xl text-[#eb6c28]">payment</span>
+                        Payment Method
+                    </h2>
+                    <p class="text-base text-[#99674d]">All transactions are secure and encrypted with 256-bit SSL technology.</p>
+
+                    <div class="space-y-6">
+                        <!-- Credit Card Payment -->
+                        <label class="payment-option flex items-start gap-5 rounded-2xl border border-solid border-[#f3ebe7] p-6 has-[:checked]:border-[#eb6c28] has-[:checked]:bg-[#fcf9f8] cursor-pointer transition-all duration-300 hover:border-[#eb6c28] hover:shadow-lg">
+                            <input
+                                    class="form-radio mt-1 text-[#eb6c28] focus:ring-[#eb6c28]"
+                                    name="paymentMethod"
+                                    type="radio"
+                                    value="creditCard"
+                                    th:field="*{paymentMethod}"
+                                    th:checked="*{paymentMethod == 'creditCard'}"
+                                    onclick="togglePaymentDetails('creditCard')"
+                            />
+                            <div class="flex-1">
+                                <span class="text-[#1b120e] text-lg font-semibold">Credit or debit card</span>
+                                <div class="mt-2 flex items-center gap-2">
+                                    <img alt="Visa" class="h-8 rounded-md shadow-sm transition-transform hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASVuv1glg5ZEVAly7wj4RTWrC42sFUYjz2Vj1LHZMPSrkNufrj5wbfsNGJKPzIzx9BpplMUxc38oADrbOCkeSMKy_WqhDLuMaTh3HcCAobBDUgewY9ZyeB01L--qcR4761TGTtxsM61ILYo3ekJ8Tad4tX6eQnaJLJsdcPfl-QF0KD1MrWUUsGlgF6yWPxZOZbKXbvbvyOY_j6R0-xgSKeqS3dNdVC-s7bmeFOJrNqKcsn5d4Xfch4ngD1Bkokh2exTgvtwEmpf08"/>
+                                    <img alt="Mastercard" class="h-8 rounded-md shadow-sm transition-transform hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASCrXq-vwoeVlCE-PRt2CdKlkWGThG0ks06w97mubGcKIqOGFOUuSitORoA3JzyAVnEGgXB3t7SfG4appsM_R2yON7z9uxmVrRw-72EU60cxMbyAb7NlIrPvfk5k---VZiURsBpsf-ii52cAiOkXK6fI6eM1GMDxxZNb7eU2P1i37SAfYjeNBLoiKb-dxfdn9ZUU-fES6Vca8o_XRImWLk9OdK1D9b6jGkkVKLVZ8tJYXQJEdJUTJWFYPBS8Qae5Wzgz7yW5KUbqk"/>
+                                    <img alt="Amex" class="h-8 rounded-md shadow-sm transition-transform hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzplFW6ggySWpXHNEmD-P-P4QH7u3C2h6JZNtdKEoBBywd4--JIrAoJVHEKW_ctysB9DjLyRLETEkZ6Ux354bFmJ0GdhgtpxMEDp4ox_oJpVIBxkbfrRQL0NuakrDgHwBu-hSYF3FnYTrF0ArQ7-bkvqbHSZ5zarnWhd4G1eQghA8vgxjgkgNNf3mnS8x7992mCkUYtVq--U21xF7aNV1v4AAr_Be-HBS6mjI1IKRujTzRpiiSJbhO0blEJB3kKy6Jq3qhFyfL8Lw"/>
+                                    <img alt="Discover" class="h-8 rounded-md shadow-sm transition-transform hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWYynFL7LZalqt9BuaNGpY0z9GlfPWTGSyrQc_roly6BUwJ0VL3zx1A2rvBN3_SRojJItBPVHRW5PNtq3l8dvIQVHvoE4FPFRrlCKsOITM1I2fTkfKwor56yNeJona0q-PERaD4j_yuhZbwBqMu_J_VmqqIx97fXFWqFOVufc-OgbnN7MG8LdpOGXKgSd_EKmeQJ98LNha1Icmw0c1poKonVweBqy49lF5TnOaR_It30701ZFTEUIgAbLSFcmYACvl8n5W65CVWVs"/>
+                                </div>
+                            </div>
+                            <span class="material-icons-outlined payment-icon text-4xl text-[#99674d] transition-all duration-300">credit_card</span>
+                        </label>
+
+                        <!-- Credit Card Details -->
+                        <div class="pl-12 space-y-6" id="credit-card-details" th:styleappend="*{paymentMethod != 'creditCard'} ? 'display:none' : ''">
+                            <!-- Card Number -->
+                            <div>
+                                <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="card-number">Card number</label>
+                                <div class="relative">
+                                    <input
+                                            class="input-field pl-12 border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] w-full rounded-md py-2 px-3"
+                                            th:classappend="${#fields.hasErrors('cardNumber')} ? 'input-error border-red-500' : ''"
+                                            id="card-number"
+                                            th:field="*{cardNumber}"
+                                            placeholder="0000 0000 0000 0000"
+                                    />
+                                    <span class="material-icons-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#99674d] text-2xl">payment</span>
+                                </div>
+                                <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('cardNumber')}" th:errors="*{cardNumber}">
+                                    Card number error
+                                </p>
+                            </div>
+
+                            <!-- Expiration & CVV -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="expiration-date">Expiration date</label>
+                                    <div class="relative">
+                                        <input
+                                                class="input-field pl-12 border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] w-full rounded-md py-2 px-3"
+                                                th:classappend="${#fields.hasErrors('expirationDate')} ? 'input-error border-red-500' : ''"
+                                                id="expiration-date"
+                                                th:field="*{expirationDate}"
+                                                placeholder="MM / YY"
+                                        />
+                                        <span class="material-icons-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#99674d] text-2xl">date_range</span>
+                                    </div>
+                                    <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}">
+                                        Expiration date error
+                                    </p>
+                                </div>
+                                <div>
+                                    <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="cvv">Security code (CVV)</label>
+                                    <div class="relative">
+                                        <input
+                                                class="input-field pl-12 border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] w-full rounded-md py-2 px-3"
+                                                th:classappend="${#fields.hasErrors('cvv')} ? 'input-error border-red-500' : ''"
+                                                id="cvv"
+                                                th:field="*{cvv}"
+                                                placeholder="123"
+                                        />
+                                        <span class="material-icons-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#99674d] text-2xl">security</span>
+                                    </div>
+                                    <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('cvv')}" th:errors="*{cvv}">
+                                        CVV error
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Name on Card -->
+                            <div>
+                                <label class="block text-base font-medium text-[#1b120e] pb-2.5" for="name-on-card">Name on card</label>
+                                <div class="relative">
+                                    <input
+                                            class="input-field pl-12 border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] w-full rounded-md py-2 px-3"
+                                            th:classappend="${#fields.hasErrors('nameOnCard')} ? 'input-error border-red-500' : ''"
+                                            id="name-on-card"
+                                            th:field="*{nameOnCard}"
+                                            placeholder="John M Doe"
+                                    />
+                                    <span class="material-icons-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#99674d] text-2xl">person</span>
+                                </div>
+                                <p class="error-message text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('nameOnCard')}" th:errors="*{nameOnCard}">
+                                    Name on card error
+                                </p>
+                            </div>
+
+                            <!-- Save Card Checkbox -->
+                            <div class="flex items-center gap-3">
+                                <input
+                                        class="form-checkbox h-5 w-5 text-[#eb6c28] border-[#f3ebe7] rounded focus:ring-[#eb6c28] transition-colors"
+                                        id="save-card"
+                                        th:field="*{saveCard}"
+                                        type="checkbox"
+                                />
+                                <label class="text-base text-[#1b120e]" for="save-card">Save card for future purchases</label>
+                            </div>
+                        </div>
+
+                        <!-- Stripe Payment -->
+                        <label class="payment-option flex items-start gap-5 rounded-2xl border border-solid border-[#f3ebe7] p-6 has-[:checked]:border-[#eb6c28] has-[:checked]:bg-[#fcf9f8] cursor-pointer transition-all duration-300 hover:border-[#eb6c28] hover:shadow-lg">
+                            <input
+                                    class="form-radio mt-1 text-[#eb6c28] focus:ring-[#eb6c28]"
+                                    name="paymentMethod"
+                                    type="radio"
+                                    value="stripe"
+                                    th:field="*{paymentMethod}"
+                                    th:checked="*{paymentMethod == 'stripe'}"
+                                    onclick="togglePaymentDetails('stripe')"
+                            />
+                            <div class="flex-1">
+                                <span class="text-[#1b120e] text-lg font-semibold">Stripe Payment</span>
+                                <p class="text-sm text-[#99674d] mt-1">Secure payment processing</p>
+                            </div>
+                            <span class="material-icons-outlined payment-icon text-4xl text-[#99674d] transition-all duration-300">account_balance_wallet</span>
+                        </label>
+
+                        <!-- Cash on Delivery -->
+                        <label class="payment-option flex items-start gap-5 rounded-2xl border border-solid border-[#f3ebe7] p-6 has-[:checked]:border-[#eb6c28] has-[:checked]:bg-[#fcf9f8] cursor-pointer transition-all duration-300 hover:border-[#eb6c28] hover:shadow-lg">
+                            <input
+                                    class="form-radio mt-1 text-[#eb6c28] focus:ring-[#eb6c28]"
+                                    name="paymentMethod"
+                                    type="radio"
+                                    value="cod"
+                                    th:field="*{paymentMethod}"
+                                    th:checked="*{paymentMethod == 'cod'}"
+                                    onclick="togglePaymentDetails('cod')"
+                            />
+                            <div class="flex-1">
+                                <span class="text-[#1b120e] text-lg font-semibold">Cash on Delivery</span>
+                                <p class="text-sm text-[#99674d] mt-1">Pay when your order arrives</p>
+                            </div>
+                            <span class="material-icons-outlined payment-icon text-4xl text-[#99674d] transition-all duration-300">local_shipping</span>
+                        </label>
+                    </div>
+
+                    <!-- Payment Method Messages -->
+                    <div id="cod-message" class="pt-6 text-[#99674d] text-base font-medium" th:styleappend="*{paymentMethod != 'cod'} ? 'display:none' : ''">
+                        You will pay when your order is delivered.
+                    </div>
+                    <div id="stripe-message" class="pt-6 text-[#99674d] text-base font-medium" th:styleappend="*{paymentMethod != 'stripe'} ? 'display:none' : ''">
+                        You will be redirected to Stripe to complete your payment securely.
+                    </div>
+                </section>
+
+                <!-- Mobile Return to Cart -->
+                <div class="mt-10 lg:hidden">
+                    <a th:href="@{/users/cart}"
+                       class="text-base font-semibold text-[#1b120e] hover:underline transition-colors group flex items-center justify-center gap-1.5 mx-auto">
+                        <span class="material-icons-outlined text-xl transform transition-transform duration-300 group-hover:-translate-x-1">arrow_circle_left</span>
+                        Return to Cart
+                    </a>
+                    <p class="text-sm text-[#99674d] mt-2 text-center">Need to make changes? Go back to your cart.</p>
+                </div>
+                 <!-- Place Order Button (moved here for better flow before summary on mobile) -->
+                <section class="section-card space-y-4 p-6 bg-white rounded-lg shadow-md border border-gray-200 lg:hidden">
+                    <button type="submit"
+                            class="btn w-full bg-[#eb6c28] text-white hover:bg-[#d35400] font-bold text-lg py-3 rounded-md flex items-center justify-center gap-2">
+                        Place your order - <span th:text="${orderTotal != null ? #numbers.formatCurrency(orderTotal) : '$0.00'}">$0.00</span>
+                        <span class="material-icons-outlined align-middle">rocket_launch</span>
+                    </button>
+                    <p class="text-xs text-[#99674d] text-center">
+                        By placing your order, you agree to PackIt's
+                        <a href="#" class="text-[#eb6c28] hover:underline">privacy notice</a> and
+                        <a href="#" class="text-[#eb6c28] hover:underline">conditions of use</a>.
+                    </p>
+                    <div class="flex items-center justify-center text-sm text-green-600 font-medium">
+                        <span class="material-icons-outlined mr-1.5 text-lg">verified_user</span>
+                        SSL Secure Transaction
+                    </div>
+                </section>
+            </form>
+
+            <!-- Order Summary Sidebar -->
+            <aside class="w-full lg:w-2/5 space-y-10 lg:sticky lg:top-36">
+                <section class="section-card space-y-6 relative p-6 bg-white rounded-lg shadow-md border border-gray-200">
+                    <div class="absolute -top-5 -right-5 w-24 h-24 bg-[#eb6c28]/20 rounded-full opacity-30 blur-2xl -z-10 animate-blob"></div>
+                    <div class="flex justify-between items-center">
+                        <h2 class="title-text text-[#1b120e] text-2xl font-bold leading-tight flex items-center gap-2.5">
+                            <span class="material-icons-outlined text-3xl text-[#eb6c28]">shopping_cart</span>
+                            Order Summary
+                        </h2>
+                        <a th:href="@{/users/cart}"
+                           class="text-base font-semibold text-[#eb6c28] hover:underline transition-colors lg:hidden">Edit Cart</a>
+                    </div>
+
+
+                    <!-- Gift Card / Discount Code -->
+                    <div>
+                        <label for="discount-code" class="block text-sm font-medium text-[#1b120e] mb-1">Gift card or discount code</label>
+                        <form th:action="@{/users/checkout/apply-discount}" method="post" class="flex space-x-2">
+                            <input type="text" id="discount-code" name="discountCode" th:value="${discountCode}"
+                                   class="input-field flex-grow border-[#f3ebe7] focus:border-[#eb6c28] focus:ring-[#eb6c28] rounded-md py-2 px-3"
+                                   placeholder="Enter code">
+                            <button type="submit"
+                                    class="btn whitespace-nowrap bg-[#eb6c28] text-white hover:bg-[#d35400] px-4 py-2 rounded-md font-semibold">
+                                Apply
+                            </button>
+                        </form>
+                        <p th:if="${discountMessage}" class="mt-2 text-sm p-3 rounded-md"
+                           th:classappend="${discountAppliedSuccessfully} ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
+                           th:text="${discountMessage}">
+                            Discount message
+                        </p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Dynamic Order Items -->
+                        <div th:each="item : ${cartItems}" class="flex items-center gap-4 p-4 bg-[#f3ebe7] rounded-xl">
+                            <div class="w-16 h-16 bg-gradient-to-br from-[#eb6c28]/20 to-[#99674d]/20 rounded-lg flex items-center justify-center">
+                                <img th:if="${item.product.imageLink}" th:src="${item.product.imageLink}" th:alt="${item.product.name}" class="w-12 h-12 object-contain rounded-md">
+                                <span th:unless="${item.product.imageLink}" class="material-icons text-[#eb6c28]">shopping_bag</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-slate-500 text-sm" th:text="${item.product.brandName}">Product Brand</p>
+                                <h3 class="font-semibold text-[#1b120e]" th:text="${item.product.name}">Product Name</h3>
+                                <p class="text-sm text-[#99674d]" th:text="'Quantity: ' + ${item.quantity}">Quantity: 1</p>
+                            </div>
+                            <span class="font-semibold text-[#1b120e]" th:text="${#numbers.formatCurrency(item.totalPrice)}">$0.00</span>
+                        </div>
+
+                        <!-- Order Total -->
+                        <div class="border-t border-[#f3ebe7] pt-4 space-y-2">
+                            <div class="flex justify-between text-[#99674d]">
+                                <span th:text="'Items (' + ${itemCount} + '):'">Items (0):</span>
+                                <span th:text="${itemsTotal != null ? #numbers.formatCurrency(itemsTotal) : '$0.00'}">$0.00</span>
+                            </div>
+                            <div class="flex justify-between text-[#99674d]">
+                                <span>Shipping & handling:</span>
+                                <span th:text="${shippingAndHandling != null ? #numbers.formatCurrency(shippingAndHandling) : '$0.00'}">$0.00</span>
+                            </div>
+                            <div class="flex justify-between text-[#99674d]" th:if="${discountAmount != null and discountAmount > 0}">
+                                <span>Discount:</span>
+                                <span class="text-red-500" th:text="'- ' + ${#numbers.formatCurrency(discountAmount)}">-$0.00</span>
+                            </div>
+                            <div class="flex justify-between text-[#1b120e] font-medium">
+                                <span>Total before tax:</span>
+                                <span th:text="${totalBeforeTax != null ? #numbers.formatCurrency(totalBeforeTax) : '$0.00'}">$0.00</span>
+                            </div>
+                            <div class="flex justify-between text-[#99674d]">
+                                <span>Estimated tax:</span>
+                                <span th:text="${estimatedTax != null ? #numbers.formatCurrency(estimatedTax) : '$0.00'}">$0.00</span>
+                            </div>
+                            <div class="flex justify-between text-xl font-semibold text-[#eb6c28] border-t border-[#f3ebe7] pt-3 mt-3">
+                                <span>Order total:</span>
+                                <span th:text="${orderTotal != null ? #numbers.formatCurrency(orderTotal) : '$0.00'}">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Place Order Button & Terms (Desktop) -->
+                <section class="section-card space-y-4 p-6 bg-white rounded-lg shadow-md border border-gray-200 hidden lg:block">
+                    <button type="submit" form="checkoutFormId"
+                            class="btn w-full bg-[#eb6c28] text-white hover:bg-[#d35400] font-bold text-lg py-3 rounded-md flex items-center justify-center gap-2">
+                        Place your order - <span th:text="${orderTotal != null ? #numbers.formatCurrency(orderTotal) : '$0.00'}">$0.00</span>
+                        <span class="material-icons-outlined align-middle">rocket_launch</span>
+                    </button>
+                    <p class="text-xs text-[#99674d] text-center">
+                        By placing your order, you agree to PackIt's
+                        <a href="#" class="text-[#eb6c28] hover:underline">privacy notice</a> and
+                        <a href="#" class="text-[#eb6c28] hover:underline">conditions of use</a>.
+                    </p>
+                    <div class="flex items-center justify-center text-sm text-green-600 font-medium">
+                        <span class="material-icons-outlined mr-1.5 text-lg">verified_user</span>
+                        SSL Secure Transaction
+                    </div>
+                </section>
+                <!-- Desktop Return to Cart / Continue Shopping -->
+                <div class="mt-6 text-center hidden lg:block">
+                    <a th:href="@{/users/cart}"
+                       class="text-sm text-[#eb6c28] hover:text-[#d95f21] font-medium transition-colors flex items-center justify-center gap-1.5">
+                        <span class="material-icons-outlined text-lg">arrow_back</span>
+                        Return to Cart
+                    </a>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script>
+        function togglePaymentDetails(selectedMethod) {
+            const creditCardDetails = document.getElementById('credit-card-details');
+            const codMessage = document.getElementById('cod-message');
+            const stripeMessage = document.getElementById('stripe-message');
+
+            if (selectedMethod === 'creditCard') {
+                creditCardDetails.style.display = 'block';
+                codMessage.style.display = 'none';
+                stripeMessage.style.display = 'none';
+            } else if (selectedMethod === 'cod') {
+                creditCardDetails.style.display = 'none';
+                codMessage.style.display = 'block';
+                stripeMessage.style.display = 'none';
+            } else if (selectedMethod === 'stripe') {
+                creditCardDetails.style.display = 'none';
+                codMessage.style.display = 'none';
+                stripeMessage.style.display = 'block';
+            } else {
+                creditCardDetails.style.display = 'none';
+                codMessage.style.display = 'none';
+                stripeMessage.style.display = 'none';
+            }
+        }
+
+        // Initialize on page load based on th:field value
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
+            let initiallySelectedMethod = '';
+            paymentMethods.forEach(radio => {
+                if (radio.checked) {
+                    initiallySelectedMethod = radio.value;
+                }
+            });
+            if (initiallySelectedMethod) {
+                 togglePaymentDetails(initiallySelectedMethod);
+            } else {
+                 // Default to hiding all if nothing is pre-selected
+                 togglePaymentDetails('');
+            }
+        });
+    </script>
+
+</div>
+</body>
+</html>

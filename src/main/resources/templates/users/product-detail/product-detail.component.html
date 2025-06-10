@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{users/app.component}">
+
+<head>
+    <title th:text="${product != null ? product.name : 'Product Detail'}">Product Detail</title>
+    <!-- Add any page-specific CSS or JS links if needed -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Initialize with product.thumbnail if product and thumbnail exist, otherwise null
+        let currentSelectedImage = /*[[${product?.thumbnail}]]*/ null;
+
+        function selectImage(imageUrl, element) {
+            document.getElementById('mainProductImage').src = imageUrl;
+            currentSelectedImage = imageUrl; // Keep track of the selected image URL
+
+            // Remove active styling from all thumbnails
+            document.querySelectorAll('.thumbnail-image').forEach(imgDiv => {
+                imgDiv.classList.remove('border-primary-500', 'ring-2', 'ring-primary-500');
+            });
+            // Add active styling to the clicked thumbnail
+            if (element) {
+                element.classList.add('border-primary-500', 'ring-2', 'ring-primary-500');
+            }
+        }
+
+        function incrementQuantity() {
+            let quantityInput = document.getElementById('quantity');
+            let currentValue = parseInt(quantityInput.value);
+            if (isNaN(currentValue)) currentValue = 0;
+            quantityInput.value = currentValue + 1;
+        }
+
+        function decrementQuantity() {
+            let quantityInput = document.getElementById('quantity');
+            let currentValue = parseInt(quantityInput.value);
+            if (isNaN(currentValue)) currentValue = 1;
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        }
+
+        // Set initial selected image on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const initialThumbnailElement = document.querySelector('.thumbnail-image[data-initial-thumbnail="true"]');
+            if (currentSelectedImage && initialThumbnailElement) {
+                 // If currentSelectedImage is already the thumbnail, ensure it's styled
+                if(initialThumbnailElement.querySelector('img').src === currentSelectedImage) {
+                    initialThumbnailElement.classList.add('border-primary-500', 'ring-2', 'ring-primary-500');
+                }
+            } else if (initialThumbnailElement) {
+                // If no specific image was pre-selected (e.g. from a URL param), select the main thumbnail
+                const thumbnailUrl = initialThumbnailElement.querySelector('img').src;
+                if (thumbnailUrl) {
+                    selectImage(thumbnailUrl, initialThumbnailElement);
+                }
+            }
+        });
+        /*]]>*/
+    </script>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden" style="background-color: rgb(241, 245, 249);">
+        <main class="flex flex-1 flex-col items-stretch justify-start pb-12 pt-6 lg:pb-16 lg:pt-8">
+            <div th:if="${product}" class="layout-content-container flex flex-col items-stretch gap-6 px-4 lg:flex-row lg:gap-8">
+                <!-- Product Images Section -->
+                <div class="flex flex-col items-stretch gap-4 lg:w-[55%] lg:max-w-[720px]">
+                    <div class="relative aspect-[4/3] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+                        <img id="mainProductImage" th:src="${product.thumbnail != null ? product.thumbnail : '/path/to/default/image.png'}" alt="Selected product image" class="absolute inset-0 size-full object-cover"/>
+                    </div>
+                    <div th:if="${product.images != null || product.thumbnail != null}" class="grid grid-cols-5 gap-3">
+                        <!-- Display product thumbnail as a selectable image -->
+                        <div th:if="${product.thumbnail != null}"
+                             th:onclick="'selectImage('' + ${product.thumbnail} + '', this)'"
+                             class="thumbnail-image relative aspect-square cursor-pointer overflow-hidden rounded-lg border border-slate-200 transition-all hover:border-primary-500"
+                             th:attr="data-initial-thumbnail='true'">
+                            <img th:src="${product.thumbnail}" alt="Product thumbnail" class="absolute inset-0 size-full object-cover"/>
+                        </div>
+                        <!-- Display other images, excluding the thumbnail if it's already shown -->
+                        <div th:each="image : ${product.images}"
+                             th:if="${image != product.thumbnail}"
+                             th:onclick="'selectImage('' + ${image} + '', this)'"
+                             class="thumbnail-image relative aspect-square cursor-pointer overflow-hidden rounded-lg border border-slate-200 transition-all hover:border-primary-500">
+                            <img th:src="${image}" alt="Product image thumbnail" class="absolute inset-0 size-full object-cover"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Details Section -->
+                <div class="flex flex-col items-start gap-6 lg:w-[45%]">
+                    <div class="flex flex-col items-start gap-3 self-stretch">
+                        <h1 class="text-3xl font-bold tracking-tight text-slate-900 lg:text-4xl" th:text="${product.name}">Product Name</h1>
+                        <p class="text-base font-normal leading-relaxed text-slate-600" th:text="${product.description}">Product description.</p>
+                    </div>
+                    <div class="text-3xl font-bold tracking-tight text-primary-600" th:text="${product.price != null ? #numbers.formatCurrency(product.price) : ''}">$0.00</div>
+
+                    <!-- Quantity and Add to Cart Form -->
+                    <form th:action="@{/cart/add}" method="post" class="flex flex-col items-stretch gap-4 self-stretch sm:flex-row">
+                        <input type="hidden" name="productId" th:value="${product.id}" />
+                        <div class="flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2">
+                            <button type="button" onclick="decrementQuantity()" class="flex size-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+                                <span class="material-icons-outlined text-xl">remove</span>
+                            </button>
+                            <input type="number" id="quantity" name="quantity" value="1" class="w-12 border-none bg-transparent text-center text-base font-medium text-slate-700 focus:outline-none focus:ring-0" min="1" />
+                            <button type="button" onclick="incrementQuantity()" class="flex size-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+                                <span class="material-icons-outlined text-xl">add</span>
+                            </button>
+                        </div>
+                        <button type="submit" class="flex min-w-[84px] flex-1 cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary-500 px-6 py-3 text-base font-semibold leading-normal tracking-[-0.015em] text-white transition-colors hover:bg-primary-600">
+                            <span class="material-icons-outlined">shopping_cart</span>
+                            <span>Add to Cart</span>
+                        </button>
+                    </form>
+
+                    <div class="h-px self-stretch bg-slate-200"></div>
+                    <div class="flex flex-col items-start gap-3 self-stretch">
+                        <div class="text-sm font-medium text-slate-700">Category:
+                            <span class="font-normal text-slate-500" th:text="${product.category?.name}">Category Name</span>
+                        </div>
+                        <!-- Add more product details here if needed, e.g., SKU, stock status -->
+                        <!-- <p>SKU: <span th:text="${product.sku}"></span></p> -->
+                        <!-- <p>Stock: <span th:text="${product.stock > 0 ? 'In Stock' : 'Out of Stock'}" th:classappend="${product.stock > 0 ? 'text-green-500' : 'text-red-500'}"></span></p> -->
+                    </div>
+                </div>
+            </div>
+            <div th:unless="${product}" class="layout-content-container flex flex-col items-center justify-center gap-6 px-4 py-12">
+                <span class="material-icons-outlined text-6xl text-slate-400">error_outline</span>
+                <h2 class="text-2xl font-semibold text-slate-700">Product Not Found</h2>
+                <p class="text-center text-slate-500">Sorry, the product you are looking for does not exist or is unavailable.</p>
+                <a th:href="@{/}" class="mt-4 rounded-md bg-primary-500 px-6 py-2 text-white hover:bg-primary-600 transition-colors">
+                    Continue Shopping
+                </a>
+            </div>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{users/app.component}">
+
+<head>
+    <title>Payment Successful</title>
+    <!-- Add any page-specific CSS or JS links if needed -->
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <main class="flex flex-1 flex-col items-center justify-center px-4 py-12 lg:py-16">
+                <div class="layout-content-container flex w-full max-w-lg flex-col items-center rounded-xl border border-slate-200 bg-white p-8 shadow-lg">
+                    <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary-100 text-primary-600">
+                        <span class="material-icons-outlined text-4xl">check_circle</span>
+                    </div>
+                    <h1 class="mb-3 text-center text-3xl font-bold tracking-tight text-slate-900">Payment Successful!</h1>
+                    <p class="mb-8 text-center text-base font-normal leading-relaxed text-slate-600">
+                        Thank you for your purchase! Your order is being processed and you will receive a confirmation email shortly.
+                    </p>
+                    <!-- Display order details if available -->
+                    <div th:if="${order}" class="mb-8 w-full text-left">
+                        <h3 class="text-lg font-semibold mb-2">Order Summary:</h3>
+                        <p><strong>Order ID:</strong> <span th:text="${order.id}"></span></p>
+                        <p><strong>Total Amount:</strong> <span th:text="${#numbers.formatCurrency(order.totalAmount)}"></span></p>
+                        <!-- Add more order details as needed -->
+                    </div>
+                    
+                    <a th:href="@{/}" class="flex w-full min-w-[84px] max-w-xs cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-11 px-6 bg-primary-500 text-white text-base font-semibold leading-normal tracking-[-0.015em] hover:bg-primary-600 transition-colors">
+                        <span class="truncate">Continue Shopping</span>
+                        <span class="material-icons-outlined">arrow_forward</span>
+                    </a>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

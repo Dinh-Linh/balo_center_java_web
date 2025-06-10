@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Footer</title>
+    <!-- Assuming Tailwind CSS is globally available or linked in the main layout -->
+</head>
+<body>
+
+<footer th:fragment="footer" class="flex justify-center bg-slate-100 border-t border-slate-200">
+    <div class="flex max-w-screen-xl flex-1 flex-col">
+        <!-- The nested footer seems redundant, can be simplified if it's always the same structure -->
+        <div class="flex flex-col gap-8 px-5 py-12 text-center @container">
+            <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 @[480px]:flex-row @[480px]:justify-around">
+                <a class="text-slate-600 hover:text-[#141414] text-sm font-normal leading-normal min-w-32 transition-colors" th:href="@{/about}">About Us</a>
+                <a class="text-slate-600 hover:text-[#141414] text-sm font-normal leading-normal min-w-32 transition-colors" th:href="@{/contact}">Contact Us</a>
+                <a class="text-slate-600 hover:text-[#141414] text-sm font-normal leading-normal min-w-32 transition-colors" th:href="@{/faq}">FAQ</a>
+                <a class="text-slate-600 hover:text-[#141414] text-sm font-normal leading-normal min-w-32 transition-colors" th:href="@{/shipping-returns}">Shipping &amp; Returns</a>
+                <a class="text-slate-600 hover:text-[#141414] text-sm font-normal leading-normal min-w-32 transition-colors" th:href="@{/privacy}">Privacy Policy</a>
+                <a class="text-slate-600 hover:text-[#141414] text-sm font-normal leading-normal min-w-32 transition-colors" th:href="@{/terms}">Terms of Service</a>
+            </div>
+            <p class="text-slate-500 text-sm font-normal leading-normal">© <span th:text="${#dates.year(#dates.createNow())}">2024</span> Backpack Co. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

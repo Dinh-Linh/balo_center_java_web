@@ -1,0 +1,22 @@
+/* Checkout Component Styles */
+/* These styles are specific to the checkout component */
+
+@media print {
+    header {
+        position: static !important; /* Ensure header is part of the normal flow for printing */
+        box-shadow: none !important; /* Remove shadow for cleaner print */
+        background-color: white !important; /* Ensure background is white for print */
+        color: black !important; /* Ensure text is black for print */
+    }
+
+    header .text-indigo-600,
+    header .text-indigo-700,
+    header .text-green-500 {
+        color: black !important; /* Change colored text to black for print */
+    }
+
+    /* Hide elements not suitable for printing if any */
+    /* .element-to-hide-on-print {
+      display: none !important;
+    } */
+}

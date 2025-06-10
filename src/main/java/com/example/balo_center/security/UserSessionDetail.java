@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import com.example.balo_center.service.user.impl.UserDetailsImpl;
 
 @Service
 @RequiredArgsConstructor
@@ -20,10 +20,6 @@ public class UserSessionDetail implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUsersByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
-        );
+        return UserDetailsImpl.build(user);
     }
 }

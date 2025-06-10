@@ -39,6 +39,12 @@ public class ProductUserServiceImpl implements ProductUserService {
     }
 
     @Override
+    public Page<ProductResponse> searchProductContainIgnoreCase(String name, PagingAndSortingParams pagingAndSortingParams) {
+        Page<ProductData> productDataPage = productUserRepository.searchProductByNameContainingIgnoreCase(name, buildPageable(pagingAndSortingParams));
+        return productDataPage.map(productMapper::toProductResponse);
+    }
+
+    @Override
     public Page<ProductResponse> getAllProduct(PagingAndSortingParams pagingAndSortingParams) {
         Page<ProductData> productDataPage = productUserRepository.getAllProduct(buildPageable(pagingAndSortingParams));
         return productDataPage.map(productMapper::toProductResponse);

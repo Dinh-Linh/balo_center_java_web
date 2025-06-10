@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <!-- ...existing code... -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}" /> 
+    <!-- Removed link to custom.css as its styles should be incorporated into tailwind-input.css or are utility classes -->
+</head>
+
+<body>
+    <div class="relative flex size-full min-h-screen flex-col group/design-root"
+         style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+        <div th:replace="~{users/fragments/header :: header}"></div>
+        <main class="flex flex-1 flex-col bg-[#fcf9f8]">
+            <div layout:fragment="content"></div>
+        </main>
+        <div th:replace="~{users/fragments/footer :: footer}"></div>
+        <!-- <app-notifications></app-notifications> -->
+    </div>
+</body>
+
+</html>
