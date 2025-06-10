@@ -64,17 +64,18 @@ public class DashboardServiceImpl implements DashboardService {
         }
 
         if (startDate != null && endDate != null) {
-            totalProducts = productRepo.countByCreatedDateBetween(startDate, endDate);
             totalUsers = userRepo.countByCreatedDateBetween(startDate, endDate);
             totalOrders = orderRepo.countByDateBetween(startDate, endDate);
             totalRevenue = orderRepo.sumTotalPriceByDateBetween(startDate, endDate);
         } else {
             // No filter or invalid filter, get overall summary
-            totalProducts = productRepo.count();
             totalUsers = userRepo.count();
             totalOrders = orderRepo.count();
             totalRevenue = orderRepo.sumTotalPrice();
         }
+
+        // Always get overall total products, regardless of date filter
+        totalProducts = productRepo.count();
 
         return new DashboardSummaryDTO(
                 totalProducts,
