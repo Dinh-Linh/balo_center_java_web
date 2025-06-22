@@ -1,0 +1,20 @@
+name: CI Example
+
+on: [push, pull_request]  # Trigger khi có push hoặc pull request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # dùng runner Ubuntu mới nhất
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build with Maven
+        run: mvn clean install
